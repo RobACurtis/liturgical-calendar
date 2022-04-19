@@ -1,9 +1,39 @@
 var $week = document.querySelector('p.week');
 var $date = document.querySelector('p.date');
+var numericDate = null;
 var $year = document.querySelector('p.year');
 var $color = document.querySelector('p.liturgical-color');
 var $seasonWeek = document.querySelector('p.lectionary-year');
 var $day = document.querySelector('p.day');
+var $journalEntry = document.querySelector('p.notes');
+
+var $form = document.querySelector('form');
+var $photoInput = document.querySelector('.photo-input');
+var $photo = document.querySelector('img');
+
+$photoInput.addEventListener('input', addPhoto);
+$form.addEventListener('submit', addEntry);
+
+function addEntry(event) {
+  event.preventDefault();
+  var text = $form.elements.entry.value;
+  var inputObj = {
+    title: numericDate,
+    imageUrl: text,
+    notes: $form.elements.entry.value,
+    entryId: data.nextEntryId
+  };
+  data.nextEntryId++;
+  data.entries.unshift(inputObj);
+  $form.className = 'hidden';
+  $journalEntry.textContent = text;
+  console.log(data);
+}
+
+function addPhoto(event) {
+  var src = $photoInput.value;
+  $photo.setAttribute('src', src);
+}
 
 var xhr = new XMLHttpRequest();
 xhr.open('GET', 'http://calapi.inadiutorium.cz/api/v0/en/calendars/default/today');
@@ -19,8 +49,8 @@ xhr.addEventListener('load', function () {
   var color = xhr.response.celebrations[0].colour;
   var colorCase = color.charAt(0).toUpperCase() + color.slice(1);
 
-  var date = xhr.response.date;
-  var month = date.split('-');
+  numericDate = xhr.response.date;
+  var month = numericDate.split('-');
   var month1 = '';
 
   if (month[1] === '01') {

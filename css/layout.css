@@ -1,7 +1,5 @@
 img {
   width: 213px;
-  height: 213px;
-  object-fit: contain;
   box-shadow: 1px 4px 5px #adadad;
 }
 
@@ -32,13 +30,11 @@ img {
 
 @media only screen and (min-width: 600px) {
   img {
-    width: 150px;
-    height: 150px;
+    max-width: 180px;
   }
 
   .container {
     margin-top: 30px;
-    height: 600px;
     width: 700px;
   }
 
@@ -49,13 +45,13 @@ img {
 
 @media only screen and (min-width: 900px) {
   img {
-    width: 240px;
-    height: 240px;
+    max-width: 220px;
   }
 
   .container {
     margin-top: 30px;
-    height: 650px;
+
+    /* height: 100vh; */
     width: 900px;
   }
 }
