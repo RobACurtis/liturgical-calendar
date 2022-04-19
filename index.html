@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AJAX Project</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Unicase:wght@400;500;700&family=Cormorant+Upright:wght@300;400;500;700&family=Cormorant:wght@300;400;500;700&display=swap"
+    rel="stylesheet">
   <link rel="icon" href="images/favicon.ico">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/layout.css">
@@ -11,8 +16,32 @@
 </head>
 <body>
   <header>
+    <div class="row">
+      <div class="column-full">
+        <nav class="flex center">
+          <p class="day"></p>
+        </nav>
+      </div>
+    </div>
   </header>
   <main>
+    <div class="container background-color">
+      <div class="row center">
+        <div class="column-full column-three-quarter center">
+          <p class="week"></p>
+          <img class="" src="images/GoodShepherd.jpg" alt="Jesus the Good Shepherd">
+          <p class="date"></p>
+        </div>
+      </div>
+      <div class="row subtext">
+        <div class="column-three-quarter">
+          <p class="year"></p>
+          <p class="lectionary-year"></p>
+          <p class="liturgical-color"></p>
+
+        </div>
+      </div>
+    </div>
   </main>
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
