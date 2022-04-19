@@ -1,0 +1,49 @@
+img {
+  width: 213px;
+  height: 213px;
+  object-fit: contain;
+  box-shadow: 1px 4px 5px #adadad;
+}
+
+.container {
+  width: 350px;
+  margin: auto;
+}
+
+.row {
+  display: flex;
+}
+
+.column-full {
+  flex-basis: 100%;
+}
+
+@media only screen and (min-width: 600px) {
+  img {
+    width: 150px;
+    height: 150px;
+  }
+
+  .container {
+    margin-top: 30px;
+    height: 500px;
+    width: 700px;
+  }
+
+  .column-three-quarter {
+    flex-basis: 75%;
+  }
+}
+
+@media only screen and (min-width: 800px) {
+  img {
+    width: 240px;
+    height: 240px;
+  }
+
+  .container {
+    margin-top: 30px;
+    height: 80vh;
+    width: 900px;
+  }
+}
