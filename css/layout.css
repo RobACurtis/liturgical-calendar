@@ -18,6 +18,18 @@ img {
   flex-basis: 100%;
 }
 
+.column-three-quarter {
+  flex-basis: 75%;
+}
+
+.column-quarter {
+  flex-basis: 25%;
+}
+
+.column-half {
+  flex-basis: 50%;
+}
+
 @media only screen and (min-width: 600px) {
   img {
     width: 150px;
@@ -26,16 +38,16 @@ img {
 
   .container {
     margin-top: 30px;
-    height: 500px;
+    height: 600px;
     width: 700px;
   }
 
-  .column-three-quarter {
+  .column-three-four {
     flex-basis: 75%;
   }
 }
 
-@media only screen and (min-width: 800px) {
+@media only screen and (min-width: 900px) {
   img {
     width: 240px;
     height: 240px;
@@ -43,7 +55,7 @@ img {
 
   .container {
     margin-top: 30px;
-    height: 80vh;
+    height: 650px;
     width: 900px;
   }
 }

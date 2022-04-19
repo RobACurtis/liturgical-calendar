@@ -20,6 +20,10 @@ nav > p {
   text-align: center;
 }
 
+.rel {
+  position: relative;
+}
+
 p.week {
   font-family: "Cormorant Unicase", serif;
   color: #343a40;
@@ -40,10 +44,62 @@ p.date {
   font-family: "Cormorant Upright", serif;
   color: #343a40;
   font-size: 14px;
-  line-height: 10px;
+  line-height: 8px;
+  position: relative;
+  top: 20px;
+  left: 30px;
+}
+
+.submit {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background-color: #b0b0b0;
+  box-shadow: 2px 2px 4px #b0b0b0;
+  transition: 0.1s;
   position: absolute;
-  bottom: 50px;
-  left: 50px;
+  right: 0;
+  top: 50px;
+  font-size: 20px;
+  color: white;
+  text-align: center;
+  padding-bottom: 2px;
+  padding-left: 6px;
+}
+
+.submit:hover {
+  transform: scale(1.1);
+  padding-bottom: 4px;
+}
+
+.photo-input,
+.text-area {
+  font-family: cormorant, serif;
+  color: #343a40;
+  outline: none;
+  background-color: rgba(194, 194, 194, 0.09);
+  border: 1px solid rgba(194, 194, 194, 0.5);
+}
+
+.text-area {
+  height: 200px;
+  width: 310px;
+  resize: none;
+  padding: 15px 20px;
+  border-radius: 15px;
+}
+
+.photo-input {
+  margin-top: 10px;
+  width: 305px;
+  height: 25px;
+  border-radius: 8px;
+  padding-left: 13px;
+}
+
+.photo-input::placeholder {
+  text-align: center;
 }
 
 @media only screen and (min-width: 600px) {
@@ -66,18 +122,30 @@ p.date {
   }
 
   .subtext {
-    position: relative;
-    top: 80px;
-    left: 80px;
-    font-size: 14px;
+    font-size: 12px;
+    top: 20;
+    left: 120px;
+  }
+
+  .text-area {
+    height: 150px;
+    width: 450px;
+  }
+
+  .submit {
+    top: 5px;
   }
 }
 
-@media only screen and (min-width: 800px) {
+@media only screen and (min-width: 900px) {
   .subtext {
-    position: relative;
-    top: 10vh;
-    left: 20vh;
-    font-size: 18px;
+    font-size: 15px;
+    top: 10px;
+    left: 160px;
+  }
+
+  .text-area {
+    height: 120px;
+    width: 600px;
   }
 }

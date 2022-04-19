@@ -27,21 +27,31 @@
   <main>
     <div class="container background-color">
       <div class="row center">
-        <div class="column-full column-three-quarter center">
+        <div class="column-full column-three-four center">
           <p class="week"></p>
           <img class="" src="images/GoodShepherd.jpg" alt="Jesus the Good Shepherd">
           <p class="date"></p>
         </div>
       </div>
+      <div class="row center" data-view="entry-form">
+        <form action="">
+
+          <div class="column-full">
+            <textarea name="entry" id="entry" class="text-area" placeholder="Notes..." autocomplete="off"></textarea>
+          </div>
+          <div class="column-full rel">
+            <input type="text" class="photo-input" name="photoURL" placeholder="Upload Photo URL" autocomplete="off">
+            <button class="submit">&#9769;</button>
+          </div>
+        </form>
+      </div>
       <div class="row subtext">
-        <div class="column-three-quarter">
+        <div class="column-half">
           <p class="year"></p>
           <p class="lectionary-year"></p>
           <p class="liturgical-color"></p>
-
         </div>
       </div>
-    </div>
   </main>
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
