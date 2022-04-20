@@ -1,3 +1,7 @@
+body {
+  padding-bottom: 40px;
+}
+
 nav {
   background-color: #343a40;
   color: #fff;
@@ -20,6 +24,18 @@ nav > p {
   text-align: center;
 }
 
+.rel {
+  position: relative;
+}
+
+p.notes {
+  font-family: cormorant, serif;
+  color: #343a40;
+  outline: none;
+  margin-bottom: 40px;
+  text-align: left;
+}
+
 p.week {
   font-family: "Cormorant Unicase", serif;
   color: #343a40;
@@ -40,16 +56,78 @@ p.date {
   font-family: "Cormorant Upright", serif;
   color: #343a40;
   font-size: 14px;
-  line-height: 10px;
+  line-height: 8px;
+  position: relative;
+}
+
+.subtext-form {
+  top: 20px;
+  left: 25px;
+}
+
+.submit {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background-color: #b0b0b0;
+  box-shadow: 2px 2px 4px #b0b0b0;
+  transition: 0.1s;
   position: absolute;
-  bottom: 50px;
-  left: 50px;
+  right: 0;
+  top: 50px;
+  font-size: 20px;
+  color: white;
+  text-align: center;
+}
+
+.submit:hover {
+  transform: scale(1.1);
+}
+
+.photo-input,
+.text-area {
+  font-family: cormorant, serif;
+  color: #343a40;
+  outline: none;
+  background-color: rgba(194, 194, 194, 0.09);
+  border: 1px solid rgba(194, 194, 194, 0.5);
+}
+
+.text-area {
+  height: 200px;
+  width: 310px;
+  resize: none;
+  padding: 15px 20px;
+  border-radius: 15px;
+}
+
+.photo-input {
+  margin-top: 10px;
+  width: 305px;
+  height: 25px;
+  border-radius: 8px;
+  padding-left: 13px;
+  margin-bottom: 0;
+}
+
+.photo-input::placeholder {
+  text-align: center;
+}
+
+.hidden {
+  display: none;
 }
 
 @media only screen and (min-width: 600px) {
+  p.notes {
+    margin-bottom: 100px;
+  }
+
   .background-color {
     background-color: #fbfbfb;
     box-shadow: 1px 5px 4px rgba(0, 0, 0, 0.253);
+    margin-bottom: 70px;
   }
 
   p.week {
@@ -65,19 +143,49 @@ p.date {
     font-size: 25px;
   }
 
-  .subtext {
-    position: relative;
-    top: 80px;
-    left: 80px;
-    font-size: 14px;
+  .subtext-entry {
+    font-size: 12px;
+    top: -20px;
+    left: 40px;
+    margin-bottom: 20px;
+  }
+
+  .subtext-form {
+    font-size: 12px;
+    top: -50px;
+    left: 130px;
+    margin-bottom: 20px;
+  }
+
+  .text-area {
+    height: 120px;
+    width: 450px;
+  }
+
+  .submit {
+    top: 5px;
+  }
+
+  .photo-input {
+    margin-bottom: 100px;
   }
 }
 
-@media only screen and (min-width: 800px) {
-  .subtext {
-    position: relative;
-    top: 10vh;
-    left: 20vh;
-    font-size: 18px;
+@media only screen and (min-width: 900px) {
+  .subtext-form {
+    font-size: 15px;
+    top: -80px;
+    left: 160px;
+  }
+
+  .subtext-entry {
+    font-size: 15px;
+    top: -40px;
+    left: 50px;
+  }
+
+  .text-area {
+    height: 120px;
+    width: 600px;
   }
 }

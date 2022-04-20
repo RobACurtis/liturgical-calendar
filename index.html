@@ -25,23 +25,36 @@
     </div>
   </header>
   <main>
-    <div class="container background-color">
+    <div class="container background-color rel">
       <div class="row center">
-        <div class="column-full column-three-quarter center">
+        <div class="column-full column-three-four center">
           <p class="week"></p>
-          <img class="" src="images/GoodShepherd.jpg" alt="Jesus the Good Shepherd">
+          <img class="" src="images/GoodShepherd.jpg" alt="Jesus the Good Shepherd" onerror="this.src='images/GoodShepherd.jpg'">
           <p class="date"></p>
         </div>
       </div>
-      <div class="row subtext">
-        <div class="column-three-quarter">
-          <p class="year"></p>
-          <p class="lectionary-year"></p>
-          <p class="liturgical-color"></p>
-
+      <div id="journal" class="row center hidden">
+        <div class="column-full column-three-four center">
         </div>
       </div>
+      <div class="row center rel" data-view="entry-form">
+        <form action="" class="">
+          <div class="column-full">
+            <textarea name="entry" id="entry" class="text-area" placeholder="Notes..." autocomplete="off"></textarea>
+          </div>
+          <div class="column-full rel">
+            <input type="text" class="photo-input" name="photoURL" placeholder="Upload Photo URL" autocomplete="off">
+            <button class="submit">&#43;</button>
+          </div>
+        </form>
+      </div>
+      <div id="details" class="column-quarter subtext subtext-form">
+        <p class="year"></p>
+        <p class="lectionary-year"></p>
+        <p class="liturgical-color"></p>
+      </div>
     </div>
+
   </main>
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
