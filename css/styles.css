@@ -12,26 +12,21 @@ nav {
 nav > p {
   margin: 0;
   font-family: Cormorant, serif;
-  font-size: 20px;
+  font-size: 26px;
 }
 
-img.arrow {
-  border: none;
-  box-shadow: none;
-  width: 40px;
+.fa-arrow-left {
+  color: white;
+  font-size: 25px;
   position: absolute;
-  top: 10px;
+  top: 15px;
   left: 30px;
-  transition: 0.2s;
+  transition: 0.5s;
   cursor: pointer;
 }
 
-img.arrow:hover {
+.fa-arrow-left:hover {
   transform: scale(1.1);
-}
-
-.flex {
-  display: flex;
 }
 
 .flex-wrap {
@@ -185,11 +180,21 @@ p.day {
   margin-bottom: 20px;
 }
 
+.hidden-cal {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  flex-direction: column-reverse;
+  text-align: left;
+  margin: 3px;
+  background-color: #fbfbfb;
+}
+
 p.cal {
   width: 40px;
   height: 40px;
   border: 1px solid #dbdbdb;
-  padding-left: 3px;
+  padding: 0 3px;
   display: flex;
   flex-direction: column-reverse;
   text-align: left;
@@ -198,6 +203,7 @@ p.cal {
   font-size: 12px;
   color: black;
   background-color: white;
+  cursor: pointer;
 }
 
 p.cal > span {
@@ -226,6 +232,10 @@ p.cal:hover {
 }
 
 @media only screen and (min-width: 600px) {
+  body {
+    background-color: white;
+  }
+
   #list {
     display: none;
   }
@@ -234,12 +244,12 @@ p.cal:hover {
     display: none;
   }
 
-  #calendar {
-    margin: 0 60px;
-  }
-
   #weekday.row {
     display: flex;
+  }
+
+  #calendar {
+    margin: 0 60px;
   }
 
   p.day {
@@ -261,17 +271,22 @@ p.cal:hover {
     margin: 3px;
   }
 
-  p.cal > span {
-    display: inline;
-    font-size: 8px;
-    position: absolute;
-    height: 15px;
-    bottom: 50px;
-    left: -2px;
-    text-align: center;
+  .hidden-cal {
+    width: 70px;
+    height: 70px;
   }
 
-  img.arrow {
+  p.cal > span {
+    display: flex;
+    font-size: 10px;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 50px;
+    text-align: center;
+    color: #343a40;
+  }
+
+  .fa-arrow-left {
     left: 100px;
   }
 
@@ -340,12 +355,18 @@ p.cal:hover {
     height: 80px;
   }
 
-  p.cal > span {
-    bottom: 60px;
+  .hidden-cal {
+    width: 80px;
+    height: 80px;
   }
 
-  img.arrow {
-    left: 200px;
+  p.cal > span {
+    height: 60px;
+    font-size: 10px;
+  }
+
+  .fa-arrow-left {
+    left: 180px;
   }
 
   .subtext-form {
