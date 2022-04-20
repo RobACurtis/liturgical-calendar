@@ -25,7 +25,7 @@
     </div>
   </header>
   <main>
-    <div class="container background-color">
+    <div class="container background-color rel">
       <div class="row center">
         <div class="column-full column-three-four center">
           <p class="week"></p>
@@ -33,32 +33,27 @@
           <p class="date"></p>
         </div>
       </div>
-      <div class="row">
-        <div class="column-full">
-          <p class="notes">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum minima aliquid, similique totam illum minus cum officia quas praesentium magnam, delectus, ipsam repellendus. Sunt tenetur, esse molestiae maiores reprehenderit ad.</p>
+      <div id="journal" class="row center hidden">
+        <div class="column-full column-three-four center">
         </div>
       </div>
       <div class="row center rel" data-view="entry-form">
-        <form action="" class="hidden">
+        <form action="" class="">
           <div class="column-full">
             <textarea name="entry" id="entry" class="text-area" placeholder="Notes..." autocomplete="off"></textarea>
           </div>
           <div class="column-full rel">
-            <!-- <div class="column-half subtext">
-              <p class="year"></p>
-              <p class="lectionary-year"></p>
-              <p class="liturgical-color"></p>
-            </div> -->
             <input type="text" class="photo-input" name="photoURL" placeholder="Upload Photo URL" autocomplete="off">
-            <button class="submit">&#9769;</button>
+            <button class="submit">&#43;</button>
           </div>
         </form>
-        <div class="column-full subtext">
-          <p class="year"></p>
-          <p class="lectionary-year"></p>
-          <p class="liturgical-color"></p>
-        </div>
       </div>
+      <div id="details" class="column-quarter subtext subtext-form">
+        <p class="year"></p>
+        <p class="lectionary-year"></p>
+        <p class="liturgical-color"></p>
+      </div>
+    </div>
 
   </main>
   <script src="js/data.js"></script>

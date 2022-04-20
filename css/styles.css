@@ -1,3 +1,7 @@
+body {
+  padding-bottom: 40px;
+}
+
 nav {
   background-color: #343a40;
   color: #fff;
@@ -24,6 +28,14 @@ nav > p {
   position: relative;
 }
 
+p.notes {
+  font-family: cormorant, serif;
+  color: #343a40;
+  outline: none;
+  margin-bottom: 40px;
+  text-align: left;
+}
+
 p.week {
   font-family: "Cormorant Unicase", serif;
   color: #343a40;
@@ -45,10 +57,12 @@ p.date {
   color: #343a40;
   font-size: 14px;
   line-height: 8px;
-  position: absolute;
-  bottom: 50px;
+  position: relative;
+}
+
+.subtext-form {
+  top: 20px;
   left: 25px;
-  text-align: left;
 }
 
 .submit {
@@ -65,13 +79,10 @@ p.date {
   font-size: 20px;
   color: white;
   text-align: center;
-  padding-bottom: 2px;
-  padding-left: 6px;
 }
 
 .submit:hover {
   transform: scale(1.1);
-  padding-bottom: 4px;
 }
 
 .photo-input,
@@ -97,7 +108,7 @@ p.date {
   height: 25px;
   border-radius: 8px;
   padding-left: 13px;
-  margin-bottom: 150px;
+  margin-bottom: 0;
 }
 
 .photo-input::placeholder {
@@ -109,6 +120,10 @@ p.date {
 }
 
 @media only screen and (min-width: 600px) {
+  p.notes {
+    margin-bottom: 100px;
+  }
+
   .background-color {
     background-color: #fbfbfb;
     box-shadow: 1px 5px 4px rgba(0, 0, 0, 0.253);
@@ -128,15 +143,18 @@ p.date {
     font-size: 25px;
   }
 
-  p.notes {
-    color: #343a40;
-    font-size: ;
+  .subtext-entry {
+    font-size: 12px;
+    top: -20px;
+    left: 40px;
+    margin-bottom: 20px;
   }
 
-  .subtext {
+  .subtext-form {
     font-size: 12px;
-    bottom: 25px;
+    top: -50px;
     left: 130px;
+    margin-bottom: 20px;
   }
 
   .text-area {
@@ -154,8 +172,16 @@ p.date {
 }
 
 @media only screen and (min-width: 900px) {
-  .subtext {
+  .subtext-form {
     font-size: 15px;
+    top: -80px;
+    left: 160px;
+  }
+
+  .subtext-entry {
+    font-size: 15px;
+    top: -40px;
+    left: 50px;
   }
 
   .text-area {

@@ -1,38 +1,47 @@
 var $week = document.querySelector('p.week');
 var $date = document.querySelector('p.date');
-var numericDate = null;
 var $year = document.querySelector('p.year');
 var $color = document.querySelector('p.liturgical-color');
 var $seasonWeek = document.querySelector('p.lectionary-year');
 var $day = document.querySelector('p.day');
-var $journalEntry = document.querySelector('p.notes');
+var $journalEntry = document.querySelector('#journal');
+var $subtext = document.querySelector('#details');
 
 var $form = document.querySelector('form');
 var $photoInput = document.querySelector('.photo-input');
 var $photo = document.querySelector('img');
-
+var title = '';
 $photoInput.addEventListener('input', addPhoto);
 $form.addEventListener('submit', addEntry);
 
+function addPhoto(event) {
+  var src = $photoInput.value;
+  $photo.setAttribute('src', src);
+}
+
 function addEntry(event) {
   event.preventDefault();
-  var text = $form.elements.entry.value;
   var inputObj = {
-    title: numericDate,
-    imageUrl: text,
+    title: title,
+    imageUrl: $form.elements.photoURL.value,
     notes: $form.elements.entry.value,
     entryId: data.nextEntryId
   };
   data.nextEntryId++;
   data.entries.unshift(inputObj);
-  $form.className = 'hidden';
-  $journalEntry.textContent = text;
-  console.log(data);
+  var $newEntry = renderEntry();
+  $journalEntry.children[0].appendChild($newEntry);
 }
 
-function addPhoto(event) {
-  var src = $photoInput.value;
-  $photo.setAttribute('src', src);
+function renderEntry() {
+  $form.className = 'hidden';
+  $journalEntry.className = 'row center';
+  var $p = document.createElement('p');
+  $p.textContent = data.entries[0].notes;
+  $p.className = 'notes';
+  $photo.setAttribute('src', data.entries[0].imageUrl);
+  $subtext.className = 'column-quarter subtext subtext-entry';
+  return $p;
 }
 
 var xhr = new XMLHttpRequest();
@@ -48,8 +57,7 @@ xhr.addEventListener('load', function () {
   var day = weekday.charAt(0).toUpperCase() + weekday.slice(1);
   var color = xhr.response.celebrations[0].colour;
   var colorCase = color.charAt(0).toUpperCase() + color.slice(1);
-
-  numericDate = xhr.response.date;
+  var numericDate = xhr.response.date;
   var month = numericDate.split('-');
   var month1 = '';
 
@@ -83,6 +91,8 @@ xhr.addEventListener('load', function () {
   $week.textContent = xhr.response.celebrations[0].title;
   $date.textContent = month1 + ' ' + xhr.response.date[8] + xhr.response.date[9] + ', 2022';
   $color.textContent = 'Color: ' + colorCase;
+  title = xhr.response.celebrations[0].title;
+  renderJournalPage();
 });
 
 xhrYear.addEventListener('load', function () {
@@ -92,3 +102,17 @@ xhrYear.addEventListener('load', function () {
 
 xhrYear.send();
 xhr.send();
+
+function renderJournalPage(event) {
+  for (var i = 0; i < data.entries.length; i++) {
+    if (title === data.entries[i].title) {
+      $journalEntry.className = 'row center';
+      $form.className = 'hidden';
+      var $p = renderEntry();
+      $journalEntry.children[0].appendChild($p);
+      $photo.setAttribute('src', data.entries[i].imageUrl);
+      $subtext.className = 'column-quarter subtext subtext-entry';
+      break;
+    }
+  }
+}
