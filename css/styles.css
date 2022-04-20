@@ -34,6 +34,22 @@ img.arrow:hover {
   display: flex;
 }
 
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.flex-end {
+  justify-content: center;
+}
+
+.padding-bottom {
+  padding-bottom: 70px;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
 .center {
   justify-content: center;
   align-items: center;
@@ -43,6 +59,16 @@ img.arrow:hover {
 .rel {
   position: relative;
 }
+
+.hidden {
+  display: none;
+}
+
+.margin-top {
+  margin-top: 20px;
+}
+
+/* form styling */
 
 p.notes {
   font-family: cormorant, serif;
@@ -132,27 +158,50 @@ p.date {
   text-align: center;
 }
 
-.hidden {
+/* calendar styling */
+
+#weekday.row {
   display: none;
 }
 
-.margin-top {
-  margin-top: 20px;
+p.calendar-date {
+  font-family: "Cormorant Unicase", serif;
+  color: #343a40;
+  font-size: 23px;
+  margin-bottom: 13px;
+}
+
+p.day {
+  font-family: Cormorant, serif;
+  color: #343a40;
+  font-size: 15px;
+  text-align: center;
+  width: 40px;
+  margin: 1px 3px;
+}
+
+.day-underline {
+  border-bottom: 1px solid black;
+  margin-bottom: 20px;
 }
 
 p.cal {
-  width: 150px;
-  height: 45px;
-  border: 1px solid black;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #dbdbdb;
+  padding-left: 3px;
   display: flex;
-  justify-content: flex-end;
-  flex-direction: column;
-  padding-left: 5px;
-  margin: 1px 3px;
+  flex-direction: column-reverse;
+  text-align: left;
+  margin: 3px;
   font-family: "Cormorant Unicase", serif;
-  font-size: 15px;
+  font-size: 12px;
   color: black;
   background-color: white;
+}
+
+p.cal > span {
+  display: none;
 }
 
 p.cal:hover {
@@ -160,15 +209,68 @@ p.cal:hover {
   transform: scale(1.1);
 }
 
-.flex-end {
-  justify-content: center;
+.list-title {
+  font-family: cormorant, serif;
+  color: black;
+  font-size: 24px;
+  border-bottom: 1px solid black;
 }
 
-.padding-bottom {
-  padding-bottom: 70px;
+.feast-days {
+  list-style: none;
+  font-family: cormorant, serif;
+  color: black;
+  line-height: 24px;
+  font-size: 12px;
+  padding-left: 0;
 }
 
 @media only screen and (min-width: 600px) {
+  #list {
+    display: none;
+  }
+
+  #day {
+    display: none;
+  }
+
+  #calendar {
+    margin: 0 60px;
+  }
+
+  #weekday.row {
+    display: flex;
+  }
+
+  p.day {
+    font-size: 15px;
+    text-align: center;
+    width: 70px;
+    margin: 1px 3px;
+  }
+
+  .day-underline {
+    border-bottom: 1px solid black;
+    margin: 0 80px 20px;
+  }
+
+  p.cal {
+    width: 70px;
+    height: 70px;
+    font-size: 13px;
+    margin: 3px;
+  }
+
+  p.cal > span {
+    display: inline;
+    font-size: 8px;
+    position: absolute;
+    height: 15px;
+    bottom: 50px;
+    left: -2px;
+    text-align: center;
+  }
+
   img.arrow {
     left: 100px;
   }
@@ -225,6 +327,23 @@ p.cal:hover {
 }
 
 @media only screen and (min-width: 900px) {
+  #calendar {
+    margin: 0 120px;
+  }
+
+  p.day {
+    width: 80px;
+  }
+
+  p.cal {
+    width: 80px;
+    height: 80px;
+  }
+
+  p.cal > span {
+    bottom: 60px;
+  }
+
   img.arrow {
     left: 200px;
   }
