@@ -1,5 +1,6 @@
 body {
   padding-bottom: 40px;
+  background-color: #fbfbfb;
 }
 
 nav {
@@ -12,6 +13,21 @@ nav > p {
   margin: 0;
   font-family: Cormorant, serif;
   font-size: 20px;
+}
+
+img.arrow {
+  border: none;
+  box-shadow: none;
+  width: 40px;
+  position: absolute;
+  top: 10px;
+  left: 30px;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+img.arrow:hover {
+  transform: scale(1.1);
 }
 
 .flex {
@@ -72,13 +88,14 @@ p.date {
   border: none;
   background-color: #b0b0b0;
   box-shadow: 2px 2px 4px #b0b0b0;
-  transition: 0.1s;
+  transition: 0.5s;
   position: absolute;
   right: 0;
   top: 50px;
   font-size: 20px;
   color: white;
   text-align: center;
+  cursor: pointer;
 }
 
 .submit:hover {
@@ -119,7 +136,43 @@ p.date {
   display: none;
 }
 
+.margin-top {
+  margin-top: 20px;
+}
+
+p.cal {
+  width: 150px;
+  height: 45px;
+  border: 1px solid black;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  padding-left: 5px;
+  margin: 1px 3px;
+  font-family: "Cormorant Unicase", serif;
+  font-size: 15px;
+  color: black;
+  background-color: white;
+}
+
+p.cal:hover {
+  border: 1px solid #6c6c6c;
+  transform: scale(1.1);
+}
+
+.flex-end {
+  justify-content: center;
+}
+
+.padding-bottom {
+  padding-bottom: 70px;
+}
+
 @media only screen and (min-width: 600px) {
+  img.arrow {
+    left: 100px;
+  }
+
   p.notes {
     margin-bottom: 100px;
   }
@@ -172,6 +225,10 @@ p.date {
 }
 
 @media only screen and (min-width: 900px) {
+  img.arrow {
+    left: 200px;
+  }
+
   .subtext-form {
     font-size: 15px;
     top: -80px;

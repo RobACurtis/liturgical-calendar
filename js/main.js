@@ -9,7 +9,7 @@ var $subtext = document.querySelector('#details');
 
 var $form = document.querySelector('form');
 var $photoInput = document.querySelector('.photo-input');
-var $photo = document.querySelector('img');
+var $photo = document.querySelector('#photo');
 var title = '';
 $photoInput.addEventListener('input', addPhoto);
 $form.addEventListener('submit', addEntry);
