@@ -1,6 +1,6 @@
 var $titleDay = document.querySelector('.title-day');
 var $journalPage = document.querySelector('#journalPage');
-var $formContainer = document.querySelector('#form-container');
+var $form = null;
 var $week = document.querySelector('p.week');
 var $photo = document.querySelector('#photo');
 var $date = document.querySelector('p.date');
@@ -20,11 +20,16 @@ var $leftArrow = document.querySelector('.fa-arrow-left');
 $leftArrow.addEventListener('click', viewSwap);
 
 // $photoInput.addEventListener('input', addPhoto);
-// $form.addEventListener('submit', addEntry);
+if ($form !== null) {
+  $form.addEventListener('submit', addEntry);
+}
 $calendar.addEventListener('click', showDate);
 
 var id = '';
 var title = '';
+var currentMonth = '';
+var date = '';
+var color = '';
 
 function viewSwap(event) {
   if ($journalPage.className !== 'hidden') {
@@ -53,18 +58,14 @@ function renderDate(obj) {
     for (var i = 0; i < data.entries.length; i++) {
       if (obj.celebrations[0].title === data.entries[i].title) {
         var page = renderEntry(data.entries[i]);
-        return page;
+        $journalPage.appendChild(page);
+        $journalPage.className = 'container background-color rel';
+        $calendarPage.className = 'hidden';
+        $leftArrow.className = 'fas fa-arrow-left';
+        return;
       }
     }
   }
-  // var date = obj.date;
-  // var month = getMonth(date);
-  // var color = obj.celebrations[0].colour;
-  // var colorCase = color.charAt(0).toUpperCase() + color.slice(1);
-  // $week.textContent = obj.celebrations[0].title;
-  // $date.textContent = month + ' ' + obj.date[8] + obj.date[9] + ', 2022';
-  // $color.textContent = 'Color: ' + colorCase;
-  // title = obj.celebrations[0].title;
   if ($journalPage.children.length > 0) {
     for (i = 0; i < $journalPage.children.length; i++) {
       $journalPage.removeChild($journalPage.children[i]);
@@ -79,7 +80,6 @@ function renderDate(obj) {
 }
 
 function createDomTree(obj) {
-  // debugger;
   var month = getMonth(obj.date);
 
   var $divContainer = document.createElement('div');
@@ -161,7 +161,7 @@ function createDomTree(obj) {
   $lectionaryYear.textContent = 'Weekdays: II';
   $subtextDiv.appendChild($lectionaryYear);
 
-  var color = obj.celebrations[0].colour;
+  color = obj.celebrations[0].colour;
   var colorCase = color.charAt(0).toUpperCase() + color.slice(1);
 
   var $color = document.createElement('p');
@@ -169,6 +169,7 @@ function createDomTree(obj) {
   $color.textContent = 'Color: ' + colorCase;
   $subtextDiv.appendChild($color);
 
+  $form = document.querySelector('form');
   return $divContainer;
 }
 
@@ -183,8 +184,9 @@ xhrMonth.send();
 function renderMonth() {
   var month = xhrMonth.response;
   var emptyDays = 0;
-  var date = xhrMonth.response[0].date;
-  var currentMonth = getMonth(date);
+  date = xhrMonth.response[0].date;
+  currentMonth = getMonth(date);
+
   if (month[0].weekday !== 'sunday') {
     if (month[0].weekday === 'monday') {
       emptyDays = 1;
@@ -257,8 +259,11 @@ function renderMonth() {
 
 function addEntry(event) {
   event.preventDefault();
+  debugger;
   var inputObj = {
     title: title,
+    date: date,
+    color: color,
     imageUrl: $form.elements.photoURL.value,
     notes: $form.elements.entry.value,
     entryId: data.nextEntryId
@@ -270,13 +275,72 @@ function addEntry(event) {
 }
 
 function renderEntry(obj) {
-  $form.className = 'hidden';
-  $journalEntry.className = 'row center';
+
+  var $divContainer = document.createElement('div');
+  $divContainer.className = 'container background-color rel';
+
+  var $divRow = document.createElement('div');
+  $divRow.className = 'row center';
+  $divContainer.appendChild($divRow);
+
+  var $divCol = document.createElement('div');
+  $divCol.className = 'column-full column-three-four center';
+  $divRow.appendChild($divCol);
+
   var $p = document.createElement('p');
-  $p.textContent = obj.notes;
-  $p.className = 'notes';
-  $photo.setAttribute('src', obj.imageUrl);
-  $subtext.className = 'column-quarter subtext subtext-entry';
+  $p.className = 'week';
+  $p.textContent = obj.title;
+  $divCol.appendChild($p);
+
+  var $img = document.createElement('img');
+  $img.setAttribute('src', obj.imageUrl);
+  $img.setAttribute('id', 'photo');
+  $img.setAttribute('alt', 'Jesus The Good Shepherd');
+  $img.setAttribute('onerror', "this.src = 'images/GoodShepherd.jpg'");
+  $divCol.appendChild($img);
+
+  var $p1 = document.createElement('p');
+  $p1.className = 'date';
+  $p1.textContent = currentMonth + ' ' + obj.date[8] + obj.date[9] + ', 2022';
+  $divCol.appendChild($p1);
+
+  var $divRow1 = document.createElement('div');
+  $divRow1.className = 'row center';
+  $divRow1.setAttribute('id', 'journal');
+  $divContainer.appendChild($divRow1);
+
+  var $divCol1 = document.createElement('div');
+  $divCol1.className = 'column-full column-three-four center';
+  $divRow.appendChild($divCol1);
+
+  var $p3 = document.createElement('p');
+  $p3.textContent = obj.notes;
+  $p3.className = 'notes';
+  $divCol1.appendChild($p3);
+
+  var $subtextDiv = document.createElement('div');
+  $subtextDiv.className = 'column-quarter subtext subtext-entry';
+  $subtextDiv.setAttribute('id', 'details');
+  $divContainer.appendChild($subtextDiv);
+
+  var $year = document.createElement('p');
+  $year.className = 'year';
+  $year.textContent = 'Year: A';
+  $subtextDiv.appendChild($year);
+  var $lectionaryYear = document.createElement('p');
+  $lectionaryYear.className = 'lectionary-year';
+  $lectionaryYear.textContent = 'Weekdays: II';
+  $subtextDiv.appendChild($lectionaryYear);
+
+  var color = obj.celebrations[0].color;
+  var colorCase = color.charAt(0).toUpperCase() + color.slice(1);
+
+  var $color = document.createElement('p');
+  $color.className = 'liturgical-color';
+  $color.textContent = 'Color: ' + colorCase;
+  $subtextDiv.appendChild($color);
+
+  return $divContainer;
 
 }
 
