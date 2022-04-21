@@ -132,14 +132,16 @@ function renderMonth() {
 
 function addEntry(event) {
   event.preventDefault();
+  var $notes = event.target.querySelector('.text-area');
+  var $photoUrl = event.target.querySelector('.photo-input');
   if (data.editing !== null) {
     for (var i = 0; i < data.entries.length; i++) {
       if (data.editing.id === data.entries[i].id) {
         data.entries[i] = {
           id: id,
           color: color,
-          imageUrl: event.target.children[1].children[0].value,
-          notes: event.target.children[0].children[0].value
+          imageUrl: $photoUrl.value,
+          notes: $notes.value
         };
         var $newEntry = createDomTree(xhrMonth.response[id]);
         $journalPage.children[0].replaceWith($newEntry);
@@ -151,8 +153,8 @@ function addEntry(event) {
   var inputObj = {
     id: id,
     color: color,
-    imageUrl: event.target.children[1].children[0].value,
-    notes: event.target.children[0].children[0].value
+    imageUrl: $photoUrl.value,
+    notes: $notes.value
   };
   data.entries.unshift(inputObj);
   $newEntry = createDomTree(xhrMonth.response[id]);
