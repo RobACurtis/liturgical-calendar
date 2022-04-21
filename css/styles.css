@@ -106,16 +106,12 @@ p.date {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: none;
   background-color: #b0b0b0;
   box-shadow: 2px 2px 4px #b0b0b0;
   transition: 0.5s;
   position: absolute;
   right: 0;
   top: 50px;
-  font-size: 20px;
-  color: white;
-  text-align: center;
   cursor: pointer;
 }
 
@@ -385,4 +381,4 @@ p.cal:hover {
     height: 120px;
     width: 600px;
   }
-}}
+}

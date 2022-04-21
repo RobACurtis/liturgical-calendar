@@ -1,24 +1,12 @@
-var $titleDay = document.querySelector('.title-day'); // The heading in the nav bar
-var $journalPage = document.querySelector('#journalPage'); // the page for Journal entries
-
-var $calendarPage = document.querySelector('#calendar-page'); // calendar page
-
-// var $subtext = document.querySelector('#details');
-// var $form = document.createElement('form');
-// var $week = document.querySelector('p.week');
-// var $photo = document.querySelector('#photo');
-// var $date = document.querySelector('p.date');
-// var $journalEntry = document.querySelector('#journal');
-// var $form = document.querySelector('form');
-// var $photoInput = document.querySelector('.photo-input');
-// var $year = document.querySelector('p.year');
-// var $seasonWeek = document.querySelector('p.lectionary-year');
-// var $color = document.querySelector('p.liturgical-color');
+var $monthTitle = document.querySelector('.month-title');
+var $journalPage = document.querySelector('#journalPage');
+var $calendarPage = document.querySelector('#calendar-page');
 
 var $calendar = document.querySelector('#calendar');
 var $feastDayList = document.querySelector('ul.feast-days');
 var $calDate = document.querySelector('.calendar-date');
 var $leftArrow = document.querySelector('.fa-arrow-left');
+
 $leftArrow.addEventListener('click', viewSwap);
 
 $journalPage.addEventListener('input', addPhoto);
@@ -31,13 +19,18 @@ var date = '';
 var currentMonth = '';
 var color = '';
 
+var xhrMonth = new XMLHttpRequest();
+xhrMonth.open('GET', 'http://calapi.inadiutorium.cz/api/v0/en/calendars/default/2022/4');
+xhrMonth.responseType = 'json';
+xhrMonth.addEventListener('load', renderMonth);
+xhrMonth.send();
+
 function viewSwap(event) {
   $journalPage.className = 'hidden';
   $calendarPage.className = 'container background-color rel margin-top padding-bottom';
   $leftArrow.className = 'hidden';
 }
 
-// this function will toggle to the specific  date user clicks on in monthly calendar and render the DOM tree for the paage.
 function showDate(event) {
   id = event.target.closest('p').id;
   if (id === '') {
@@ -63,7 +56,6 @@ function renderDate(obj) {
 }
 
 function createDomTree(obj) {
-
   var $divContainer = document.createElement('div');
   $divContainer.className = 'container background-color rel';
 
@@ -112,7 +104,7 @@ function createDomTree(obj) {
         $img.setAttribute('src', data.entries[i].imageUrl);
 
         var $subtextDiv = document.createElement('div');
-        $subtextDiv.className = 'column-quarter subtext subtext-form';
+        $subtextDiv.className = 'column-quarter subtext subtext-entry';
         $subtextDiv.setAttribute('id', 'details');
         $divContainer.appendChild($subtextDiv);
 
@@ -171,10 +163,12 @@ function createDomTree(obj) {
   $input.setAttribute('placeholder', 'Upload Photo URL');
   $input.setAttribute('autocomplete', 'off');
   $divForm2.appendChild($input);
-  var $button = document.createElement('button');
-  $button.textContent = 't';
-  $button.className = 'submit';
-  $divForm2.appendChild($button);
+
+  var $submit = document.createElement('input');
+  $submit.className = 'submit';
+  $submit.setAttribute('src', 'images/Submit.png');
+  $submit.setAttribute('type', 'image');
+  $divForm2.appendChild($submit);
 
   $subtextDiv = document.createElement('div');
   $subtextDiv.className = 'column-quarter subtext subtext-form';
@@ -198,15 +192,8 @@ function createDomTree(obj) {
   $color.textContent = 'Color: ' + colorCase;
   $subtextDiv.appendChild($color);
 
-  $form = document.querySelector('form');
   return $divContainer;
 }
-
-var xhrMonth = new XMLHttpRequest();
-xhrMonth.open('GET', 'http://calapi.inadiutorium.cz/api/v0/en/calendars/default/2022/4');
-xhrMonth.responseType = 'json';
-xhrMonth.addEventListener('load', renderMonth);
-xhrMonth.send();
 
 function renderMonth() {
   var month = xhrMonth.response;
@@ -239,12 +226,12 @@ function renderMonth() {
     }
   }
   $calDate.textContent = currentMonth + ' 2022';
-  $titleDay.textContent = currentMonth;
+  $monthTitle.textContent = currentMonth;
   for (i = 0; i < month.length; i++) {
     $p = document.createElement('p');
     $p.setAttribute('id', i);
     $p.className = 'cal rel';
-    $p.textContent = month[i].date[8] + month[i].date[9];
+    $p.textContent = i + 1;
     $calendar.appendChild($p);
     if (month[i].celebrations[0].rank_num <= 2.8) {
       var weekday = month[i].weekday;
@@ -253,7 +240,7 @@ function renderMonth() {
       $span.textContent = month[i].celebrations[0].title;
       $p.appendChild($span);
       var $li = document.createElement('li');
-      $li.textContent = day + ' ' + currentMonth + ' ' + month[i].date[8] + month[i].date[9] + ', ' + month[i].celebrations[0].title;
+      $li.textContent = day + ' ' + currentMonth + ' ' + (i + 1) + ', ' + month[i].celebrations[0].title;
       $feastDayList.appendChild($li);
     }
   }
