@@ -1,17 +1,19 @@
-var $titleDay = document.querySelector('.title-day');
-var $journalPage = document.querySelector('#journalPage');
-var $form = null;
-var $week = document.querySelector('p.week');
-var $photo = document.querySelector('#photo');
-var $date = document.querySelector('p.date');
-var $journalEntry = document.querySelector('#journal');
-var $form = document.querySelector('form');
-var $photoInput = document.querySelector('.photo-input');
-var $calendarPage = document.querySelector('#calendar-page');
-var $subtext = document.querySelector('#details');
-var $year = document.querySelector('p.year');
-var $seasonWeek = document.querySelector('p.lectionary-year');
-var $color = document.querySelector('p.liturgical-color');
+var $titleDay = document.querySelector('.title-day'); // The heading in the nav bar
+var $journalPage = document.querySelector('#journalPage'); // the page for Journal entries
+
+var $calendarPage = document.querySelector('#calendar-page'); // calendar page
+
+// var $subtext = document.querySelector('#details');
+// var $form = document.createElement('form');
+// var $week = document.querySelector('p.week');
+// var $photo = document.querySelector('#photo');
+// var $date = document.querySelector('p.date');
+// var $journalEntry = document.querySelector('#journal');
+// var $form = document.querySelector('form');
+// var $photoInput = document.querySelector('.photo-input');
+// var $year = document.querySelector('p.year');
+// var $seasonWeek = document.querySelector('p.lectionary-year');
+// var $color = document.querySelector('p.liturgical-color');
 
 var $calendar = document.querySelector('#calendar');
 var $feastDayList = document.querySelector('ul.feast-days');
@@ -19,30 +21,23 @@ var $calDate = document.querySelector('.calendar-date');
 var $leftArrow = document.querySelector('.fa-arrow-left');
 $leftArrow.addEventListener('click', viewSwap);
 
-// $photoInput.addEventListener('input', addPhoto);
-if ($form !== null) {
-  $form.addEventListener('submit', addEntry);
-}
+$journalPage.addEventListener('input', addPhoto);
+$journalPage.addEventListener('submit', addEntry);
+
 $calendar.addEventListener('click', showDate);
 
 var id = '';
-var title = '';
-var currentMonth = '';
 var date = '';
+var currentMonth = '';
 var color = '';
 
 function viewSwap(event) {
-  if ($journalPage.className !== 'hidden') {
-    $journalPage.className = 'hidden';
-    $calendarPage.className = 'container background-color rel margin-top padding-bottom';
-    $leftArrow.className = 'hidden';
-  } else {
-    $journalPage.className = 'container background-color rel';
-    $calendarPage.className = 'container background-color rel margin-top padding-bottom hidden';
-    $leftArrow.className = 'fas fa-arrow-left';
-  }
+  $journalPage.className = 'hidden';
+  $calendarPage.className = 'container background-color rel margin-top padding-bottom';
+  $leftArrow.className = 'hidden';
 }
 
+// this function will toggle to the specific  date user clicks on in monthly calendar and render the DOM tree for the paage.
 function showDate(event) {
   id = event.target.closest('p').id;
   if (id === '') {
@@ -54,33 +49,20 @@ function showDate(event) {
 }
 
 function renderDate(obj) {
-  if (data.entries !== 0) {
-    for (var i = 0; i < data.entries.length; i++) {
-      if (obj.celebrations[0].title === data.entries[i].title) {
-        var page = renderEntry(data.entries[i]);
-        $journalPage.appendChild(page);
-        $journalPage.className = 'container background-color rel';
-        $calendarPage.className = 'hidden';
-        $leftArrow.className = 'fas fa-arrow-left';
-        return;
-      }
-    }
-  }
   if ($journalPage.children.length > 0) {
-    for (i = 0; i < $journalPage.children.length; i++) {
+    for (var i = 0; i < $journalPage.children.length; i++) {
       $journalPage.removeChild($journalPage.children[i]);
     }
   }
-  var form = createDomTree(obj);
-  $journalPage.appendChild(form);
+  var journalPage = createDomTree(obj);
+  $journalPage.appendChild(journalPage);
   $journalPage.className = 'container background-color rel';
   $calendarPage.className = 'hidden';
   $leftArrow.className = 'fas fa-arrow-left';
-  return form;
+  return journalPage;
 }
 
 function createDomTree(obj) {
-  var month = getMonth(obj.date);
 
   var $divContainer = document.createElement('div');
   $divContainer.className = 'container background-color rel';
@@ -107,8 +89,55 @@ function createDomTree(obj) {
 
   var $p1 = document.createElement('p');
   $p1.className = 'date';
-  $p1.textContent = month + ' ' + obj.date[8] + obj.date[9] + ', 2022';
+  $p1.textContent = currentMonth + ' ' + obj.date[8] + obj.date[9] + ', 2022';
   $divCol.appendChild($p1);
+
+  if (data.entries.length !== 0) {
+    for (var i = 0; i < data.entries.length; i++) {
+      if (data.entries[i].id === id) {
+        var $divRow1 = document.createElement('div');
+        $divRow1.className = 'row center';
+        $divRow1.setAttribute('id', 'journal');
+        $divContainer.appendChild($divRow1);
+
+        var $divCol1 = document.createElement('div');
+        $divCol1.className = 'column-full column-three-four center';
+        $divRow1.appendChild($divCol1);
+
+        var $p3 = document.createElement('p');
+        $p3.textContent = data.entries[i].notes;
+        $p3.className = 'notes';
+        $divCol1.appendChild($p3);
+
+        $img.setAttribute('src', data.entries[i].imageUrl);
+
+        var $subtextDiv = document.createElement('div');
+        $subtextDiv.className = 'column-quarter subtext subtext-form';
+        $subtextDiv.setAttribute('id', 'details');
+        $divContainer.appendChild($subtextDiv);
+
+        var $year = document.createElement('p');
+        $year.className = 'year';
+        $year.textContent = 'Year: A';
+        $subtextDiv.appendChild($year);
+
+        var $lectionaryYear = document.createElement('p');
+        $lectionaryYear.className = 'lectionary-year';
+        $lectionaryYear.textContent = 'Weekdays: II';
+        $subtextDiv.appendChild($lectionaryYear);
+
+        color = data.entries[i].color;
+        var colorCase = color.charAt(0).toUpperCase() + color.slice(1);
+
+        var $color = document.createElement('p');
+        $color.className = 'liturgical-color';
+        $color.textContent = 'Color: ' + colorCase;
+        $subtextDiv.appendChild($color);
+
+        return $divContainer;
+      }
+    }
+  }
 
   var $divForm = document.createElement('div');
   $divForm.className = 'row center rel';
@@ -147,24 +176,24 @@ function createDomTree(obj) {
   $button.className = 'submit';
   $divForm2.appendChild($button);
 
-  var $subtextDiv = document.createElement('div');
+  $subtextDiv = document.createElement('div');
   $subtextDiv.className = 'column-quarter subtext subtext-form';
   $subtextDiv.setAttribute('id', 'details');
   $divContainer.appendChild($subtextDiv);
 
-  var $year = document.createElement('p');
+  $year = document.createElement('p');
   $year.className = 'year';
   $year.textContent = 'Year: A';
   $subtextDiv.appendChild($year);
-  var $lectionaryYear = document.createElement('p');
+  $lectionaryYear = document.createElement('p');
   $lectionaryYear.className = 'lectionary-year';
   $lectionaryYear.textContent = 'Weekdays: II';
   $subtextDiv.appendChild($lectionaryYear);
 
   color = obj.celebrations[0].colour;
-  var colorCase = color.charAt(0).toUpperCase() + color.slice(1);
+  colorCase = color.charAt(0).toUpperCase() + color.slice(1);
 
-  var $color = document.createElement('p');
+  $color = document.createElement('p');
   $color.className = 'liturgical-color';
   $color.textContent = 'Color: ' + colorCase;
   $subtextDiv.appendChild($color);
@@ -176,9 +205,7 @@ function createDomTree(obj) {
 var xhrMonth = new XMLHttpRequest();
 xhrMonth.open('GET', 'http://calapi.inadiutorium.cz/api/v0/en/calendars/default/2022/4');
 xhrMonth.responseType = 'json';
-
 xhrMonth.addEventListener('load', renderMonth);
-
 xhrMonth.send();
 
 function renderMonth() {
@@ -259,93 +286,23 @@ function renderMonth() {
 
 function addEntry(event) {
   event.preventDefault();
-  debugger;
   var inputObj = {
-    title: title,
-    date: date,
+    id: id,
     color: color,
-    imageUrl: $form.elements.photoURL.value,
-    notes: $form.elements.entry.value,
-    entryId: data.nextEntryId
+    imageUrl: event.target.children[1].children[0].value,
+    notes: event.target.children[0].children[0].value
   };
-  data.nextEntryId++;
   data.entries.unshift(inputObj);
-  var $newEntry = renderEntry();
-  $journalEntry.children[0].appendChild($newEntry);
-}
-
-function renderEntry(obj) {
-
-  var $divContainer = document.createElement('div');
-  $divContainer.className = 'container background-color rel';
-
-  var $divRow = document.createElement('div');
-  $divRow.className = 'row center';
-  $divContainer.appendChild($divRow);
-
-  var $divCol = document.createElement('div');
-  $divCol.className = 'column-full column-three-four center';
-  $divRow.appendChild($divCol);
-
-  var $p = document.createElement('p');
-  $p.className = 'week';
-  $p.textContent = obj.title;
-  $divCol.appendChild($p);
-
-  var $img = document.createElement('img');
-  $img.setAttribute('src', obj.imageUrl);
-  $img.setAttribute('id', 'photo');
-  $img.setAttribute('alt', 'Jesus The Good Shepherd');
-  $img.setAttribute('onerror', "this.src = 'images/GoodShepherd.jpg'");
-  $divCol.appendChild($img);
-
-  var $p1 = document.createElement('p');
-  $p1.className = 'date';
-  $p1.textContent = currentMonth + ' ' + obj.date[8] + obj.date[9] + ', 2022';
-  $divCol.appendChild($p1);
-
-  var $divRow1 = document.createElement('div');
-  $divRow1.className = 'row center';
-  $divRow1.setAttribute('id', 'journal');
-  $divContainer.appendChild($divRow1);
-
-  var $divCol1 = document.createElement('div');
-  $divCol1.className = 'column-full column-three-four center';
-  $divRow.appendChild($divCol1);
-
-  var $p3 = document.createElement('p');
-  $p3.textContent = obj.notes;
-  $p3.className = 'notes';
-  $divCol1.appendChild($p3);
-
-  var $subtextDiv = document.createElement('div');
-  $subtextDiv.className = 'column-quarter subtext subtext-entry';
-  $subtextDiv.setAttribute('id', 'details');
-  $divContainer.appendChild($subtextDiv);
-
-  var $year = document.createElement('p');
-  $year.className = 'year';
-  $year.textContent = 'Year: A';
-  $subtextDiv.appendChild($year);
-  var $lectionaryYear = document.createElement('p');
-  $lectionaryYear.className = 'lectionary-year';
-  $lectionaryYear.textContent = 'Weekdays: II';
-  $subtextDiv.appendChild($lectionaryYear);
-
-  var color = obj.celebrations[0].color;
-  var colorCase = color.charAt(0).toUpperCase() + color.slice(1);
-
-  var $color = document.createElement('p');
-  $color.className = 'liturgical-color';
-  $color.textContent = 'Color: ' + colorCase;
-  $subtextDiv.appendChild($color);
-
-  return $divContainer;
-
+  var $newEntry = createDomTree(xhrMonth.response[id]);
+  $journalPage.children[0].replaceWith($newEntry);
 }
 
 function addPhoto(event) {
-  var src = $photoInput.value;
+  if (event.target.name !== 'photoURL') {
+    return;
+  }
+  var $photo = $journalPage.children[0].children[0].children[0].children[1];
+  var src = event.target.value;
   $photo.setAttribute('src', src);
 }
 
