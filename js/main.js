@@ -100,8 +100,14 @@ function createDomTree(obj) {
         $p3.textContent = data.entries[i].notes;
         $p3.className = 'notes';
         $divCol1.appendChild($p3);
-
         $img.setAttribute('src', data.entries[i].imageUrl);
+
+        var $edit = document.createElement('i');
+        $edit.className = 'fas fa-pen-square';
+        $edit.setAttribute('src', 'images/Submit.png');
+        $edit.setAttribute('type', 'image');
+        $edit.addEventListener('click', editEntry);
+        $divRow1.appendChild($edit);
 
         var $subtextDiv = document.createElement('div');
         $subtextDiv.className = 'column-quarter subtext subtext-entry';
@@ -322,4 +328,105 @@ function getMonth(date) {
     currentMonth = 'December';
   }
   return currentMonth;
+}
+
+function editEntry(event) {
+  for (var i = 0; i < data.entries.length; i++) {
+    if (data.entries[i].id === id) {
+      data.editing = Object.assign({}, data.entries[i]);
+    }
+  }
+
+  var $divContainer = document.createElement('div');
+  $divContainer.className = 'container background-color rel';
+
+  var $divRow = document.createElement('div');
+  $divRow.className = 'row center';
+  $divContainer.appendChild($divRow);
+
+  var $divCol = document.createElement('div');
+  $divCol.className = 'column-full column-three-four center';
+  $divRow.appendChild($divCol);
+
+  var $p = document.createElement('p');
+  $p.className = 'week';
+  $p.textContent = xhrMonth.response[id].celebrations[0].title;
+  $divCol.appendChild($p);
+
+  var $img = document.createElement('img');
+  $img.setAttribute('src', data.editing.imageUrl);
+  $img.setAttribute('id', 'photo');
+  $img.setAttribute('alt', 'Jesus The Good Shepherd');
+  $img.setAttribute('onerror', "this.src = 'images/GoodShepherd.jpg'");
+  $divCol.appendChild($img);
+
+  var $p1 = document.createElement('p');
+  $p1.className = 'date';
+  $p1.textContent = currentMonth + ' ' + xhrMonth.response[id].date[8] + xhrMonth.response[id].date[9] + ', 2022';
+  $divCol.appendChild($p1);
+
+  var $divForm = document.createElement('div');
+  $divForm.className = 'row center rel';
+  $divForm.setAttribute('data-view', 'entry-form');
+  $divContainer.appendChild($divForm);
+
+  var $form = document.createElement('form');
+  $form.setAttribute('action', '');
+  $divForm.appendChild($form);
+
+  var $divForm1 = document.createElement('div');
+  $divForm1.className = 'column-full';
+  $form.appendChild($divForm1);
+
+  var $textArea = document.createElement('textarea');
+  $textArea.setAttribute('name', 'entry');
+  $textArea.setAttribute('id', 'entry');
+  $textArea.setAttribute('class', 'text-area');
+  $textArea.setAttribute('placeholder', 'Notes..');
+  $textArea.setAttribute('autocomplete', 'off');
+  $textArea.value = data.editing.notes;
+  $divForm1.appendChild($textArea);
+
+  var $divForm2 = document.createElement('div');
+  $divForm2.className = 'column-full rel';
+  $form.appendChild($divForm2);
+
+  var $input = document.createElement('input');
+  $input.value = data.editing.imageUrl;
+  $input.setAttribute('type', 'text');
+  $input.setAttribute('class', 'photo-input');
+  $input.setAttribute('name', 'photoURL');
+  $input.setAttribute('placeholder', 'Upload Photo URL');
+  $input.setAttribute('autocomplete', 'off');
+  $divForm2.appendChild($input);
+
+  var $submit = document.createElement('input');
+  $submit.className = 'submit';
+  $submit.setAttribute('src', 'images/Submit.png');
+  $submit.setAttribute('type', 'image');
+  $divForm2.appendChild($submit);
+
+  var $subtextDiv = document.createElement('div');
+  $subtextDiv.className = 'column-quarter subtext subtext-form';
+  $subtextDiv.setAttribute('id', 'details');
+  $divContainer.appendChild($subtextDiv);
+
+  var $year = document.createElement('p');
+  $year.className = 'year';
+  $year.textContent = 'Year: A';
+  $subtextDiv.appendChild($year);
+  var $lectionaryYear = document.createElement('p');
+  $lectionaryYear.className = 'lectionary-year';
+  $lectionaryYear.textContent = 'Weekdays: II';
+  $subtextDiv.appendChild($lectionaryYear);
+
+  color = xhrMonth.response[id].celebrations[0].colour;
+  var colorCase = color.charAt(0).toUpperCase() + color.slice(1);
+
+  var $color = document.createElement('p');
+  $color.className = 'liturgical-color';
+  $color.textContent = 'Color: ' + colorCase;
+  $subtextDiv.appendChild($color);
+
+  $journalPage.children[0].replaceWith($divContainer);
 }
