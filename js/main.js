@@ -1,5 +1,6 @@
 var $titleDay = document.querySelector('.title-day');
 var $journalPage = document.querySelector('#journalPage');
+var $formContainer = document.querySelector('#form-container');
 var $week = document.querySelector('p.week');
 var $photo = document.querySelector('#photo');
 var $date = document.querySelector('p.date');
@@ -18,49 +19,166 @@ var $calDate = document.querySelector('.calendar-date');
 var $leftArrow = document.querySelector('.fa-arrow-left');
 $leftArrow.addEventListener('click', viewSwap);
 
+// $photoInput.addEventListener('input', addPhoto);
+// $form.addEventListener('submit', addEntry);
+$calendar.addEventListener('click', showDate);
+
+var id = '';
 var title = '';
 
 function viewSwap(event) {
-  $journalPage.className = 'hidden';
-  $calendarPage.className = 'container background-color rel margin-top padding-bottom';
-  $leftArrow.className = 'hidden';
+  if ($journalPage.className !== 'hidden') {
+    $journalPage.className = 'hidden';
+    $calendarPage.className = 'container background-color rel margin-top padding-bottom';
+    $leftArrow.className = 'hidden';
+  } else {
+    $journalPage.className = 'container background-color rel';
+    $calendarPage.className = 'container background-color rel margin-top padding-bottom hidden';
+    $leftArrow.className = 'fas fa-arrow-left';
+  }
 }
-
-$calendar.addEventListener('click', showDate);
-var id = '';
 
 function showDate(event) {
   id = event.target.closest('p').id;
   if (id === '') {
     return;
   }
-  var date = xhrMonth.response[id];
-  var page = renderDate(date);
-  $journalPage.className = 'container background-color rel';
-  $calendarPage.className = 'hidden';
-  $leftArrow.className = 'fas fa-arrow-left';
+  var obj = xhrMonth.response[id];
+  var page = renderDate(obj);
   return page;
 }
 
-$photoInput.addEventListener('input', addPhoto);
-$form.addEventListener('submit', addEntry);
+function renderDate(obj) {
+  if (data.entries !== 0) {
+    for (var i = 0; i < data.entries.length; i++) {
+      if (obj.celebrations[0].title === data.entries[i].title) {
+        var page = renderEntry(data.entries[i]);
+        return page;
+      }
+    }
+  }
+  // var date = obj.date;
+  // var month = getMonth(date);
+  // var color = obj.celebrations[0].colour;
+  // var colorCase = color.charAt(0).toUpperCase() + color.slice(1);
+  // $week.textContent = obj.celebrations[0].title;
+  // $date.textContent = month + ' ' + obj.date[8] + obj.date[9] + ', 2022';
+  // $color.textContent = 'Color: ' + colorCase;
+  // title = obj.celebrations[0].title;
+  if ($journalPage.children.length > 0) {
+    for (i = 0; i < $journalPage.children.length; i++) {
+      $journalPage.removeChild($journalPage.children[i]);
+    }
+  }
+  var form = createDomTree(obj);
+  $journalPage.appendChild(form);
+  $journalPage.className = 'container background-color rel';
+  $calendarPage.className = 'hidden';
+  $leftArrow.className = 'fas fa-arrow-left';
+  return form;
+}
+
+function createDomTree(obj) {
+  // debugger;
+  var month = getMonth(obj.date);
+
+  var $divContainer = document.createElement('div');
+  $divContainer.className = 'container background-color rel';
+
+  var $divRow = document.createElement('div');
+  $divRow.className = 'row center';
+  $divContainer.appendChild($divRow);
+
+  var $divCol = document.createElement('div');
+  $divCol.className = 'column-full column-three-four center';
+  $divRow.appendChild($divCol);
+
+  var $p = document.createElement('p');
+  $p.className = 'week';
+  $p.textContent = obj.celebrations[0].title;
+  $divCol.appendChild($p);
+
+  var $img = document.createElement('img');
+  $img.setAttribute('src', 'images/GoodShepherd.jpg');
+  $img.setAttribute('id', 'photo');
+  $img.setAttribute('alt', 'Jesus The Good Shepherd');
+  $img.setAttribute('onerror', "this.src = 'images/GoodShepherd.jpg'");
+  $divCol.appendChild($img);
+
+  var $p1 = document.createElement('p');
+  $p1.className = 'date';
+  $p1.textContent = month + ' ' + obj.date[8] + obj.date[9] + ', 2022';
+  $divCol.appendChild($p1);
+
+  var $divForm = document.createElement('div');
+  $divForm.className = 'row center rel';
+  $divForm.setAttribute('data-view', 'entry-form');
+  $divContainer.appendChild($divForm);
+
+  var $form = document.createElement('form');
+  $form.setAttribute('action', '');
+  $divForm.appendChild($form);
+
+  var $divForm1 = document.createElement('div');
+  $divForm1.className = 'column-full';
+  $form.appendChild($divForm1);
+
+  var $textArea = document.createElement('textarea');
+  $textArea.setAttribute('name', 'entry');
+  $textArea.setAttribute('id', 'entry');
+  $textArea.setAttribute('class', 'text-area');
+  $textArea.setAttribute('placeholder', 'Notes..');
+  $textArea.setAttribute('autocomplete', 'off');
+  $divForm1.appendChild($textArea);
+
+  var $divForm2 = document.createElement('div');
+  $divForm2.className = 'column-full rel';
+  $form.appendChild($divForm2);
+
+  var $input = document.createElement('input');
+  $input.setAttribute('type', 'text');
+  $input.setAttribute('class', 'photo-input');
+  $input.setAttribute('name', 'photoURL');
+  $input.setAttribute('placeholder', 'Upload Photo URL');
+  $input.setAttribute('autocomplete', 'off');
+  $divForm2.appendChild($input);
+  var $button = document.createElement('button');
+  $button.textContent = 't';
+  $button.className = 'submit';
+  $divForm2.appendChild($button);
+
+  var $subtextDiv = document.createElement('div');
+  $subtextDiv.className = 'column-quarter subtext subtext-form';
+  $subtextDiv.setAttribute('id', 'details');
+  $divContainer.appendChild($subtextDiv);
+
+  var $year = document.createElement('p');
+  $year.className = 'year';
+  $year.textContent = 'Year: A';
+  $subtextDiv.appendChild($year);
+  var $lectionaryYear = document.createElement('p');
+  $lectionaryYear.className = 'lectionary-year';
+  $lectionaryYear.textContent = 'Weekdays: II';
+  $subtextDiv.appendChild($lectionaryYear);
+
+  var color = obj.celebrations[0].colour;
+  var colorCase = color.charAt(0).toUpperCase() + color.slice(1);
+
+  var $color = document.createElement('p');
+  $color.className = 'liturgical-color';
+  $color.textContent = 'Color: ' + colorCase;
+  $subtextDiv.appendChild($color);
+
+  return $divContainer;
+}
 
 var xhrMonth = new XMLHttpRequest();
 xhrMonth.open('GET', 'http://calapi.inadiutorium.cz/api/v0/en/calendars/default/2022/4');
 xhrMonth.responseType = 'json';
 
-var xhrYear = new XMLHttpRequest();
-xhrYear.open('GET', 'http://calapi.inadiutorium.cz/api/v0/en/calendars/default/2022');
-xhrYear.responseType = 'json';
-
 xhrMonth.addEventListener('load', renderMonth);
-xhrYear.addEventListener('load', function () {
-  $year.textContent = 'Year ' + xhrYear.response.lectionary;
-  $seasonWeek.textContent = 'Lectionary Week: ' + xhrYear.response.ferial_lectionary;
-});
 
 xhrMonth.send();
-xhrYear.send();
 
 function renderMonth() {
   var month = xhrMonth.response;
@@ -137,29 +255,6 @@ function renderMonth() {
   }
 }
 
-function renderDate(obj) {
-  var date = obj.date;
-  var month = getMonth(date);
-  var color = obj.celebrations[0].colour;
-  var colorCase = color.charAt(0).toUpperCase() + color.slice(1);
-  $week.textContent = obj.celebrations[0].title;
-  $date.textContent = month + ' ' + obj.date[8] + obj.date[9] + ', 2022';
-  $color.textContent = 'Color: ' + colorCase;
-  title = obj.celebrations[0].title;
-  if (data.entries !== 0) {
-    for (var i = 0; i < data.entries.length; i++) {
-      if (obj.celebrations[0].title === data.entries[i].title) {
-        renderJournalPage(obj);
-      }
-    }
-  }
-}
-
-function addPhoto(event) {
-  var src = $photoInput.value;
-  $photo.setAttribute('src', src);
-}
-
 function addEntry(event) {
   event.preventDefault();
   var inputObj = {
@@ -174,29 +269,20 @@ function addEntry(event) {
   $journalEntry.children[0].appendChild($newEntry);
 }
 
-function renderEntry() {
+function renderEntry(obj) {
   $form.className = 'hidden';
   $journalEntry.className = 'row center';
   var $p = document.createElement('p');
-  $p.textContent = data.entries[0].notes;
+  $p.textContent = obj.notes;
   $p.className = 'notes';
-  $photo.setAttribute('src', data.entries[0].imageUrl);
+  $photo.setAttribute('src', obj.imageUrl);
   $subtext.className = 'column-quarter subtext subtext-entry';
-  return $p;
+
 }
 
-function renderJournalPage(event) {
-  for (var i = 0; i < data.entries.length; i++) {
-    if (title === data.entries[i].title) {
-      $journalEntry.className = 'row center';
-      $form.className = 'hidden';
-      var $p = renderEntry();
-      $journalEntry.children[0].appendChild($p);
-      $photo.setAttribute('src', data.entries[i].imageUrl);
-      $subtext.className = 'column-quarter subtext subtext-entry';
-      break;
-    }
-  }
+function addPhoto(event) {
+  var src = $photoInput.value;
+  $photo.setAttribute('src', src);
 }
 
 function getMonth(date) {
