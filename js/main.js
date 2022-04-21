@@ -231,6 +231,13 @@ function editEntry(event) {
   $input.setAttribute('autocomplete', 'off');
   $divForm2.appendChild($input);
 
+  var $delete = document.createElement('button');
+  $delete.textContent = 'Delete';
+  $delete.className = 'delete';
+  $delete.setAttribute('type', 'button');
+  $delete.addEventListener('click', removeItem);
+  $divForm2.appendChild($delete);
+
   var $submit = document.createElement('input');
   $submit.className = 'submit';
   $submit.setAttribute('src', 'images/Submit.png');
@@ -446,4 +453,8 @@ function getMonth(date) {
     currentMonth = 'December';
   }
   return currentMonth;
+}
+
+function removeItem(event) {
+  console.log('delete!!!');
 }

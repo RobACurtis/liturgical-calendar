@@ -123,6 +123,26 @@ p.date {
   left: 25px;
 }
 
+.delete {
+  border: 1px solid #dc3545;
+  background-color: #fbfbfb;
+  color: #dc3545;
+  font-family: roboto, sans-serif;
+  width: 50px;
+  height: 30px;
+  border-radius: 4px;
+  padding-left: 5px;
+  position: absolute;
+  top: 56px;
+  right: 50px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.delete:hover {
+  transform: scale(1.05);
+}
+
 .submit {
   width: 40px;
   height: 40px;
@@ -356,7 +376,13 @@ p.cal:hover {
   }
 
   .submit {
-    top: 5px;
+    top: 2px;
+    right: -40px;
+  }
+
+  .delete {
+    top: 6px;
+    right: 5px;
   }
 
   .photo-input {
@@ -396,6 +422,16 @@ p.cal:hover {
 
   .fa-arrow-left {
     left: 180px;
+  }
+
+  .submit {
+    top: 2px;
+    right: 0;
+  }
+
+  .delete {
+    top: 8px;
+    right: 50px;
   }
 
   .subtext-form {
