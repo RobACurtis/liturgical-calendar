@@ -28,18 +28,22 @@ function viewSwap(event) {
 
 $calendar.addEventListener('click', showDate);
 var id = '';
+
 function showDate(event) {
-  console.log(event.target.closest('p'));
-  id = event.target.closest('p');
-  console.log(id);
+  id = event.target.closest('p').id;
+  if (id === '') {
+    return;
+  }
+  var date = xhrMonth.response[id];
+  var page = renderDate(date);
+  $journalPage.className = 'container background-color rel';
+  $calendarPage.className = 'hidden';
+  $leftArrow.className = 'fas fa-arrow-left';
+  return page;
 }
 
 $photoInput.addEventListener('input', addPhoto);
 $form.addEventListener('submit', addEntry);
-
-var xhr = new XMLHttpRequest();
-xhr.open('GET', 'http://calapi.inadiutorium.cz/api/v0/en/calendars/default/today');
-xhr.responseType = 'json';
 
 var xhrMonth = new XMLHttpRequest();
 xhrMonth.open('GET', 'http://calapi.inadiutorium.cz/api/v0/en/calendars/default/2022/4');
@@ -50,7 +54,6 @@ xhrYear.open('GET', 'http://calapi.inadiutorium.cz/api/v0/en/calendars/default/2
 xhrYear.responseType = 'json';
 
 xhrMonth.addEventListener('load', renderMonth);
-xhr.addEventListener('load', renderDate);
 xhrYear.addEventListener('load', function () {
   $year.textContent = 'Year ' + xhrYear.response.lectionary;
   $seasonWeek.textContent = 'Lectionary Week: ' + xhrYear.response.ferial_lectionary;
@@ -58,7 +61,6 @@ xhrYear.addEventListener('load', function () {
 
 xhrMonth.send();
 xhrYear.send();
-xhr.send();
 
 function renderMonth() {
   var month = xhrMonth.response;
@@ -93,12 +95,7 @@ function renderMonth() {
   $titleDay.textContent = currentMonth;
   for (i = 0; i < month.length; i++) {
     $p = document.createElement('p');
-    var num = i + 1;
-    if (num < 10) {
-      $p.setAttribute('id', '0' + num);
-    } else {
-      $p.setAttribute('id', num);
-    }
+    $p.setAttribute('id', i);
     $p.className = 'cal rel';
     $p.textContent = month[i].date[8] + month[i].date[9];
     $calendar.appendChild($p);
@@ -140,16 +137,22 @@ function renderMonth() {
   }
 }
 
-function renderDate() {
-  var date = xhr.response.date;
+function renderDate(obj) {
+  var date = obj.date;
   var month = getMonth(date);
-  var color = xhr.response.celebrations[0].colour;
+  var color = obj.celebrations[0].colour;
   var colorCase = color.charAt(0).toUpperCase() + color.slice(1);
-  $week.textContent = xhr.response.celebrations[0].title;
-  $date.textContent = month + ' ' + xhr.response.date[8] + xhr.response.date[9] + ', 2022';
+  $week.textContent = obj.celebrations[0].title;
+  $date.textContent = month + ' ' + obj.date[8] + obj.date[9] + ', 2022';
   $color.textContent = 'Color: ' + colorCase;
-  title = xhr.response.celebrations[0].title;
-  renderJournalPage();
+  title = obj.celebrations[0].title;
+  if (data.entries !== 0) {
+    for (var i = 0; i < data.entries.length; i++) {
+      if (obj.celebrations[0].title === data.entries[i].title) {
+        renderJournalPage(obj);
+      }
+    }
+  }
 }
 
 function addPhoto(event) {
