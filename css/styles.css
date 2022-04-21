@@ -1,5 +1,6 @@
 body {
   padding-bottom: 40px;
+  background-color: #fbfbfb;
 }
 
 nav {
@@ -11,11 +12,37 @@ nav {
 nav > p {
   margin: 0;
   font-family: Cormorant, serif;
-  font-size: 20px;
+  font-size: 26px;
 }
 
-.flex {
-  display: flex;
+.fa-arrow-left {
+  color: white;
+  font-size: 25px;
+  position: absolute;
+  top: 15px;
+  left: 30px;
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+.fa-arrow-left:hover {
+  transform: scale(1.1);
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.flex-end {
+  justify-content: center;
+}
+
+.padding-bottom {
+  padding-bottom: 70px;
+}
+
+.justify-center {
+  justify-content: center;
 }
 
 .center {
@@ -27,6 +54,16 @@ nav > p {
 .rel {
   position: relative;
 }
+
+.hidden {
+  display: none;
+}
+
+.margin-top {
+  margin-top: 20px;
+}
+
+/* form styling */
 
 p.notes {
   font-family: cormorant, serif;
@@ -69,16 +106,13 @@ p.date {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: none;
   background-color: #b0b0b0;
   box-shadow: 2px 2px 4px #b0b0b0;
-  transition: 0.1s;
+  transition: 0.5s;
   position: absolute;
   right: 0;
   top: 50px;
-  font-size: 20px;
-  color: white;
-  text-align: center;
+  cursor: pointer;
 }
 
 .submit:hover {
@@ -115,11 +149,143 @@ p.date {
   text-align: center;
 }
 
-.hidden {
+/* calendar styling */
+
+#weekday.row {
   display: none;
 }
 
+p.calendar-date {
+  font-family: "Cormorant Unicase", serif;
+  color: #343a40;
+  font-size: 23px;
+  margin-bottom: 13px;
+}
+
+p.day {
+  font-family: Cormorant, serif;
+  color: #343a40;
+  font-size: 15px;
+  text-align: center;
+  width: 40px;
+  margin: 1px 3px;
+}
+
+.day-underline {
+  border-bottom: 1px solid black;
+  margin-bottom: 20px;
+}
+
+.hidden-cal {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  flex-direction: column-reverse;
+  text-align: left;
+  margin: 3px;
+  background-color: #fbfbfb;
+}
+
+p.cal {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #dbdbdb;
+  padding: 0 3px;
+  display: flex;
+  flex-direction: column-reverse;
+  text-align: left;
+  margin: 3px;
+  font-family: "Cormorant Unicase", serif;
+  font-size: 12px;
+  color: black;
+  background-color: white;
+  cursor: pointer;
+}
+
+p.cal > span {
+  display: none;
+}
+
+p.cal:hover {
+  border: 1px solid #6c6c6c;
+  transform: scale(1.1);
+}
+
+.list-title {
+  font-family: cormorant, serif;
+  color: black;
+  font-size: 24px;
+  border-bottom: 1px solid black;
+}
+
+.feast-days {
+  list-style: none;
+  font-family: cormorant, serif;
+  color: black;
+  line-height: 24px;
+  font-size: 12px;
+  padding-left: 0;
+}
+
 @media only screen and (min-width: 600px) {
+  body {
+    background-color: white;
+  }
+
+  #list {
+    display: none;
+  }
+
+  #day {
+    display: none;
+  }
+
+  #weekday.row {
+    display: flex;
+  }
+
+  #calendar {
+    margin: 0 60px;
+  }
+
+  p.day {
+    font-size: 15px;
+    text-align: center;
+    width: 70px;
+    margin: 1px 3px;
+  }
+
+  .day-underline {
+    border-bottom: 1px solid black;
+    margin: 0 80px 20px;
+  }
+
+  p.cal {
+    width: 70px;
+    height: 70px;
+    font-size: 13px;
+    margin: 3px;
+  }
+
+  .hidden-cal {
+    width: 70px;
+    height: 70px;
+  }
+
+  p.cal > span {
+    display: flex;
+    font-size: 10px;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 50px;
+    text-align: center;
+    color: #343a40;
+  }
+
+  .fa-arrow-left {
+    left: 100px;
+  }
+
   p.notes {
     margin-bottom: 100px;
   }
@@ -172,6 +338,33 @@ p.date {
 }
 
 @media only screen and (min-width: 900px) {
+  #calendar {
+    margin: 0 120px;
+  }
+
+  p.day {
+    width: 80px;
+  }
+
+  p.cal {
+    width: 80px;
+    height: 80px;
+  }
+
+  .hidden-cal {
+    width: 80px;
+    height: 80px;
+  }
+
+  p.cal > span {
+    height: 60px;
+    font-size: 10px;
+  }
+
+  .fa-arrow-left {
+    left: 180px;
+  }
+
   .subtext-form {
     font-size: 15px;
     top: -80px;

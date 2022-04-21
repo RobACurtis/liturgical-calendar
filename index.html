@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AJAX Project</title>
+  <link rel="stylesheet" crossorigin="anonymous"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+    integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -18,40 +21,46 @@
   <header>
     <div class="row">
       <div class="column-full">
-        <nav class="flex center">
-          <p class="day"></p>
+        <i class="fas fa-arrow-left hidden"></i>
+        <nav class="row center">
+          <p class="month-title"></p>
         </nav>
       </div>
     </div>
   </header>
   <main>
-    <div class="container background-color rel">
-      <div class="row center">
-        <div class="column-full column-three-four center">
-          <p class="week"></p>
-          <img class="" src="images/GoodShepherd.jpg" alt="Jesus the Good Shepherd" onerror="this.src='images/GoodShepherd.jpg'">
-          <p class="date"></p>
+    <div id="journalPage" class=""></div>
+    <div id="calendar-page" class="container background-color rel margin-top padding-bottom">
+      <div class="row">
+        <div class="column-full center">
+          <p class="calendar-date"></p>
         </div>
       </div>
-      <div id="journal" class="row center hidden">
-        <div class="column-full column-three-four center">
+      <div id="day" class="row day-underline justify-center">
+        <p class="day">Sun</p>
+        <p class="day">Mon</p>
+        <p class="day">Tues</p>
+        <p class="day">Wed</p>
+        <p class="day">Thurs</p>
+        <p class="day">Fri</p>
+        <p class="day">Sat</p>
+      </div>
+      <div id="weekday" class="row day-underline justify-center">
+        <p class="day">Sunday</p>
+        <p class="day">Monday</p>
+        <p class="day">Tuesday</p>
+        <p class="day">Wednesday</p>
+        <p class="day">Thursday</p>
+        <p class="day">Friday</p>
+        <p class="day">Saturday</p>
+      </div>
+
+      <div id="calendar" class="row flex-wrap center"></div>
+      <div id="list" class="row center">
+        <div class="column-three-quarter">
+          <p class="list-title">Feast Days</p>
+          <ul class="feast-days"></ul>
         </div>
-      </div>
-      <div class="row center rel" data-view="entry-form">
-        <form action="" class="">
-          <div class="column-full">
-            <textarea name="entry" id="entry" class="text-area" placeholder="Notes..." autocomplete="off"></textarea>
-          </div>
-          <div class="column-full rel">
-            <input type="text" class="photo-input" name="photoURL" placeholder="Upload Photo URL" autocomplete="off">
-            <button class="submit">&#43;</button>
-          </div>
-        </form>
-      </div>
-      <div id="details" class="column-quarter subtext subtext-form">
-        <p class="year"></p>
-        <p class="lectionary-year"></p>
-        <p class="liturgical-color"></p>
       </div>
     </div>
 
