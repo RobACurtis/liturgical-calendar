@@ -3,18 +3,15 @@ var $journalPage = document.querySelector('#journalPage');
 var $calendarPage = document.querySelector('#calendar-page');
 var $modal = document.querySelector('#modal');
 $modal.addEventListener('click', removeItem);
-var $calMonth = document.querySelector('#calendar-month');
-var $calendar = document.querySelector('#calendar');
-var $feastDayList = document.querySelector('ul.feast-days');
-// var $calDate = document.querySelector('.calendar-date');
-var $leftArrow = document.querySelector('.fa-arrow-left');
-
-$leftArrow.addEventListener('click', viewSwap);
 
 $journalPage.addEventListener('input', addPhoto);
 $journalPage.addEventListener('submit', addEntry);
 
+var $calendar = document.querySelector('#calendar');
 $calendar.addEventListener('click', showDate);
+
+var $pageToCalendar = document.querySelector('.fa-arrow-left');
+$pageToCalendar.addEventListener('click', showCalendar);
 
 var id = '';
 var date = '';
@@ -27,10 +24,10 @@ xhrMonth.responseType = 'json';
 xhrMonth.addEventListener('load', renderMonth);
 xhrMonth.send();
 
-function viewSwap(event) {
-  $journalPage.className = 'hidden';
+function showCalendar(event) {
+  $journalPage.innerHTML = '';
   $calendarPage.className = 'container background-color rel margin-top padding-bottom';
-  $leftArrow.className = 'hidden';
+  $pageToCalendar.className = 'hidden';
   data.editing = null;
 }
 
@@ -43,17 +40,11 @@ function addPhoto(event) {
   $photo.setAttribute('src', src);
 }
 
-function renderDate(obj) {
-  if ($journalPage.children.length > 0) {
-    for (var i = 0; i < $journalPage.children.length; i++) {
-      $journalPage.removeChild($journalPage.children[i]);
-    }
-  }
+function renderJournalPageDOM(obj) {
   var journalPage = createDomTree(obj);
   $journalPage.appendChild(journalPage);
-  $journalPage.className = 'container background-color rel';
   $calendarPage.className = 'hidden';
-  $leftArrow.className = 'fas fa-arrow-left';
+  $pageToCalendar.className = 'fas fa-arrow-left';
   return journalPage;
 }
 
@@ -63,6 +54,7 @@ function renderMonth() {
   currentMonth = getMonth(date);
   $monthTitle.textContent = currentMonth;
 
+  var $calMonth = document.querySelector('#calendar-month');
   var $divCol1 = document.createElement('div');
   $divCol1.className = 'column-full center';
   $calMonth.appendChild($divCol1);
@@ -110,6 +102,7 @@ function renderMonth() {
     }
   }
 
+  var $feastDayList = document.querySelector('ul.feast-days');
   for (i = 0; i < monthArr.length; i++) {
     $p = document.createElement('p');
     $p.setAttribute('id', i);
@@ -222,11 +215,9 @@ function editEntry(event) {
 
   var $divForm = document.createElement('div');
   $divForm.className = 'row center rel';
-  $divForm.setAttribute('data-view', 'entry-form');
   $divContainer.appendChild($divForm);
 
   var $form = document.createElement('form');
-  $form.setAttribute('action', '');
   $divForm.appendChild($form);
 
   var $divForm1 = document.createElement('div');
@@ -263,11 +254,15 @@ function editEntry(event) {
   $delete.addEventListener('click', displayModal);
   $divForm2.appendChild($delete);
 
-  var $submit = document.createElement('input');
-  $submit.className = 'submit';
+  var $button = document.createElement('button');
+  $button.className = 'submit-button';
+  $divForm2.appendChild($button);
+
+  var $submit = document.createElement('img');
+  $submit.className = 'submit-img';
   $submit.setAttribute('src', 'images/submit.png');
   $submit.setAttribute('type', 'image');
-  $divForm2.appendChild($submit);
+  $button.appendChild($submit);
 
   var $subtextDiv = document.createElement('div');
   $subtextDiv.className = 'column-quarter subtext subtext-form';
@@ -278,6 +273,7 @@ function editEntry(event) {
   $year.className = 'year';
   $year.textContent = 'Year: A';
   $subtextDiv.appendChild($year);
+
   var $lectionaryYear = document.createElement('p');
   $lectionaryYear.className = 'lectionary-year';
   $lectionaryYear.textContent = 'Weekdays: II';
@@ -348,7 +344,6 @@ function createDomTree(obj) {
 
         var $edit = document.createElement('i');
         $edit.className = 'fas fa-pen-square';
-        $edit.setAttribute('src', 'images/submit.png');
         $edit.setAttribute('type', 'image');
         $edit.addEventListener('click', editEntry);
         $subtextDiv.appendChild($edit);
@@ -377,11 +372,9 @@ function createDomTree(obj) {
   }
   var $divForm = document.createElement('div');
   $divForm.className = 'row center rel';
-  $divForm.setAttribute('data-view', 'entry-form');
   $divContainer.appendChild($divForm);
 
   var $form = document.createElement('form');
-  $form.setAttribute('action', '');
   $divForm.appendChild($form);
 
   var $divForm1 = document.createElement('div');
@@ -408,11 +401,15 @@ function createDomTree(obj) {
   $input.setAttribute('autocomplete', 'off');
   $divForm2.appendChild($input);
 
-  var $submit = document.createElement('input');
-  $submit.className = 'submit';
+  var $button = document.createElement('button');
+  $button.className = 'submit-button';
+  $divForm2.appendChild($button);
+
+  var $submit = document.createElement('img');
+  $submit.className = 'submit-img';
   $submit.setAttribute('src', 'images/submit.png');
   $submit.setAttribute('type', 'image');
-  $divForm2.appendChild($submit);
+  $button.appendChild($submit);
 
   $subtextDiv = document.createElement('div');
   $subtextDiv.className = 'column-quarter subtext subtext-form';
@@ -445,7 +442,7 @@ function showDate(event) {
     return;
   }
   var obj = xhrMonth.response[id];
-  var page = renderDate(obj);
+  var page = renderJournalPageDOM(obj);
   return page;
 }
 
