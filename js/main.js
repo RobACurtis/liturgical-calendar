@@ -27,13 +27,10 @@ xhrMonth.addEventListener('load', renderMonth);
 xhrMonth.send();
 
 function viewSwap(event) {
-  if (event.target.id === 'deleteEntry') {
-    $modal.className = '';
-    return;
-  }
   $journalPage.className = 'hidden';
   $calendarPage.className = 'container background-color rel margin-top padding-bottom';
   $leftArrow.className = 'hidden';
+  data.editing = null;
 }
 
 function addPhoto(event) {
@@ -241,7 +238,7 @@ function editEntry(event) {
   $delete.className = 'delete';
   $delete.setAttribute('type', 'button');
   $delete.setAttribute('id', 'deleteEntry');
-  $delete.addEventListener('click', viewSwap);
+  $delete.addEventListener('click', displayModal);
   $divForm2.appendChild($delete);
 
   var $submit = document.createElement('input');
@@ -322,17 +319,17 @@ function createDomTree(obj) {
         $divCol1.appendChild($p3);
         $img.setAttribute('src', data.entries[i].imageUrl);
 
+        var $subtextDiv = document.createElement('div');
+        $subtextDiv.className = 'column-quarter subtext subtext-entry';
+        $subtextDiv.setAttribute('id', 'details');
+        $divContainer.appendChild($subtextDiv);
+
         var $edit = document.createElement('i');
         $edit.className = 'fas fa-pen-square';
         $edit.setAttribute('src', 'images/Submit.png');
         $edit.setAttribute('type', 'image');
         $edit.addEventListener('click', editEntry);
-        $divRow1.appendChild($edit);
-
-        var $subtextDiv = document.createElement('div');
-        $subtextDiv.className = 'column-quarter subtext subtext-entry';
-        $subtextDiv.setAttribute('id', 'details');
-        $divContainer.appendChild($subtextDiv);
+        $subtextDiv.appendChild($edit);
 
         var $year = document.createElement('p');
         $year.className = 'year';
@@ -465,14 +462,55 @@ function removeItem(event) {
   if (event.target.id === 'cancel') {
     $modal.className = 'hidden';
     return;
-  }
-  for (var i = 0; i < data.entries.length; i++) {
-    if (data.entries[i].id === id) {
-      data.entries.splice(i, 1);
+  } if (event.target.id === 'delete') {
+    for (var i = 0; i < data.entries.length; i++) {
+      if (data.entries[i].id === id) {
+        data.entries.splice(i, 1);
+      }
+      var $newPage = createDomTree(xhrMonth.response[id]);
+      $journalPage.children[0].replaceWith($newPage);
+      $modal.className = 'hidden';
+      data.editing = null;
     }
-    var $newPage = createDomTree(xhrMonth.response[id]);
-    $journalPage.children[0].replaceWith($newPage);
-    $modal.className = 'hidden';
-    data.editing = null;
   }
+}
+
+function displayModal(event) {
+  $modal.className = '';
+  var $div1 = document.createElement('div');
+  $div1.className = 'background';
+  $modal.appendChild($div1);
+
+  var $div2 = document.createElement('div');
+  $div2.className = 'modal-container center';
+  $div1.appendChild($div2);
+
+  var $div3 = document.createElement('div');
+  $div3.className = 'row flex-wrap modal-width';
+  $div2.appendChild($div3);
+
+  var $div4 = document.createElement('div');
+  $div4.className = 'column-full';
+  $div3.appendChild($div4);
+
+  var $heading = document.createElement('h5');
+  $heading.textContent = 'Delete Entry?';
+  $heading.className = 'modal-title';
+  $div4.appendChild($heading);
+
+  var $div5 = document.createElement('div');
+  $div5.className = 'column-full buttons';
+  $div3.appendChild($div5);
+
+  var $cancelButton = document.createElement('button');
+  $cancelButton.className = 'cancel-modal';
+  $cancelButton.setAttribute('id', 'cancel');
+  $cancelButton.textContent = 'Cancel';
+  $div5.appendChild($cancelButton);
+  var $deleteButton = document.createElement('button');
+  $deleteButton.className = 'delete-modal';
+  $deleteButton.setAttribute('id', 'delete');
+  $deleteButton.textContent = 'Delete';
+  $div5.appendChild($deleteButton);
+
 }

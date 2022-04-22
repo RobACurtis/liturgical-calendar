@@ -104,8 +104,8 @@ nav > p {
   border-radius: 3px;
   font-size: 30px;
   cursor: pointer;
-  position: relative;
-  top: 70px;
+  position: absolute;
+  bottom: 30px;
   right: 40px;
   transition: 0.5s;
 }
@@ -361,9 +361,9 @@ p.cal:hover {
   }
 
   .fa-pen-square {
-    position: relative;
-    top: 30px;
-    right: 40px;
+    position: absolute;
+    bottom: 100px;
+    right: 150px;
   }
 
   p.day {
@@ -467,9 +467,9 @@ p.cal:hover {
   }
 
   .fa-pen-square {
-    position: relative;
-    top: 30px;
-    right: 40px;
+    position: absolute;
+    bottom: 80px;
+    right: 190px;
   }
 
   p.day {
