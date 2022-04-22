@@ -15,6 +15,73 @@ nav > p {
   font-size: 26px;
 }
 
+.background {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.596), rgba(0, 0, 0, 0.603));
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 1;
+}
+
+.modal-container {
+  height: 100px;
+  transition: 0.5s;
+  width: 300px;
+  display: flex;
+  background-color: white;
+  border-radius: 5px;
+  margin: auto;
+  margin-top: 200px;
+  padding: 5px 10px;
+}
+
+.modal-width {
+  width: 300px;
+}
+
+.delete-modal {
+  border: 1px solid #dc3545;
+  background-color: #fbfbfb;
+  color: #dc3545;
+  font-family: roboto, sans-serif;
+  width: 70px;
+  height: 30px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.cancel-modal {
+  background-color: #6c757d;
+  color: white;
+  font-family: roboto, sans-serif;
+  width: 70px;
+  height: 30px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.modal-title {
+  font-family: Roboto, sans-serif;
+  font-size: 12px;
+  font-weight: 300px;
+  color: #212529;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 70px;
+  font-size: 12px;
+}
+
+.cancel-modal:hover,
+.delete-modal:hover {
+  transform: scale(1.1);
+}
+
 .fa-arrow-left {
   color: white;
   font-size: 25px;
@@ -56,6 +123,10 @@ nav > p {
 
 .flex-end {
   justify-content: center;
+}
+
+.space-between {
+  justify-content: space-between;
 }
 
 .padding-bottom {

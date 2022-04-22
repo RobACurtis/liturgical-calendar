@@ -1,7 +1,8 @@
 var $monthTitle = document.querySelector('.month-title');
 var $journalPage = document.querySelector('#journalPage');
 var $calendarPage = document.querySelector('#calendar-page');
-
+var $modal = document.querySelector('#modal');
+$modal.addEventListener('click', removeItem);
 var $calendar = document.querySelector('#calendar');
 var $feastDayList = document.querySelector('ul.feast-days');
 var $calDate = document.querySelector('.calendar-date');
@@ -26,6 +27,10 @@ xhrMonth.addEventListener('load', renderMonth);
 xhrMonth.send();
 
 function viewSwap(event) {
+  if (event.target.id === 'deleteEntry') {
+    $modal.className = '';
+    return;
+  }
   $journalPage.className = 'hidden';
   $calendarPage.className = 'container background-color rel margin-top padding-bottom';
   $leftArrow.className = 'hidden';
@@ -235,7 +240,8 @@ function editEntry(event) {
   $delete.textContent = 'Delete';
   $delete.className = 'delete';
   $delete.setAttribute('type', 'button');
-  $delete.addEventListener('click', removeItem);
+  $delete.setAttribute('id', 'deleteEntry');
+  $delete.addEventListener('click', viewSwap);
   $divForm2.appendChild($delete);
 
   var $submit = document.createElement('input');
@@ -456,5 +462,17 @@ function getMonth(date) {
 }
 
 function removeItem(event) {
-  console.log('delete!!!');
+  if (event.target.id === 'cancel') {
+    $modal.className = 'hidden';
+    return;
+  }
+  for (var i = 0; i < data.entries.length; i++) {
+    if (data.entries[i].id === id) {
+      data.entries.splice(i, 1);
+    }
+    var $newPage = createDomTree(xhrMonth.response[id]);
+    $journalPage.children[0].replaceWith($newPage);
+    $modal.className = 'hidden';
+    data.editing = null;
+  }
 }
