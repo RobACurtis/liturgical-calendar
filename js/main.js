@@ -3,17 +3,15 @@ var $journalPage = document.querySelector('#journalPage');
 var $calendarPage = document.querySelector('#calendar-page');
 var $modal = document.querySelector('#modal');
 $modal.addEventListener('click', removeItem);
-var $calendar = document.querySelector('#calendar');
-var $feastDayList = document.querySelector('ul.feast-days');
-var $calDate = document.querySelector('.calendar-date');
-var $leftArrow = document.querySelector('.fa-arrow-left');
-
-$leftArrow.addEventListener('click', viewSwap);
 
 $journalPage.addEventListener('input', addPhoto);
 $journalPage.addEventListener('submit', addEntry);
 
+var $calendar = document.querySelector('#calendar');
 $calendar.addEventListener('click', showDate);
+
+var $pageToCalendar = document.querySelector('.fa-arrow-left');
+$pageToCalendar.addEventListener('click', showCalendar);
 
 var id = '';
 var date = '';
@@ -26,10 +24,10 @@ xhrMonth.responseType = 'json';
 xhrMonth.addEventListener('load', renderMonth);
 xhrMonth.send();
 
-function viewSwap(event) {
-  $journalPage.className = 'hidden';
+function showCalendar(event) {
+  $journalPage.innerHTML = '';
   $calendarPage.className = 'container background-color rel margin-top padding-bottom';
-  $leftArrow.className = 'hidden';
+  $pageToCalendar.className = 'hidden';
   data.editing = null;
 }
 
@@ -42,86 +40,103 @@ function addPhoto(event) {
   $photo.setAttribute('src', src);
 }
 
-function renderDate(obj) {
-  if ($journalPage.children.length > 0) {
-    for (var i = 0; i < $journalPage.children.length; i++) {
-      $journalPage.removeChild($journalPage.children[i]);
-    }
-  }
+function renderJournalPageDOM(obj) {
   var journalPage = createDomTree(obj);
   $journalPage.appendChild(journalPage);
-  $journalPage.className = 'container background-color rel';
   $calendarPage.className = 'hidden';
-  $leftArrow.className = 'fas fa-arrow-left';
+  $pageToCalendar.className = 'fas fa-arrow-left';
   return journalPage;
 }
 
 function renderMonth() {
-  var month = xhrMonth.response;
-  var emptyDays = 0;
+  var monthArr = xhrMonth.response;
   date = xhrMonth.response[0].date;
   currentMonth = getMonth(date);
+  $monthTitle.textContent = currentMonth;
 
-  if (month[0].weekday !== 'sunday') {
-    if (month[0].weekday === 'monday') {
+  var $calMonth = document.querySelector('#calendar-month');
+  var $divCol1 = document.createElement('div');
+  $divCol1.className = 'column-full center';
+  $calMonth.appendChild($divCol1);
+  var $pCalDate = document.createElement('p');
+  $pCalDate.className = 'calendar-date';
+  $pCalDate.textContent = currentMonth + ' 2022';
+  $divCol1.appendChild($pCalDate);
+
+  var days = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  var $divDay = document.querySelector('#day');
+  var $divWeekday = document.querySelector('#weekday');
+  for (var i = 0; i < days.length; i++) {
+    var $p = document.createElement('p');
+    $p.className = 'day';
+    $p.textContent = days[i];
+    if (i < 7) {
+      $divDay.appendChild($p);
+    } else {
+      $divWeekday.appendChild($p);
+    }
+  }
+  var emptyDays = 0;
+  if (monthArr[0].weekday !== 'sunday') {
+    if (monthArr[0].weekday === 'monday') {
       emptyDays = 1;
-    } if (month[0].weekday === 'tuesday') {
+    } if (monthArr[0].weekday === 'tuesday') {
       emptyDays = 2;
     }
-    if (month[0].weekday === 'wednesday') {
+    if (monthArr[0].weekday === 'wednesday') {
       emptyDays = 3;
     }
-    if (month[0].weekday === 'thursday') {
+    if (monthArr[0].weekday === 'thursday') {
       emptyDays = 4;
     }
-    if (month[0].weekday === 'friday') {
+    if (monthArr[0].weekday === 'friday') {
       emptyDays = 5;
     }
-    if (month[0].weekday === 'saturday') {
+    if (monthArr[0].weekday === 'saturday') {
       emptyDays = 6;
     }
-    for (var i = 0; i < emptyDays; i++) {
-      var $p = document.createElement('p');
+    for (i = 0; i < emptyDays; i++) {
+      $p = document.createElement('p');
       $p.className = 'hidden-cal';
       $calendar.appendChild($p);
     }
   }
-  $calDate.textContent = currentMonth + ' 2022';
-  $monthTitle.textContent = currentMonth;
-  for (i = 0; i < month.length; i++) {
+
+  var $feastDayList = document.querySelector('ul.feast-days');
+  for (i = 0; i < monthArr.length; i++) {
     $p = document.createElement('p');
     $p.setAttribute('id', i);
     $p.className = 'cal rel';
     $p.textContent = i + 1;
     $calendar.appendChild($p);
-    if (month[i].celebrations[0].rank_num <= 2.8) {
-      var weekday = month[i].weekday;
-      var day = weekday.charAt(0).toUpperCase() + weekday.slice(1);
+
+    if (monthArr[i].celebrations[0].rank_num <= 2.8) {
+      var weekday = monthArr[i].weekday.charAt(0).toUpperCase() + monthArr[i].weekday.slice(1);
       var $span = document.createElement('span');
-      $span.textContent = month[i].celebrations[0].title;
+      $span.textContent = monthArr[i].celebrations[0].title;
       $p.appendChild($span);
       var $li = document.createElement('li');
-      $li.textContent = day + ' ' + currentMonth + ' ' + (i + 1) + ', ' + month[i].celebrations[0].title;
+      $li.textContent = weekday + ' ' + currentMonth + ' ' + (i + 1) + ', ' + monthArr[i].celebrations[0].title;
       $feastDayList.appendChild($li);
     }
   }
-  var lastItem = month.length - 1;
-  if (month[lastItem].weekday !== 'saturday') {
-    if (month[lastItem].weekday === 'friday') {
+  var lastItem = monthArr.length - 1;
+  if (monthArr[lastItem].weekday !== 'saturday') {
+    if (monthArr[lastItem].weekday === 'friday') {
       emptyDays = 1;
-    } if (month[lastItem].weekday === 'thursday') {
+    } if (monthArr[lastItem].weekday === 'thursday') {
       emptyDays = 2;
     }
-    if (month[lastItem].weekday === 'wednesday') {
+    if (monthArr[lastItem].weekday === 'wednesday') {
       emptyDays = 3;
     }
-    if (month[lastItem].weekday === 'tuesday') {
+    if (monthArr[lastItem].weekday === 'tuesday') {
       emptyDays = 4;
     }
-    if (month[lastItem].weekday === 'monday') {
+    if (monthArr[lastItem].weekday === 'monday') {
       emptyDays = 5;
     }
-    if (month[lastItem].weekday === 'sunday') {
+    if (monthArr[lastItem].weekday === 'sunday') {
       emptyDays = 6;
     }
     for (i = 0; i < emptyDays; i++) {
@@ -190,7 +205,7 @@ function editEntry(event) {
   $img.setAttribute('src', data.editing.imageUrl);
   $img.setAttribute('id', 'photo');
   $img.setAttribute('alt', 'Jesus The Good Shepherd');
-  $img.setAttribute('onerror', "this.src = 'images/GoodShepherd.jpg'");
+  $img.setAttribute('onerror', "this.src = 'images/good-shepherd.jpg'");
   $divCol.appendChild($img);
 
   var $p1 = document.createElement('p');
@@ -200,11 +215,9 @@ function editEntry(event) {
 
   var $divForm = document.createElement('div');
   $divForm.className = 'row center rel';
-  $divForm.setAttribute('data-view', 'entry-form');
   $divContainer.appendChild($divForm);
 
   var $form = document.createElement('form');
-  $form.setAttribute('action', '');
   $divForm.appendChild($form);
 
   var $divForm1 = document.createElement('div');
@@ -241,11 +254,15 @@ function editEntry(event) {
   $delete.addEventListener('click', displayModal);
   $divForm2.appendChild($delete);
 
-  var $submit = document.createElement('input');
-  $submit.className = 'submit';
-  $submit.setAttribute('src', 'images/Submit.png');
+  var $button = document.createElement('button');
+  $button.className = 'submit-button';
+  $divForm2.appendChild($button);
+
+  var $submit = document.createElement('img');
+  $submit.className = 'submit-img';
+  $submit.setAttribute('src', 'images/submit.png');
   $submit.setAttribute('type', 'image');
-  $divForm2.appendChild($submit);
+  $button.appendChild($submit);
 
   var $subtextDiv = document.createElement('div');
   $subtextDiv.className = 'column-quarter subtext subtext-form';
@@ -256,6 +273,7 @@ function editEntry(event) {
   $year.className = 'year';
   $year.textContent = 'Year: A';
   $subtextDiv.appendChild($year);
+
   var $lectionaryYear = document.createElement('p');
   $lectionaryYear.className = 'lectionary-year';
   $lectionaryYear.textContent = 'Weekdays: II';
@@ -290,10 +308,10 @@ function createDomTree(obj) {
   $divCol.appendChild($p);
 
   var $img = document.createElement('img');
-  $img.setAttribute('src', 'images/GoodShepherd.jpg');
+  $img.setAttribute('src', 'images/good-shepherd.jpg');
   $img.setAttribute('id', 'photo');
   $img.setAttribute('alt', 'Jesus The Good Shepherd');
-  $img.setAttribute('onerror', "this.src = 'images/GoodShepherd.jpg'");
+  $img.setAttribute('onerror', "this.src = 'images/good-shepherd.jpg'");
   $divCol.appendChild($img);
 
   var $p1 = document.createElement('p');
@@ -326,7 +344,6 @@ function createDomTree(obj) {
 
         var $edit = document.createElement('i');
         $edit.className = 'fas fa-pen-square';
-        $edit.setAttribute('src', 'images/Submit.png');
         $edit.setAttribute('type', 'image');
         $edit.addEventListener('click', editEntry);
         $subtextDiv.appendChild($edit);
@@ -355,11 +372,9 @@ function createDomTree(obj) {
   }
   var $divForm = document.createElement('div');
   $divForm.className = 'row center rel';
-  $divForm.setAttribute('data-view', 'entry-form');
   $divContainer.appendChild($divForm);
 
   var $form = document.createElement('form');
-  $form.setAttribute('action', '');
   $divForm.appendChild($form);
 
   var $divForm1 = document.createElement('div');
@@ -386,11 +401,15 @@ function createDomTree(obj) {
   $input.setAttribute('autocomplete', 'off');
   $divForm2.appendChild($input);
 
-  var $submit = document.createElement('input');
-  $submit.className = 'submit';
-  $submit.setAttribute('src', 'images/Submit.png');
+  var $button = document.createElement('button');
+  $button.className = 'submit-button';
+  $divForm2.appendChild($button);
+
+  var $submit = document.createElement('img');
+  $submit.className = 'submit-img';
+  $submit.setAttribute('src', 'images/submit.png');
   $submit.setAttribute('type', 'image');
-  $divForm2.appendChild($submit);
+  $button.appendChild($submit);
 
   $subtextDiv = document.createElement('div');
   $subtextDiv.className = 'column-quarter subtext subtext-form';
@@ -423,7 +442,7 @@ function showDate(event) {
     return;
   }
   var obj = xhrMonth.response[id];
-  var page = renderDate(obj);
+  var page = renderJournalPageDOM(obj);
   return page;
 }
 

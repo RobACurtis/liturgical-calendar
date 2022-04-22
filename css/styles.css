@@ -12,7 +12,7 @@ nav {
 nav > p {
   margin: 0;
   font-family: Cormorant, serif;
-  font-size: 26px;
+  font-size: 1.6rem;
 }
 
 .flex-wrap {
@@ -28,7 +28,7 @@ nav > p {
 }
 
 .padding-bottom {
-  padding-bottom: 70px;
+  padding-bottom: 4.4rem;
 }
 
 .justify-center {
@@ -50,15 +50,15 @@ nav > p {
 }
 
 .margin-top {
-  margin-top: 20px;
+  margin-top: 1.3rem;
 }
 
 .fa-arrow-left {
   color: white;
   font-size: 25px;
   position: absolute;
-  top: 15px;
-  left: 30px;
+  top: 1rem;
+  left: 2rem;
   transition: 0.5s;
   cursor: pointer;
 }
@@ -119,8 +119,7 @@ nav > p {
 
 .modal-title {
   font-family: Roboto, sans-serif;
-  font-size: 12px;
-  font-weight: 300px;
+  font-size: 0.8rem;
   color: #212529;
 }
 
@@ -128,7 +127,7 @@ nav > p {
   display: flex;
   justify-content: space-between;
   width: 70px;
-  font-size: 12px;
+  font-size: 0.8rem;
 }
 
 .cancel-modal:hover,
@@ -136,14 +135,14 @@ nav > p {
   transform: scale(1.1);
 }
 
-/* edit styling  */
+/* edit page styling  */
 .fa-pen-square {
   background-color: #979797;
   color: white;
-  border-left: 2px solid #979797;
-  border-right: 2px solid #979797;
+  border-left: 1px solid #979797;
+  border-right: 1px solid #979797;
   border-radius: 3px;
-  font-size: 30px;
+  font-size: 1.9rem;
   cursor: pointer;
   position: absolute;
   bottom: 30px;
@@ -153,8 +152,8 @@ nav > p {
 
 .fa-pen-square:hover {
   background-color: white;
-  border-left: 2px solid white;
-  border-right: 2px solid white;
+  border-left: 1px solid white;
+  border-right: 1px solid white;
   color: #979797;
 }
 
@@ -191,9 +190,9 @@ p.notes {
 p.week {
   font-family: "Cormorant Unicase", serif;
   color: #343a40;
-  font-size: 23px;
+  font-size: 1.5rem;
   border-bottom: 1.5px solid #343a40;
-  margin-bottom: 13px;
+  margin-bottom: 0.8rem;
 }
 
 p.date {
@@ -201,13 +200,13 @@ p.date {
   font-family: Cormorant, serif;
   font-weight: bold;
   color: #343a40;
-  font-size: 28px;
+  font-size: 1.8rem;
 }
 
 .subtext {
   font-family: "Cormorant Upright", serif;
   color: #343a40;
-  font-size: 14px;
+  font-size: 0.9rem;
   line-height: 8px;
   position: relative;
 }
@@ -217,21 +216,29 @@ p.date {
   left: 25px;
 }
 
-.submit {
+.submit-button {
+  position: absolute;
+  right: 8px;
+  top: 50px;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  transition: 0.5s;
+  background-color: #fff0;
+}
+
+.submit-button:hover {
+  transform: scale(1.1);
+}
+
+.submit-img {
   width: 40px;
   height: 40px;
   border-radius: 50%;
   background-color: #b0b0b0;
   box-shadow: 2px 2px 4px #b0b0b0;
-  transition: 0.5s;
-  position: absolute;
-  right: 0;
-  top: 50px;
   cursor: pointer;
-}
-
-.submit:hover {
-  transform: scale(1.1);
 }
 
 .photo-input,
@@ -273,14 +280,14 @@ p.date {
 p.calendar-date {
   font-family: "Cormorant Unicase", serif;
   color: #343a40;
-  font-size: 23px;
+  font-size: 1.5rem;
   margin-bottom: 13px;
 }
 
 p.day {
   font-family: Cormorant, serif;
   color: #343a40;
-  font-size: 15px;
+  font-size: 1rem;
   text-align: center;
   width: 40px;
   margin: 1px 3px;
@@ -311,10 +318,11 @@ p.cal {
   text-align: left;
   margin: 3px;
   font-family: "Cormorant Unicase", serif;
-  font-size: 12px;
+  font-size: 0.8rem;
   color: black;
   background-color: white;
   cursor: pointer;
+  transition: 0.5s;
 }
 
 p.cal > span {
@@ -329,7 +337,7 @@ p.cal:hover {
 .list-title {
   font-family: cormorant, serif;
   color: black;
-  font-size: 24px;
+  font-size: 1.5rem;
   border-bottom: 1px solid black;
 }
 
@@ -338,7 +346,7 @@ p.cal:hover {
   font-family: cormorant, serif;
   color: black;
   line-height: 24px;
-  font-size: 12px;
+  font-size: 0.8rem;
   padding-left: 0;
 }
 
@@ -347,14 +355,74 @@ p.cal:hover {
     background-color: white;
   }
 
+  .fa-arrow-left {
+    left: 100px;
+  }
+
+  .fa-pen-square {
+    position: absolute;
+    bottom: 100px;
+    right: 150px;
+  }
+
+  /* form  */
+
+  p.notes {
+    margin-bottom: 100px;
+  }
+
+  p.week {
+    font-size: 1.9rem;
+    margin-bottom: 10px;
+  }
+
+  p.date {
+    margin-top: 5px;
+    font-family: Cormorant, serif;
+    font-weight: bold;
+    color: #343a40;
+    font-size: 1.5rem;
+  }
+
+  .subtext-entry {
+    font-size: 0.8rem;
+    top: -20px;
+    left: 40px;
+    margin-bottom: 20px;
+  }
+
+  .subtext-form {
+    font-size: 12px;
+    top: -50px;
+    left: 130px;
+    margin-bottom: 20px;
+  }
+
+  .text-area {
+    height: 120px;
+    width: 450px;
+  }
+
+  .submit-button {
+    top: 0;
+    right: -40px;
+  }
+
+  .delete {
+    top: 6px;
+    right: 5px;
+  }
+
+  .photo-input {
+    margin-bottom: 100px;
+  }
+
+  /* calendar  */
+
   .background-color {
     background-color: #fbfbfb;
     box-shadow: 1px 5px 4px rgba(0, 0, 0, 0.253);
     margin-bottom: 70px;
-  }
-
-  .fa-arrow-left {
-    left: 100px;
   }
 
   #list {
@@ -373,12 +441,6 @@ p.cal:hover {
     margin: 0 60px;
   }
 
-  .fa-pen-square {
-    position: absolute;
-    bottom: 100px;
-    right: 150px;
-  }
-
   p.day {
     font-size: 15px;
     text-align: center;
@@ -389,7 +451,7 @@ p.cal:hover {
   p.cal {
     width: 70px;
     height: 70px;
-    font-size: 13px;
+    font-size: 0.8rem;
     margin: 3px;
   }
 
@@ -405,68 +467,18 @@ p.cal:hover {
 
   p.cal > span {
     display: flex;
-    font-size: 10px;
+    font-size: 0.6rem;
     flex-direction: column;
     justify-content: flex-start;
     height: 50px;
     text-align: center;
     color: #343a40;
   }
-
-  p.notes {
-    margin-bottom: 100px;
-  }
-
-  p.week {
-    font-size: 30px;
-    margin-bottom: 10px;
-  }
-
-  p.date {
-    margin-top: 5px;
-    font-family: Cormorant, serif;
-    font-weight: bold;
-    color: #343a40;
-    font-size: 25px;
-  }
-
-  .subtext-entry {
-    font-size: 12px;
-    top: -20px;
-    left: 40px;
-    margin-bottom: 20px;
-  }
-
-  .subtext-form {
-    font-size: 12px;
-    top: -50px;
-    left: 130px;
-    margin-bottom: 20px;
-  }
-
-  .text-area {
-    height: 120px;
-    width: 450px;
-  }
-
-  .submit {
-    top: 2px;
-    right: -40px;
-  }
-
-  .delete {
-    top: 6px;
-    right: 5px;
-  }
-
-  .photo-input {
-    margin-bottom: 100px;
-  }
 }
 
 @media only screen and (min-width: 900px) {
-  #calendar {
-    margin: 0 120px;
+  .fa-arrow-left {
+    left: 180px;
   }
 
   .fa-pen-square {
@@ -475,32 +487,9 @@ p.cal:hover {
     right: 190px;
   }
 
-  p.day {
-    width: 80px;
-  }
-
-  p.cal {
-    width: 80px;
-    height: 80px;
-  }
-
-  .hidden-cal {
-    width: 80px;
-    height: 80px;
-  }
-
-  p.cal > span {
-    height: 60px;
-    font-size: 10px;
-  }
-
-  .fa-arrow-left {
-    left: 180px;
-  }
-
-  .submit {
+  .submit-button {
     top: 2px;
-    right: 0;
+    right: 5px;
   }
 
   .delete {
@@ -515,7 +504,7 @@ p.cal:hover {
   }
 
   .subtext-entry {
-    font-size: 15px;
+    font-size: 1rem;
     top: -40px;
     left: 50px;
   }
@@ -523,5 +512,28 @@ p.cal:hover {
   .text-area {
     height: 120px;
     width: 600px;
+  }
+
+  p.day {
+    width: 80px;
+  }
+
+  p.cal {
+    width: 80px;
+    height: 80px;
+  }
+
+  #calendar {
+    margin: 0 120px;
+  }
+
+  .hidden-cal {
+    width: 80px;
+    height: 80px;
+  }
+
+  p.cal > span {
+    height: 60px;
+    font-size: 0.7rem;
   }
 }

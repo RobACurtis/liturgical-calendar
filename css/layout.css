@@ -20,16 +20,12 @@ img {
   flex-basis: 75%;
 }
 
-.column-quarter {
-  flex-basis: 25%;
-}
-
 .column-half {
   flex-basis: 50%;
 }
 
-.column-seventh {
-  flex-basis: calc(100% / 7);
+.column-quarter {
+  flex-basis: 25%;
 }
 
 @media only screen and (min-width: 600px) {
