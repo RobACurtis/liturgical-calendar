@@ -460,7 +460,7 @@ function getMonth(date) {
 
 function removeItem(event) {
   if (event.target.id === 'cancel') {
-    $modal.className = 'hidden';
+    $modal.innerHTML = '';
     return;
   } if (event.target.id === 'delete') {
     for (var i = 0; i < data.entries.length; i++) {
@@ -469,7 +469,7 @@ function removeItem(event) {
       }
       var $newPage = createDomTree(xhrMonth.response[id]);
       $journalPage.children[0].replaceWith($newPage);
-      $modal.className = 'hidden';
+      $modal.innerHTML = '';
       data.editing = null;
     }
   }
@@ -512,5 +512,4 @@ function displayModal(event) {
   $deleteButton.setAttribute('id', 'delete');
   $deleteButton.textContent = 'Delete';
   $div5.appendChild($deleteButton);
-
 }
