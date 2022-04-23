@@ -18,12 +18,31 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+  <div class="failed-page hidden">
+
+    <img src="images/vatican.jpg" alt="The Vatican">
+    <p>There was an error connecting to the network, <br> please check your internet connection and try again.</p>
+  </div>
+  <div id="loading" class="hidde">
+    <div class="lds-grid">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
   <div id="modal" class="hidden"></div>
+
   <header>
     <div class="row">
       <div class="column-full">
-        <i class="fas fa-arrow-left hidden"></i>
         <nav class="row center">
+          <i class="fas fa-arrow-left hidden"></i>
           <p class="month-title"></p>
         </nav>
       </div>
@@ -32,6 +51,7 @@
   <main>
     <div id="journalPage"></div>
     <div id="calendar-page" class="container background-color rel margin-top padding-bottom">
+
       <div id="calendar-month" class="row"></div>
       <div id="day" class="row day-underline justify-center"></div>
       <div id="weekday" class="row day-underline justify-center"></div>

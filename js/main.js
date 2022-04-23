@@ -3,7 +3,7 @@ var $journalPage = document.querySelector('#journalPage');
 var $calendarPage = document.querySelector('#calendar-page');
 var $modal = document.querySelector('#modal');
 $modal.addEventListener('click', removeItem);
-
+var $loading = document.querySelector('#loading');
 $journalPage.addEventListener('input', addPhoto);
 $journalPage.addEventListener('submit', addEntry);
 
@@ -18,11 +18,21 @@ var date = '';
 var currentMonth = '';
 var color = '';
 
-var xhrMonth = new XMLHttpRequest();
-xhrMonth.open('GET', 'http://calapi.inadiutorium.cz/api/v0/en/calendars/default/2022/4');
-xhrMonth.responseType = 'json';
-xhrMonth.addEventListener('load', renderMonth);
-xhrMonth.send();
+function getCalendarData(month) {
+  $loading.className = '';
+  var xhrMonth = new XMLHttpRequest();
+  xhrMonth.open('GET', 'http://calapi.inadiutorium.cz/api/v0/en/calendars/default/2022/' + month);
+  xhrMonth.responseType = 'json';
+  xhrMonth.addEventListener('error', function () {
+    var $failToLoadPage = document.querySelector('.failed-page');
+    $failToLoadPage.className = 'failed-page';
+  });
+  xhrMonth.addEventListener('load', renderMonth);
+  xhrMonth.send();
+  return xhrMonth;
+}
+
+var xhrMonth = getCalendarData(4);
 
 function showCalendar(event) {
   $journalPage.innerHTML = '';
@@ -145,6 +155,7 @@ function renderMonth() {
       $calendar.appendChild($p);
     }
   }
+  $loading.className = 'hidden';
 }
 
 function addEntry(event) {
@@ -443,6 +454,7 @@ function showDate(event) {
   }
   var obj = xhrMonth.response[id];
   var page = renderJournalPageDOM(obj);
+
   return page;
 }
 
