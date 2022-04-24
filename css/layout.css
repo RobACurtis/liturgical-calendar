@@ -1,5 +1,5 @@
-#photo {
-  width: 213px;
+img {
+  max-width: 213px;
   box-shadow: 1px 4px 5px #adadad;
 }
 
@@ -54,9 +54,9 @@
   }
 }
 
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: 1280px) {
   #photo {
-    max-width: 500px;
+    max-width: 300px;
   }
 
   .container {

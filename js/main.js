@@ -275,10 +275,15 @@ function editEntry(event) {
   $submit.setAttribute('type', 'image');
   $button.appendChild($submit);
 
+  var $subtextDivRow = document.createElement('div');
+  $subtextDivRow.className = 'row';
+  $subtextDivRow.setAttribute('id', 'details');
+  $divContainer.appendChild($subtextDivRow);
+
   var $subtextDiv = document.createElement('div');
   $subtextDiv.className = 'column-quarter subtext subtext-form';
   $subtextDiv.setAttribute('id', 'details');
-  $divContainer.appendChild($subtextDiv);
+  $subtextDivRow.appendChild($subtextDiv);
 
   var $year = document.createElement('p');
   $year.className = 'year';
@@ -348,16 +353,21 @@ function createDomTree(obj) {
         $divCol1.appendChild($p3);
         $img.setAttribute('src', data.entries[i].imageUrl);
 
+        var $subtextDivRow = document.createElement('div');
+        $subtextDivRow.className = 'row';
+        $subtextDivRow.setAttribute('id', 'details');
+        $divContainer.appendChild($subtextDivRow);
+
         var $subtextDiv = document.createElement('div');
-        $subtextDiv.className = 'column-quarter subtext subtext-entry';
+        $subtextDiv.className = 'column-quarter subtext subtext-form';
         $subtextDiv.setAttribute('id', 'details');
-        $divContainer.appendChild($subtextDiv);
+        $subtextDivRow.appendChild($subtextDiv);
 
         var $edit = document.createElement('i');
         $edit.className = 'fas fa-pen-square';
         $edit.setAttribute('type', 'image');
         $edit.addEventListener('click', editEntry);
-        $subtextDiv.appendChild($edit);
+        $subtextDivRow.appendChild($edit);
 
         var $year = document.createElement('p');
         $year.className = 'year';
@@ -422,10 +432,15 @@ function createDomTree(obj) {
   $submit.setAttribute('type', 'image');
   $button.appendChild($submit);
 
+  $subtextDivRow = document.createElement('div');
+  $subtextDivRow.className = 'row';
+  $subtextDivRow.setAttribute('id', 'details');
+  $divContainer.appendChild($subtextDivRow);
+
   $subtextDiv = document.createElement('div');
   $subtextDiv.className = 'column-quarter subtext subtext-form';
   $subtextDiv.setAttribute('id', 'details');
-  $divContainer.appendChild($subtextDiv);
+  $subtextDivRow.appendChild($subtextDiv);
 
   $year = document.createElement('p');
   $year.className = 'year';

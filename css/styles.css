@@ -135,12 +135,18 @@ nav > p {
   transform: scale(1.1);
 }
 
+.delete-modal:hover {
+  border: 1px solid white;
+  background-color: #db8890;
+  color: white;
+}
+
 /* edit page styling  */
 .fa-pen-square {
-  background-color: #979797;
-  color: white;
-  border-left: 1px solid #979797;
-  border-right: 1px solid #979797;
+  background-color: white;
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+  color: #979797;
   border-radius: 3px;
   font-size: 1.9rem;
   cursor: pointer;
@@ -151,10 +157,10 @@ nav > p {
 }
 
 .fa-pen-square:hover {
-  background-color: white;
-  border-left: 1px solid white;
-  border-right: 1px solid white;
-  color: #979797;
+  border-left: 2px solid #979797;
+  border-right: 2px solid #979797;
+  background-color: #979797;
+  color: white;
 }
 
 .delete {
@@ -175,6 +181,9 @@ nav > p {
 
 .delete:hover {
   transform: scale(1.05);
+  border: 1px solid white;
+  background-color: #db8890;
+  color: white;
 }
 
 /* form styling */
@@ -367,7 +376,7 @@ p.cal:hover {
   text-align: center;
 }
 
-/* loading  */
+/* loading icon */
 #loading {
   position: absolute;
   top: 20rem;
@@ -466,11 +475,8 @@ p.cal:hover {
   }
 
   .fa-pen-square {
-    position: absolute;
     bottom: 100px;
     right: 150px;
-    border-left: 2px solid #979797;
-    border-right: 2px solid #979797;
   }
 
   /* form  */
@@ -594,8 +600,7 @@ p.cal:hover {
   }
 
   .fa-pen-square {
-    position: absolute;
-    bottom: 80px;
+    bottom: 140px;
     right: 190px;
   }
 
@@ -654,15 +659,14 @@ p.cal:hover {
   }
 }
 
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: 1280px) {
   .fa-arrow-left {
     left: 300px;
   }
 
   .fa-pen-square {
-    position: absolute;
-    bottom: 80px;
-    right: 190px;
+    bottom: 140px;
+    right: 250px;
   }
 
   p.day {
