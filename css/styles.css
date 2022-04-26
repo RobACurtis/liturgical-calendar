@@ -135,12 +135,18 @@ nav > p {
   transform: scale(1.1);
 }
 
+.delete-modal:hover {
+  border: 1px solid white;
+  background-color: #db8890;
+  color: white;
+}
+
 /* edit page styling  */
 .fa-pen-square {
-  background-color: #979797;
-  color: white;
-  border-left: 1px solid #979797;
-  border-right: 1px solid #979797;
+  background-color: white;
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+  color: #979797;
   border-radius: 3px;
   font-size: 1.9rem;
   cursor: pointer;
@@ -151,10 +157,10 @@ nav > p {
 }
 
 .fa-pen-square:hover {
-  background-color: white;
-  border-left: 1px solid white;
-  border-right: 1px solid white;
-  color: #979797;
+  border-left: 2px solid #979797;
+  border-right: 2px solid #979797;
+  background-color: #979797;
+  color: white;
 }
 
 .delete {
@@ -175,6 +181,9 @@ nav > p {
 
 .delete:hover {
   transform: scale(1.05);
+  border: 1px solid white;
+  background-color: #db8890;
+  color: white;
 }
 
 /* form styling */
@@ -350,7 +359,113 @@ p.cal:hover {
   padding-left: 0;
 }
 
-@media only screen and (min-width: 600px) {
+.failed-page {
+  background-color: white;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: 2;
+  text-align: center;
+  font-size: 1.4rem;
+  font-family: cormorant, serif;
+}
+
+.failed-page > img {
+  margin-top: 60px;
+  width: 300px;
+  text-align: center;
+}
+
+/* loading icon */
+#loading {
+  position: absolute;
+  top: 20rem;
+  left: 45%;
+  z-index: 1;
+}
+
+.lds-grid {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.lds-grid div {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgb(0, 0, 0);
+  animation: lds-grid 1.2s linear infinite;
+}
+
+.lds-grid div:nth-child(1) {
+  top: 8px;
+  left: 8px;
+  animation-delay: 0s;
+}
+
+.lds-grid div:nth-child(2) {
+  top: 8px;
+  left: 32px;
+  animation-delay: -0.4s;
+}
+
+.lds-grid div:nth-child(3) {
+  top: 8px;
+  left: 56px;
+  animation-delay: -0.8s;
+}
+
+.lds-grid div:nth-child(4) {
+  top: 32px;
+  left: 8px;
+  animation-delay: -0.4s;
+}
+
+.lds-grid div:nth-child(5) {
+  top: 32px;
+  left: 32px;
+  animation-delay: -0.8s;
+}
+
+.lds-grid div:nth-child(6) {
+  top: 32px;
+  left: 56px;
+  animation-delay: -1.2s;
+}
+
+.lds-grid div:nth-child(7) {
+  top: 56px;
+  left: 8px;
+  animation-delay: -0.8s;
+}
+
+.lds-grid div:nth-child(8) {
+  top: 56px;
+  left: 32px;
+  animation-delay: -1.2s;
+}
+
+.lds-grid div:nth-child(9) {
+  top: 56px;
+  left: 56px;
+  animation-delay: -1.6s;
+}
+
+@keyframes lds-grid {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@media only screen and (min-width: 768px) {
   body {
     background-color: white;
   }
@@ -360,7 +475,6 @@ p.cal:hover {
   }
 
   .fa-pen-square {
-    position: absolute;
     bottom: 100px;
     right: 150px;
   }
@@ -477,13 +591,16 @@ p.cal:hover {
 }
 
 @media only screen and (min-width: 900px) {
+  nav > p {
+    font-size: 1.9rem;
+  }
+
   .fa-arrow-left {
     left: 180px;
   }
 
   .fa-pen-square {
-    position: absolute;
-    bottom: 80px;
+    bottom: 140px;
     right: 190px;
   }
 
@@ -514,6 +631,10 @@ p.cal:hover {
     width: 600px;
   }
 
+  p.date {
+    font-size: 1.8rem;
+  }
+
   p.day {
     width: 80px;
   }
@@ -535,5 +656,44 @@ p.cal:hover {
   p.cal > span {
     height: 60px;
     font-size: 0.7rem;
+  }
+}
+
+@media only screen and (min-width: 1280px) {
+  .fa-arrow-left {
+    left: 300px;
+  }
+
+  .fa-pen-square {
+    bottom: 140px;
+    right: 250px;
+  }
+
+  p.day {
+    width: 120px;
+  }
+
+  p.cal {
+    width: 120px;
+    height: 120px;
+    font-size: 1rem;
+  }
+
+  p.calendar-date {
+    font-size: 1.8rem;
+  }
+
+  #calendar {
+    margin: 0 120px;
+  }
+
+  .hidden-cal {
+    width: 120px;
+    height: 120px;
+  }
+
+  p.cal > span {
+    height: 90px;
+    font-size: 0.8rem;
   }
 }

@@ -3,7 +3,7 @@ var $journalPage = document.querySelector('#journalPage');
 var $calendarPage = document.querySelector('#calendar-page');
 var $modal = document.querySelector('#modal');
 $modal.addEventListener('click', removeItem);
-
+var $loading = document.querySelector('#loading');
 $journalPage.addEventListener('input', addPhoto);
 $journalPage.addEventListener('submit', addEntry);
 
@@ -18,11 +18,21 @@ var date = '';
 var currentMonth = '';
 var color = '';
 
-var xhrMonth = new XMLHttpRequest();
-xhrMonth.open('GET', 'http://calapi.inadiutorium.cz/api/v0/en/calendars/default/2022/4');
-xhrMonth.responseType = 'json';
-xhrMonth.addEventListener('load', renderMonth);
-xhrMonth.send();
+function getCalendarData(month) {
+  $loading.className = '';
+  var xhrMonth = new XMLHttpRequest();
+  xhrMonth.open('GET', 'http://calapi.inadiutorium.cz/api/v0/en/calendars/default/2022/' + month);
+  xhrMonth.responseType = 'json';
+  xhrMonth.addEventListener('error', function () {
+    var $failToLoadPage = document.querySelector('.failed-page');
+    $failToLoadPage.className = 'failed-page';
+  });
+  xhrMonth.addEventListener('load', renderMonth);
+  xhrMonth.send();
+  return xhrMonth;
+}
+
+var xhrMonth = getCalendarData(4);
 
 function showCalendar(event) {
   $journalPage.innerHTML = '';
@@ -145,6 +155,7 @@ function renderMonth() {
       $calendar.appendChild($p);
     }
   }
+  $loading.className = 'hidden';
 }
 
 function addEntry(event) {
@@ -264,10 +275,15 @@ function editEntry(event) {
   $submit.setAttribute('type', 'image');
   $button.appendChild($submit);
 
+  var $subtextDivRow = document.createElement('div');
+  $subtextDivRow.className = 'row';
+  $subtextDivRow.setAttribute('id', 'details');
+  $divContainer.appendChild($subtextDivRow);
+
   var $subtextDiv = document.createElement('div');
   $subtextDiv.className = 'column-quarter subtext subtext-form';
   $subtextDiv.setAttribute('id', 'details');
-  $divContainer.appendChild($subtextDiv);
+  $subtextDivRow.appendChild($subtextDiv);
 
   var $year = document.createElement('p');
   $year.className = 'year';
@@ -337,16 +353,21 @@ function createDomTree(obj) {
         $divCol1.appendChild($p3);
         $img.setAttribute('src', data.entries[i].imageUrl);
 
+        var $subtextDivRow = document.createElement('div');
+        $subtextDivRow.className = 'row';
+        $subtextDivRow.setAttribute('id', 'details');
+        $divContainer.appendChild($subtextDivRow);
+
         var $subtextDiv = document.createElement('div');
-        $subtextDiv.className = 'column-quarter subtext subtext-entry';
+        $subtextDiv.className = 'column-quarter subtext subtext-form';
         $subtextDiv.setAttribute('id', 'details');
-        $divContainer.appendChild($subtextDiv);
+        $subtextDivRow.appendChild($subtextDiv);
 
         var $edit = document.createElement('i');
         $edit.className = 'fas fa-pen-square';
         $edit.setAttribute('type', 'image');
         $edit.addEventListener('click', editEntry);
-        $subtextDiv.appendChild($edit);
+        $subtextDivRow.appendChild($edit);
 
         var $year = document.createElement('p');
         $year.className = 'year';
@@ -411,10 +432,15 @@ function createDomTree(obj) {
   $submit.setAttribute('type', 'image');
   $button.appendChild($submit);
 
+  $subtextDivRow = document.createElement('div');
+  $subtextDivRow.className = 'row';
+  $subtextDivRow.setAttribute('id', 'details');
+  $divContainer.appendChild($subtextDivRow);
+
   $subtextDiv = document.createElement('div');
   $subtextDiv.className = 'column-quarter subtext subtext-form';
   $subtextDiv.setAttribute('id', 'details');
-  $divContainer.appendChild($subtextDiv);
+  $subtextDivRow.appendChild($subtextDiv);
 
   $year = document.createElement('p');
   $year.className = 'year';
@@ -443,6 +469,7 @@ function showDate(event) {
   }
   var obj = xhrMonth.response[id];
   var page = renderJournalPageDOM(obj);
+
   return page;
 }
 
