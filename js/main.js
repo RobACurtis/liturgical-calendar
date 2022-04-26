@@ -19,9 +19,11 @@ var currentMonth = '';
 var color = '';
 
 function getCalendarData(month) {
+  var targetUrl = encodeURIComponent('http://calapi.inadiutorium.cz/api/v0/en/calendars/default/2022/');
   $loading.className = '';
   var xhrMonth = new XMLHttpRequest();
-  xhrMonth.open('GET', 'http://calapi.inadiutorium.cz/api/v0/en/calendars/default/2022/' + month);
+  xhrMonth.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl + month);
+  xhrMonth.setRequestHeader('token', 'abc123');
   xhrMonth.responseType = 'json';
   xhrMonth.addEventListener('error', function () {
     var $failToLoadPage = document.querySelector('.failed-page');
