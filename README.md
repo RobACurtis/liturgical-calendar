@@ -1,3 +1,3 @@
-# ajax-project
+# liturgical-calendar
 
-A dynamic HTML, CSS, and JavaScript solo project.
+A web application for Catholics who want the liturgical cycle of the Church to be a part of their daily life. 
