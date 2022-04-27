@@ -3,18 +3,16 @@ var $journalPage = document.querySelector('#journalPage');
 var $calendarPage = document.querySelector('#calendar-page');
 var $modal = document.querySelector('#modal');
 $modal.addEventListener('click', removeItem);
+var $leftarrow = document.querySelector('.fa-arrow-left');
+var $rightarrow = document.querySelector('.fa-arrow-right');
 var $loading = document.querySelector('#loading');
 $journalPage.addEventListener('input', addPhoto);
 $journalPage.addEventListener('submit', addEntry);
 var $header = document.querySelector('header');
-$header.addEventListener('click', showCalendar);
+$header.addEventListener('click', viewSwap);
 
 var $calendar = document.querySelector('#calendar');
 $calendar.addEventListener('click', showDate);
-
-var $leftarrow = document.querySelector('.fa-arrow-left');
-var $rightarrow = document.querySelector('.fa-arrow-right');
-// $pageToCalendar.addEventListener('click', showCalendar);
 
 var id = '';
 var date = '';
@@ -40,11 +38,17 @@ function getCalendarData(month) {
 
 var xhrMonth = getCalendarData(4);
 
-function showCalendar(event) {
+function viewSwap(event) {
   if ($calendarPage.className === 'hidden' && event.target.className === 'fas fa-arrow-left') {
     $journalPage.innerHTML = '';
     $rightarrow.className = 'fas fa-arrow-right';
     $calendarPage.className = 'container background-color rel margin-top padding-bottom';
+    if (currentMonthNum === 1) {
+      $leftarrow.className = 'hidden';
+    }
+    if (currentMonthNum === 12) {
+      $rightarrow.className = 'hidden';
+    }
     data.editing = null;
     return;
   }
@@ -69,12 +73,6 @@ function showCalendar(event) {
     xhrMonth = getCalendarData(currentMonthNum);
   }
 }
-// function showCalendar(event) {
-//   $journalPage.innerHTML = '';
-//   $calendarPage.className = 'container background-color rel margin-top padding-bottom';
-//   $pageToCalendar.className = 'hidden';
-//   data.editing = null;
-// }
 
 function addPhoto(event) {
   if (event.target.name !== 'photoURL') {
@@ -89,6 +87,7 @@ function renderJournalPageDOM(obj) {
   var journalPage = createDomTree(obj);
   $journalPage.appendChild(journalPage);
   $calendarPage.className = 'hidden';
+  $leftarrow.className = 'fas fa-arrow-left';
   $rightarrow.className = 'hidden';
   return journalPage;
 }
@@ -156,7 +155,6 @@ function renderMonth() {
   for (i = 0; i < monthArr.length; i++) {
     $p = document.createElement('p');
     $p.setAttribute('id', currentMonthNum + '-' + i);
-    // $p.setAttribute('id', i);
     $p.className = 'cal rel';
     $p.textContent = i + 1;
     $calendar.appendChild($p);
@@ -233,7 +231,7 @@ function addEntry(event) {
 
 function editEntry(event) {
   for (var i = 0; i < data.entries.length; i++) {
-    if (data.entries[i].id === id) {
+    if (data.entries[i].id === (currentMonthNum + '-' + id)) {
       data.editing = Object.assign({}, data.entries[i]);
     }
   }
@@ -263,7 +261,11 @@ function editEntry(event) {
 
   var $p1 = document.createElement('p');
   $p1.className = 'date';
-  $p1.textContent = currentMonth + ' ' + xhrMonth.response[id].date[8] + xhrMonth.response[id].date[9] + ', 2022';
+  if (xhrMonth.response[id].date[8] === '0') {
+    $p1.textContent = currentMonth + ' ' + xhrMonth.response[id].date[9] + ', 2022';
+  } else {
+    $p1.textContent = currentMonth + ' ' + xhrMonth.response[id].date[8] + xhrMonth.response[id].date[9] + ', 2022';
+  }
   $divCol.appendChild($p1);
 
   var $divForm = document.createElement('div');
@@ -374,7 +376,11 @@ function createDomTree(obj) {
 
   var $p1 = document.createElement('p');
   $p1.className = 'date';
-  $p1.textContent = currentMonth + ' ' + obj.date[8] + obj.date[9] + ', 2022';
+  if (xhrMonth.response[id].date[8] === '0') {
+    $p1.textContent = currentMonth + ' ' + xhrMonth.response[id].date[9] + ', 2022';
+  } else {
+    $p1.textContent = currentMonth + ' ' + xhrMonth.response[id].date[8] + xhrMonth.response[id].date[9] + ', 2022';
+  }
   $divCol.appendChild($p1);
 
   if (data.entries.length !== 0) {
@@ -567,7 +573,7 @@ function removeItem(event) {
     return;
   } if (event.target.id === 'delete') {
     for (var i = 0; i < data.entries.length; i++) {
-      if (data.entries[i].id === id) {
+      if (data.entries[i].id === currentMonthNum + '-' + id) {
         data.entries.splice(i, 1);
       }
       var $newPage = createDomTree(xhrMonth.response[id]);

@@ -390,7 +390,7 @@ p.cal:hover {
 #loading {
   position: absolute;
   top: 20rem;
-  left: 45%;
+  left: 40%;
   z-index: 1;
 }
 
@@ -476,6 +476,10 @@ p.cal:hover {
 }
 
 @media only screen and (min-width: 768px) {
+  #loading {
+    left: 45%;
+  }
+
   body {
     background-color: white;
   }
