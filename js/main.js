@@ -3,19 +3,21 @@ var $journalPage = document.querySelector('#journalPage');
 var $calendarPage = document.querySelector('#calendar-page');
 var $modal = document.querySelector('#modal');
 $modal.addEventListener('click', removeItem);
+var $leftarrow = document.querySelector('.fa-arrow-left');
+var $rightarrow = document.querySelector('.fa-arrow-right');
 var $loading = document.querySelector('#loading');
 $journalPage.addEventListener('input', addPhoto);
 $journalPage.addEventListener('submit', addEntry);
+var $header = document.querySelector('header');
+$header.addEventListener('click', viewSwap);
 
 var $calendar = document.querySelector('#calendar');
 $calendar.addEventListener('click', showDate);
 
-var $pageToCalendar = document.querySelector('.fa-arrow-left');
-$pageToCalendar.addEventListener('click', showCalendar);
-
 var id = '';
 var date = '';
 var currentMonth = '';
+var currentMonthNum = null;
 var color = '';
 
 function getCalendarData(month) {
@@ -36,11 +38,40 @@ function getCalendarData(month) {
 
 var xhrMonth = getCalendarData(4);
 
-function showCalendar(event) {
-  $journalPage.innerHTML = '';
-  $calendarPage.className = 'container background-color rel margin-top padding-bottom';
-  $pageToCalendar.className = 'hidden';
-  data.editing = null;
+function viewSwap(event) {
+  if ($calendarPage.className === 'hidden' && event.target.className === 'fas fa-arrow-left') {
+    $journalPage.innerHTML = '';
+    $rightarrow.className = 'fas fa-arrow-right';
+    $calendarPage.className = 'container background-color rel margin-top padding-bottom';
+    if (currentMonthNum === 1) {
+      $leftarrow.className = 'hidden';
+    }
+    if (currentMonthNum === 12) {
+      $rightarrow.className = 'hidden';
+    }
+    data.editing = null;
+    return;
+  }
+  if ($calendarPage.className !== 'hidden' && event.target.className === 'fas fa-arrow-left') {
+    currentMonthNum -= 1;
+    if (currentMonthNum === 1) {
+      $leftarrow.className = 'hidden';
+    }
+    if (currentMonthNum === 11) {
+      $rightarrow.className = 'fas fa-arrow-right';
+    }
+    xhrMonth = getCalendarData(currentMonthNum);
+  }
+  if ($calendarPage.className !== 'hidden' && event.target.className === 'fas fa-arrow-right') {
+    currentMonthNum += 1;
+    if (currentMonthNum === 12) {
+      $rightarrow.className = 'hidden';
+    }
+    if (currentMonthNum === 2) {
+      $leftarrow.className = 'fas fa-arrow-left';
+    }
+    xhrMonth = getCalendarData(currentMonthNum);
+  }
 }
 
 function addPhoto(event) {
@@ -56,7 +87,8 @@ function renderJournalPageDOM(obj) {
   var journalPage = createDomTree(obj);
   $journalPage.appendChild(journalPage);
   $calendarPage.className = 'hidden';
-  $pageToCalendar.className = 'fas fa-arrow-left';
+  $leftarrow.className = 'fas fa-arrow-left';
+  $rightarrow.className = 'hidden';
   return journalPage;
 }
 
@@ -67,6 +99,7 @@ function renderMonth() {
   $monthTitle.textContent = currentMonth;
 
   var $calMonth = document.querySelector('#calendar-month');
+  $calMonth.textContent = '';
   var $divCol1 = document.createElement('div');
   $divCol1.className = 'column-full center';
   $calMonth.appendChild($divCol1);
@@ -77,7 +110,9 @@ function renderMonth() {
 
   var days = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   var $divDay = document.querySelector('#day');
+  $divDay.textContent = '';
   var $divWeekday = document.querySelector('#weekday');
+  $divWeekday.textContent = '';
   for (var i = 0; i < days.length; i++) {
     var $p = document.createElement('p');
     $p.className = 'day';
@@ -88,6 +123,7 @@ function renderMonth() {
       $divWeekday.appendChild($p);
     }
   }
+  $calendar.textContent = '';
   var emptyDays = 0;
   if (monthArr[0].weekday !== 'sunday') {
     if (monthArr[0].weekday === 'monday') {
@@ -115,9 +151,10 @@ function renderMonth() {
   }
 
   var $feastDayList = document.querySelector('ul.feast-days');
+  $feastDayList.textContent = '';
   for (i = 0; i < monthArr.length; i++) {
     $p = document.createElement('p');
-    $p.setAttribute('id', i);
+    $p.setAttribute('id', currentMonthNum + '-' + i);
     $p.className = 'cal rel';
     $p.textContent = i + 1;
     $calendar.appendChild($p);
@@ -133,6 +170,7 @@ function renderMonth() {
     }
   }
   var lastItem = monthArr.length - 1;
+
   if (monthArr[lastItem].weekday !== 'saturday') {
     if (monthArr[lastItem].weekday === 'friday') {
       emptyDays = 1;
@@ -168,7 +206,7 @@ function addEntry(event) {
     for (var i = 0; i < data.entries.length; i++) {
       if (data.editing.id === data.entries[i].id) {
         data.entries[i] = {
-          id: id,
+          id: currentMonthNum + '-' + id,
           color: color,
           imageUrl: $photoUrl.value,
           notes: $notes.value
@@ -181,7 +219,7 @@ function addEntry(event) {
     }
   }
   var inputObj = {
-    id: id,
+    id: currentMonthNum + '-' + id,
     color: color,
     imageUrl: $photoUrl.value,
     notes: $notes.value
@@ -193,7 +231,7 @@ function addEntry(event) {
 
 function editEntry(event) {
   for (var i = 0; i < data.entries.length; i++) {
-    if (data.entries[i].id === id) {
+    if (data.entries[i].id === (currentMonthNum + '-' + id)) {
       data.editing = Object.assign({}, data.entries[i]);
     }
   }
@@ -223,7 +261,11 @@ function editEntry(event) {
 
   var $p1 = document.createElement('p');
   $p1.className = 'date';
-  $p1.textContent = currentMonth + ' ' + xhrMonth.response[id].date[8] + xhrMonth.response[id].date[9] + ', 2022';
+  if (xhrMonth.response[id].date[8] === '0') {
+    $p1.textContent = currentMonth + ' ' + xhrMonth.response[id].date[9] + ', 2022';
+  } else {
+    $p1.textContent = currentMonth + ' ' + xhrMonth.response[id].date[8] + xhrMonth.response[id].date[9] + ', 2022';
+  }
   $divCol.appendChild($p1);
 
   var $divForm = document.createElement('div');
@@ -334,12 +376,16 @@ function createDomTree(obj) {
 
   var $p1 = document.createElement('p');
   $p1.className = 'date';
-  $p1.textContent = currentMonth + ' ' + obj.date[8] + obj.date[9] + ', 2022';
+  if (xhrMonth.response[id].date[8] === '0') {
+    $p1.textContent = currentMonth + ' ' + xhrMonth.response[id].date[9] + ', 2022';
+  } else {
+    $p1.textContent = currentMonth + ' ' + xhrMonth.response[id].date[8] + xhrMonth.response[id].date[9] + ', 2022';
+  }
   $divCol.appendChild($p1);
 
   if (data.entries.length !== 0) {
     for (var i = 0; i < data.entries.length; i++) {
-      if (data.entries[i].id === id) {
+      if (data.entries[i].id === (currentMonthNum + '-' + id)) {
         var $divRow1 = document.createElement('div');
         $divRow1.className = 'row center';
         $divRow1.setAttribute('id', 'journal');
@@ -469,6 +515,8 @@ function showDate(event) {
   if (id === '') {
     return;
   }
+  var split = id.split('-');
+  id = parseInt(split[1]);
   var obj = xhrMonth.response[id];
   var page = renderJournalPageDOM(obj);
 
@@ -480,29 +528,42 @@ function getMonth(date) {
   var currentMonth = '';
   if (monthDate[1] === '01') {
     currentMonth = 'January';
+    currentMonthNum = 1;
   } else if (monthDate[1] === '02') {
     currentMonth = 'February';
+    currentMonthNum = 2;
   } else if (monthDate[1] === '03') {
     currentMonth = 'March';
+    currentMonthNum = 3;
   } else if (monthDate[1] === '04') {
     currentMonth = 'April';
+    currentMonthNum = 4;
   } else if (monthDate[1] === '05') {
     currentMonth = 'May';
+    currentMonthNum = 5;
   } else if (monthDate[1] === '06') {
     currentMonth = 'June';
+    currentMonthNum = 6;
   } else if (monthDate[1] === '07') {
     currentMonth = 'July';
+    currentMonthNum = 7;
   } else if (monthDate[1] === '08') {
     currentMonth = 'August';
+    currentMonthNum = 8;
   } else if (monthDate[1] === '09') {
     currentMonth = 'September';
+    currentMonthNum = 9;
   } else if (monthDate[1] === '10') {
     currentMonth = 'October';
+    currentMonthNum = 10;
   } else if (monthDate[1] === '11') {
     currentMonth = 'November';
+    currentMonthNum = 11;
   } else if (monthDate[1] === '12') {
     currentMonth = 'December';
+    currentMonthNum = 12;
   }
+
   return currentMonth;
 }
 
@@ -512,7 +573,7 @@ function removeItem(event) {
     return;
   } if (event.target.id === 'delete') {
     for (var i = 0; i < data.entries.length; i++) {
-      if (data.entries[i].id === id) {
+      if (data.entries[i].id === currentMonthNum + '-' + id) {
         data.entries.splice(i, 1);
       }
       var $newPage = createDomTree(xhrMonth.response[id]);

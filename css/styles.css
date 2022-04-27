@@ -63,6 +63,16 @@ nav > p {
   cursor: pointer;
 }
 
+.fa-arrow-right {
+  color: white;
+  font-size: 25px;
+  position: absolute;
+  top: 1rem;
+  right: 2rem;
+  transition: 0.5s;
+  cursor: pointer;
+}
+
 .fa-arrow-left:hover {
   transform: scale(1.1);
 }
@@ -380,7 +390,7 @@ p.cal:hover {
 #loading {
   position: absolute;
   top: 20rem;
-  left: 45%;
+  left: 40%;
   z-index: 1;
 }
 
@@ -466,12 +476,20 @@ p.cal:hover {
 }
 
 @media only screen and (min-width: 768px) {
+  #loading {
+    left: 45%;
+  }
+
   body {
     background-color: white;
   }
 
   .fa-arrow-left {
-    left: 100px;
+    left: 8rem;
+  }
+
+  .fa-arrow-right {
+    right: 8rem;
   }
 
   .fa-pen-square {
@@ -596,7 +614,11 @@ p.cal:hover {
   }
 
   .fa-arrow-left {
-    left: 180px;
+    left: 10rem;
+  }
+
+  .fa-arrow-right {
+    right: 10rem;
   }
 
   .fa-pen-square {
@@ -661,7 +683,11 @@ p.cal:hover {
 
 @media only screen and (min-width: 1280px) {
   .fa-arrow-left {
-    left: 300px;
+    left: 18rem;
+  }
+
+  .fa-arrow-right {
+    right: 18rem;
   }
 
   .fa-pen-square {
