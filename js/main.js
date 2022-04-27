@@ -208,7 +208,7 @@ function addEntry(event) {
     for (var i = 0; i < data.entries.length; i++) {
       if (data.editing.id === data.entries[i].id) {
         data.entries[i] = {
-          id: id,
+          id: currentMonthNum + '-' + id,
           color: color,
           imageUrl: $photoUrl.value,
           notes: $notes.value
@@ -221,7 +221,7 @@ function addEntry(event) {
     }
   }
   var inputObj = {
-    id: id,
+    id: currentMonthNum + '-' + id,
     color: color,
     imageUrl: $photoUrl.value,
     notes: $notes.value
@@ -379,7 +379,7 @@ function createDomTree(obj) {
 
   if (data.entries.length !== 0) {
     for (var i = 0; i < data.entries.length; i++) {
-      if (data.entries[i].id === id) {
+      if (data.entries[i].id === (currentMonthNum + '-' + id)) {
         var $divRow1 = document.createElement('div');
         $divRow1.className = 'row center';
         $divRow1.setAttribute('id', 'journal');
