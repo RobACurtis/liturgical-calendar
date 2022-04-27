@@ -94,7 +94,6 @@ function renderJournalPageDOM(obj) {
 }
 
 function renderMonth() {
-  // $calendarPage.textContent = '';
   var monthArr = xhrMonth.response;
   date = xhrMonth.response[0].date;
   currentMonth = getMonth(date);
@@ -156,7 +155,8 @@ function renderMonth() {
   $feastDayList.textContent = '';
   for (i = 0; i < monthArr.length; i++) {
     $p = document.createElement('p');
-    $p.setAttribute('id', i);
+    $p.setAttribute('id', currentMonthNum + '-' + i);
+    // $p.setAttribute('id', i);
     $p.className = 'cal rel';
     $p.textContent = i + 1;
     $calendar.appendChild($p);
@@ -509,6 +509,8 @@ function showDate(event) {
   if (id === '') {
     return;
   }
+  var split = id.split('-');
+  id = parseInt(split[1]);
   var obj = xhrMonth.response[id];
   var page = renderJournalPageDOM(obj);
 
