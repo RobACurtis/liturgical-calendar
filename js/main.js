@@ -6,16 +6,20 @@ $modal.addEventListener('click', removeItem);
 var $loading = document.querySelector('#loading');
 $journalPage.addEventListener('input', addPhoto);
 $journalPage.addEventListener('submit', addEntry);
+var $header = document.querySelector('header');
+$header.addEventListener('click', showCalendar);
 
 var $calendar = document.querySelector('#calendar');
 $calendar.addEventListener('click', showDate);
 
-var $pageToCalendar = document.querySelector('.fa-arrow-left');
-$pageToCalendar.addEventListener('click', showCalendar);
+var $leftarrow = document.querySelector('.fa-arrow-left');
+var $rightarrow = document.querySelector('.fa-arrow-right');
+// $pageToCalendar.addEventListener('click', showCalendar);
 
 var id = '';
 var date = '';
 var currentMonth = '';
+var currentMonthNum = null;
 var color = '';
 
 function getCalendarData(month) {
@@ -37,11 +41,40 @@ function getCalendarData(month) {
 var xhrMonth = getCalendarData(4);
 
 function showCalendar(event) {
-  $journalPage.innerHTML = '';
-  $calendarPage.className = 'container background-color rel margin-top padding-bottom';
-  $pageToCalendar.className = 'hidden';
-  data.editing = null;
+  if ($calendarPage.className === 'hidden' && event.target.className === 'fas fa-arrow-left') {
+    $journalPage.innerHTML = '';
+    $rightarrow.className = 'fas fa-arrow-right';
+    $calendarPage.className = 'container background-color rel margin-top padding-bottom';
+    data.editing = null;
+    return;
+  }
+  if ($calendarPage.className !== 'hidden' && event.target.className === 'fas fa-arrow-left') {
+    currentMonthNum -= 1;
+    if (currentMonthNum === 1) {
+      $leftarrow.className = 'hidden';
+    }
+    if (currentMonthNum === 11) {
+      $rightarrow.className = 'fas fa-arrow-right';
+    }
+    xhrMonth = getCalendarData(currentMonthNum);
+  }
+  if ($calendarPage.className !== 'hidden' && event.target.className === 'fas fa-arrow-right') {
+    currentMonthNum += 1;
+    if (currentMonthNum === 12) {
+      $rightarrow.className = 'hidden';
+    }
+    if (currentMonthNum === 2) {
+      $leftarrow.className = 'fas fa-arrow-left';
+    }
+    xhrMonth = getCalendarData(currentMonthNum);
+  }
 }
+// function showCalendar(event) {
+//   $journalPage.innerHTML = '';
+//   $calendarPage.className = 'container background-color rel margin-top padding-bottom';
+//   $pageToCalendar.className = 'hidden';
+//   data.editing = null;
+// }
 
 function addPhoto(event) {
   if (event.target.name !== 'photoURL') {
@@ -56,17 +89,19 @@ function renderJournalPageDOM(obj) {
   var journalPage = createDomTree(obj);
   $journalPage.appendChild(journalPage);
   $calendarPage.className = 'hidden';
-  $pageToCalendar.className = 'fas fa-arrow-left';
+  $rightarrow.className = 'hidden';
   return journalPage;
 }
 
 function renderMonth() {
+  // $calendarPage.textContent = '';
   var monthArr = xhrMonth.response;
   date = xhrMonth.response[0].date;
   currentMonth = getMonth(date);
   $monthTitle.textContent = currentMonth;
 
   var $calMonth = document.querySelector('#calendar-month');
+  $calMonth.textContent = '';
   var $divCol1 = document.createElement('div');
   $divCol1.className = 'column-full center';
   $calMonth.appendChild($divCol1);
@@ -77,7 +112,9 @@ function renderMonth() {
 
   var days = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   var $divDay = document.querySelector('#day');
+  $divDay.textContent = '';
   var $divWeekday = document.querySelector('#weekday');
+  $divWeekday.textContent = '';
   for (var i = 0; i < days.length; i++) {
     var $p = document.createElement('p');
     $p.className = 'day';
@@ -88,6 +125,7 @@ function renderMonth() {
       $divWeekday.appendChild($p);
     }
   }
+  $calendar.textContent = '';
   var emptyDays = 0;
   if (monthArr[0].weekday !== 'sunday') {
     if (monthArr[0].weekday === 'monday') {
@@ -115,6 +153,7 @@ function renderMonth() {
   }
 
   var $feastDayList = document.querySelector('ul.feast-days');
+  $feastDayList.textContent = '';
   for (i = 0; i < monthArr.length; i++) {
     $p = document.createElement('p');
     $p.setAttribute('id', i);
@@ -133,6 +172,7 @@ function renderMonth() {
     }
   }
   var lastItem = monthArr.length - 1;
+
   if (monthArr[lastItem].weekday !== 'saturday') {
     if (monthArr[lastItem].weekday === 'friday') {
       emptyDays = 1;
@@ -480,29 +520,42 @@ function getMonth(date) {
   var currentMonth = '';
   if (monthDate[1] === '01') {
     currentMonth = 'January';
+    currentMonthNum = 1;
   } else if (monthDate[1] === '02') {
     currentMonth = 'February';
+    currentMonthNum = 2;
   } else if (monthDate[1] === '03') {
     currentMonth = 'March';
+    currentMonthNum = 3;
   } else if (monthDate[1] === '04') {
     currentMonth = 'April';
+    currentMonthNum = 4;
   } else if (monthDate[1] === '05') {
     currentMonth = 'May';
+    currentMonthNum = 5;
   } else if (monthDate[1] === '06') {
     currentMonth = 'June';
+    currentMonthNum = 6;
   } else if (monthDate[1] === '07') {
     currentMonth = 'July';
+    currentMonthNum = 7;
   } else if (monthDate[1] === '08') {
     currentMonth = 'August';
+    currentMonthNum = 8;
   } else if (monthDate[1] === '09') {
     currentMonth = 'September';
+    currentMonthNum = 9;
   } else if (monthDate[1] === '10') {
     currentMonth = 'October';
+    currentMonthNum = 10;
   } else if (monthDate[1] === '11') {
     currentMonth = 'November';
+    currentMonthNum = 11;
   } else if (monthDate[1] === '12') {
     currentMonth = 'December';
+    currentMonthNum = 12;
   }
+
   return currentMonth;
 }
 
