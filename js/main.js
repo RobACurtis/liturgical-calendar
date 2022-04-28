@@ -14,17 +14,37 @@ $header.addEventListener('click', viewSwap);
 var $calendar = document.querySelector('#calendar');
 $calendar.addEventListener('click', showDate);
 
+var d = new Date();
+var weekDayArr = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+var weekDay = weekDayArr[d.getDay()];
+var dateNum = d.getDate();
+var monthsArr = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+var dateMonth = monthsArr[d.getMonth()];
+var year = d.getFullYear();
+var getCurrentMonth = d.getMonth() + 1;
+
+console.log($monthTitle);
+console.log(year);
+console.log(dateMonth);
+console.log(d);
+console.log(weekDay);
+console.log(dateNum);
+
 var id = '';
 var date = '';
 var currentMonth = '';
-var currentMonthNum = null;
 var color = '';
+var currentMonthNum = null;
 
 function getCalendarData(month) {
-  var targetUrl = encodeURIComponent('http://calapi.inadiutorium.cz/api/v0/en/calendars/default/2022/');
+  var targetUrl = encodeURIComponent('http://calapi.inadiutorium.cz/api/v0/en/calendars/default/');
   $loading.className = '';
   var xhrMonth = new XMLHttpRequest();
-  xhrMonth.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl + month);
+  xhrMonth.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl + year + '/' + month);
+  // var targetUrl = encodeURIComponent('http://calapi.inadiutorium.cz/api/v0/en/calendars/default/2022/');
+  // $loading.className = '';
+  // var xhrMonth = new XMLHttpRequest();
+  // xhrMonth.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl + month);
   xhrMonth.setRequestHeader('token', 'abc123');
   xhrMonth.responseType = 'json';
   xhrMonth.addEventListener('error', function () {
@@ -36,7 +56,7 @@ function getCalendarData(month) {
   return xhrMonth;
 }
 
-var xhrMonth = getCalendarData(4);
+var xhrMonth = getCalendarData(getCurrentMonth);
 
 function viewSwap(event) {
   if ($calendarPage.className === 'hidden' && event.target.className === 'fas fa-arrow-left') {
@@ -105,7 +125,7 @@ function renderMonth() {
   $calMonth.appendChild($divCol1);
   var $pCalDate = document.createElement('p');
   $pCalDate.className = 'calendar-date';
-  $pCalDate.textContent = currentMonth + ' 2022';
+  $pCalDate.textContent = currentMonth + ' ' + year;
   $divCol1.appendChild($pCalDate);
 
   var days = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -153,11 +173,19 @@ function renderMonth() {
   var $feastDayList = document.querySelector('ul.feast-days');
   $feastDayList.textContent = '';
   for (i = 0; i < monthArr.length; i++) {
-    $p = document.createElement('p');
-    $p.setAttribute('id', currentMonthNum + '-' + i);
-    $p.className = 'cal rel';
-    $p.textContent = i + 1;
-    $calendar.appendChild($p);
+    if (i + 1 === dateNum) {
+      $p = document.createElement('p');
+      $p.setAttribute('id', currentMonthNum + '-' + i);
+      $p.className = 'cal rel current-cal-day';
+      $p.textContent = i + 1;
+      $calendar.appendChild($p);
+    } else {
+      $p = document.createElement('p');
+      $p.setAttribute('id', currentMonthNum + '-' + i);
+      $p.className = 'cal rel';
+      $p.textContent = i + 1;
+      $calendar.appendChild($p);
+    }
 
     if (monthArr[i].celebrations[0].rank_num <= 2.8) {
       var weekday = monthArr[i].weekday.charAt(0).toUpperCase() + monthArr[i].weekday.slice(1);
