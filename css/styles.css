@@ -345,8 +345,6 @@ p.cal {
 p.current-cal-day {
   background-color: #e8f9ff;
   border: 1px solid #b3b3b3;
-
-  /* background-color: #f0fbff; */
 }
 
 p.cal > span {
