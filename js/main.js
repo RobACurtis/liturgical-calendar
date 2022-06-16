@@ -16,12 +16,12 @@ $calendar.addEventListener('click', showDate);
 
 const weekDayArr = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const monthsArr = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-const d = new Date();
-const weekDay = weekDayArr[d.getDay()];
-const dateNum = d.getDate();
-const dateMonth = monthsArr[d.getMonth()];
-const dateMonthNum = d.getMonth() + 1;
-let year = d.getFullYear();
+const date = new Date();
+const weekDay = weekDayArr[date.getDay()];
+const dateNum = date.getDate();
+const dateMonth = monthsArr[date.getMonth()];
+const dateMonthNum = date.getMonth() + 1;
+let year = date.getFullYear();
 
 let id = '';
 let currentMonthNum = null;
@@ -46,53 +46,53 @@ function getCalendarData(month) {
 
 let xhrMonth = getCalendarData(dateMonthNum);
 
-function viewSwap(event) {
-  if ($calendarPage.className === 'hidden' && event.target.className === 'fas fa-arrow-left') {
-    $journalPage.innerHTML = '';
-    $rightarrow.className = 'fas fa-arrow-right';
-    $calendarPage.className = 'container background-color rel margin-top padding-bottom';
-    data.editing = null;
-    return;
+function getCalendarMonth(numericDate) {
+  const monthDate = numericDate.split('-');
+  let currentMonth = '';
+  if (monthDate[1] === '01') {
+    currentMonth = 'January';
+    currentMonthNum = 1;
+  } else if (monthDate[1] === '02') {
+    currentMonth = 'February';
+    currentMonthNum = 2;
+  } else if (monthDate[1] === '03') {
+    currentMonth = 'March';
+    currentMonthNum = 3;
+  } else if (monthDate[1] === '04') {
+    currentMonth = 'April';
+    currentMonthNum = 4;
+  } else if (monthDate[1] === '05') {
+    currentMonth = 'May';
+    currentMonthNum = 5;
+  } else if (monthDate[1] === '06') {
+    currentMonth = 'June';
+    currentMonthNum = 6;
+  } else if (monthDate[1] === '07') {
+    currentMonth = 'July';
+    currentMonthNum = 7;
+  } else if (monthDate[1] === '08') {
+    currentMonth = 'August';
+    currentMonthNum = 8;
+  } else if (monthDate[1] === '09') {
+    currentMonth = 'September';
+    currentMonthNum = 9;
+  } else if (monthDate[1] === '10') {
+    currentMonth = 'October';
+    currentMonthNum = 10;
+  } else if (monthDate[1] === '11') {
+    currentMonth = 'November';
+    currentMonthNum = 11;
+  } else if (monthDate[1] === '12') {
+    currentMonth = 'December';
+    currentMonthNum = 12;
   }
-  if ($calendarPage.className !== 'hidden' && event.target.className === 'fas fa-arrow-left') {
-    currentMonthNum -= 1;
-    if (currentMonthNum < 1) {
-      year -= 1;
-      currentMonthNum = 12;
-    }
-    xhrMonth = getCalendarData(currentMonthNum);
-  }
-  if ($calendarPage.className !== 'hidden' && event.target.className === 'fas fa-arrow-right') {
-    currentMonthNum += 1;
-    if (currentMonthNum > 12) {
-      currentMonthNum = 1;
-      year += 1;
-    }
-    xhrMonth = getCalendarData(currentMonthNum);
-  }
-}
 
-function addPhoto(event) {
-  if (event.target.name !== 'photoURL') {
-    return;
-  }
-  const $photo = $journalPage.children[0].children[0].children[0].children[1];
-  const src = event.target.value;
-  $photo.setAttribute('src', src);
-}
-
-function renderJournalPageDOM(obj) {
-  const journalPage = createDomTree(obj);
-  $journalPage.appendChild(journalPage);
-  $calendarPage.className = 'hidden';
-  $leftarrow.className = 'fas fa-arrow-left';
-  $rightarrow.className = 'hidden';
-  return journalPage;
+  return currentMonth;
 }
 
 function renderMonth() {
   const monthArr = xhrMonth.response;
-  currentMonth = getMonth(xhrMonth.response[0].date);
+  currentMonth = getCalendarMonth(xhrMonth.response[0].date);
   $monthTitle.textContent = currentMonth;
   const $calMonth = document.querySelector('#calendar-month');
   $calMonth.textContent = '';
@@ -206,159 +206,60 @@ function renderMonth() {
   $loading.className = 'hidden';
 }
 
-function addEntry(event) {
-  event.preventDefault();
-  const $notes = event.target.querySelector('.text-area');
-  const $photoUrl = event.target.querySelector('.photo-input');
-  if (data.editing !== null) {
-    for (let i = 0; i < data.entries.length; i++) {
-      if (data.editing.id === data.entries[i].id) {
-        data.entries[i] = {
-          id: currentMonthNum + '-' + id + '-' + year,
-          color: color,
-          imageUrl: $photoUrl.value,
-          notes: $notes.value
-        };
-        var $newEntry = createDomTree(xhrMonth.response[id]);
-        $journalPage.children[0].replaceWith($newEntry);
-        data.editing = null;
-        return;
-      }
-    }
+function viewSwap(event) {
+  if ($calendarPage.className === 'hidden' && event.target.className === 'fas fa-arrow-left') {
+    $journalPage.innerHTML = '';
+    $rightarrow.className = 'fas fa-arrow-right';
+    $calendarPage.className = 'container background-color rel margin-top padding-bottom';
+    data.editing = null;
+    return;
   }
-  const inputObj = {
-    id: currentMonthNum + '-' + id + '-' + year,
-    color: color,
-    imageUrl: $photoUrl.value,
-    notes: $notes.value
-  };
-  data.entries.unshift(inputObj);
-  $newEntry = createDomTree(xhrMonth.response[id]);
-  $journalPage.children[0].replaceWith($newEntry);
+  if ($calendarPage.className !== 'hidden' && event.target.className === 'fas fa-arrow-left') {
+    currentMonthNum -= 1;
+    if (currentMonthNum < 1) {
+      year -= 1;
+      currentMonthNum = 12;
+    }
+    xhrMonth = getCalendarData(currentMonthNum);
+  }
+  if ($calendarPage.className !== 'hidden' && event.target.className === 'fas fa-arrow-right') {
+    currentMonthNum += 1;
+    if (currentMonthNum > 12) {
+      currentMonthNum = 1;
+      year += 1;
+    }
+    xhrMonth = getCalendarData(currentMonthNum);
+  }
 }
 
-function editEntry(event) {
-  for (let i = 0; i < data.entries.length; i++) {
-    if (data.entries[i].id === (currentMonthNum + '-' + id + '-' + year)) {
-      data.editing = Object.assign({}, data.entries[i]);
-    }
+function addPhoto(event) {
+  if (event.target.name !== 'photoURL') {
+    return;
   }
-
-  const $divContainer = document.createElement('div');
-  $divContainer.className = 'container background-color rel';
-
-  const $divRow = document.createElement('div');
-  $divRow.className = 'row center';
-  $divContainer.appendChild($divRow);
-
-  const $divCol = document.createElement('div');
-  $divCol.className = 'column-full column-three-four center';
-  $divRow.appendChild($divCol);
-
-  const $p = document.createElement('p');
-  $p.className = 'week';
-  $p.textContent = xhrMonth.response[id].celebrations[0].title;
-  $divCol.appendChild($p);
-
-  const $img = document.createElement('img');
-  $img.setAttribute('src', data.editing.imageUrl);
-  $img.setAttribute('id', 'photo');
-  $img.setAttribute('alt', 'Jesus The Good Shepherd');
-  $img.setAttribute('onerror', "this.src = 'images/good-shepherd.jpg'");
-  $divCol.appendChild($img);
-
-  const $p1 = document.createElement('p');
-  $p1.className = 'date';
-  if (xhrMonth.response[id].date[8] === '0') {
-    $p1.textContent = currentMonth + ' ' + xhrMonth.response[id].date[9] + ', ' + year;
-  } else {
-    $p1.textContent = currentMonth + ' ' + xhrMonth.response[id].date[8] + xhrMonth.response[id].date[9] + ', ' + year;
-  }
-  $divCol.appendChild($p1);
-
-  const $divForm = document.createElement('div');
-  $divForm.className = 'row center rel';
-  $divContainer.appendChild($divForm);
-
-  const $form = document.createElement('form');
-  $divForm.appendChild($form);
-
-  const $divForm1 = document.createElement('div');
-  $divForm1.className = 'column-full';
-  $form.appendChild($divForm1);
-
-  const $textArea = document.createElement('textarea');
-  $textArea.setAttribute('name', 'entry');
-  $textArea.setAttribute('id', 'entry');
-  $textArea.setAttribute('class', 'text-area');
-  $textArea.setAttribute('placeholder', 'Notes..');
-  $textArea.setAttribute('autocomplete', 'off');
-  $textArea.value = data.editing.notes;
-  $divForm1.appendChild($textArea);
-
-  const $divForm2 = document.createElement('div');
-  $divForm2.className = 'column-full rel';
-  $form.appendChild($divForm2);
-
-  const $input = document.createElement('input');
-  $input.value = data.editing.imageUrl;
-  $input.setAttribute('type', 'text');
-  $input.setAttribute('class', 'photo-input');
-  $input.setAttribute('name', 'photoURL');
-  $input.setAttribute('placeholder', 'Upload Photo URL');
-  $input.setAttribute('autocomplete', 'off');
-  $divForm2.appendChild($input);
-
-  const $delete = document.createElement('button');
-  $delete.textContent = 'Delete';
-  $delete.className = 'delete';
-  $delete.setAttribute('type', 'button');
-  $delete.setAttribute('id', 'deleteEntry');
-  $delete.addEventListener('click', displayModal);
-  $divForm2.appendChild($delete);
-
-  const $button = document.createElement('button');
-  $button.className = 'submit-button';
-  $divForm2.appendChild($button);
-
-  const $submit = document.createElement('img');
-  $submit.className = 'submit-img';
-  $submit.setAttribute('src', 'images/submit.png');
-  $submit.setAttribute('type', 'image');
-  $button.appendChild($submit);
-
-  const $subtextDivRow = document.createElement('div');
-  $subtextDivRow.className = 'row';
-  $subtextDivRow.setAttribute('id', 'details');
-  $divContainer.appendChild($subtextDivRow);
-
-  const $subtextDiv = document.createElement('div');
-  $subtextDiv.className = 'column-quarter subtext subtext-form';
-  $subtextDiv.setAttribute('id', 'details');
-  $subtextDivRow.appendChild($subtextDiv);
-
-  const $year = document.createElement('p');
-  $year.className = 'year';
-  $year.textContent = 'Year: A';
-  $subtextDiv.appendChild($year);
-
-  const $lectionaryYear = document.createElement('p');
-  $lectionaryYear.className = 'lectionary-year';
-  $lectionaryYear.textContent = 'Weekdays: II';
-  $subtextDiv.appendChild($lectionaryYear);
-
-  color = xhrMonth.response[id].celebrations[0].colour;
-  const colorCase = color.charAt(0).toUpperCase() + color.slice(1);
-
-  const $color = document.createElement('p');
-  $color.className = 'liturgical-color';
-  $color.textContent = 'Color: ' + colorCase;
-  $subtextDiv.appendChild($color);
-
-  $journalPage.children[0].replaceWith($divContainer);
+  const $photo = $journalPage.children[0].children[0].children[0].children[1];
+  const src = event.target.value;
+  $photo.setAttribute('src', src);
 }
 
-function createDomTree(obj) {
+function renderJournalPageDOM(obj) {
+  const journalPage = singleCalendarPage(obj);
+  $journalPage.appendChild(journalPage);
+  $calendarPage.className = 'hidden';
+  $leftarrow.className = 'fas fa-arrow-left';
+  $rightarrow.className = 'hidden';
+  return journalPage;
+}
+
+function showDate(event) {
+  if (event.target.closest('a') === null) return;
+  id = event.target.closest('a').id;
+  const split = id.split('-');
+  id = parseInt(split[1]);
+  const obj = xhrMonth.response[id];
+  renderJournalPageDOM(obj);
+}
+
+function singleCalendarPage(obj) {
   const $divContainer = document.createElement('div');
   $divContainer.className = 'container background-color rel';
 
@@ -518,59 +419,156 @@ function createDomTree(obj) {
   return $divContainer;
 }
 
-function showDate(event) {
-  if (event.target.closest('a') === null) return;
-  id = event.target.closest('a').id;
-  const split = id.split('-');
-  id = parseInt(split[1]);
-  const obj = xhrMonth.response[id];
-  const page = renderJournalPageDOM(obj);
-
-  return page;
+function addEntry(event) {
+  event.preventDefault();
+  const $notes = event.target.querySelector('.text-area');
+  const $photoUrl = event.target.querySelector('.photo-input');
+  if (data.editing !== null) {
+    for (let i = 0; i < data.entries.length; i++) {
+      if (data.editing.id === data.entries[i].id) {
+        data.entries[i] = {
+          id: currentMonthNum + '-' + id + '-' + year,
+          color: color,
+          imageUrl: $photoUrl.value,
+          notes: $notes.value
+        };
+        var $newEntry = singleCalendarPage(xhrMonth.response[id]);
+        $journalPage.children[0].replaceWith($newEntry);
+        data.editing = null;
+        return;
+      }
+    }
+  }
+  const inputObj = {
+    id: currentMonthNum + '-' + id + '-' + year,
+    color: color,
+    imageUrl: $photoUrl.value,
+    notes: $notes.value
+  };
+  data.entries.unshift(inputObj);
+  $newEntry = singleCalendarPage(xhrMonth.response[id]);
+  $journalPage.children[0].replaceWith($newEntry);
 }
 
-function getMonth(date) {
-  const monthDate = date.split('-');
-  let currentMonth = '';
-  if (monthDate[1] === '01') {
-    currentMonth = 'January';
-    currentMonthNum = 1;
-  } else if (monthDate[1] === '02') {
-    currentMonth = 'February';
-    currentMonthNum = 2;
-  } else if (monthDate[1] === '03') {
-    currentMonth = 'March';
-    currentMonthNum = 3;
-  } else if (monthDate[1] === '04') {
-    currentMonth = 'April';
-    currentMonthNum = 4;
-  } else if (monthDate[1] === '05') {
-    currentMonth = 'May';
-    currentMonthNum = 5;
-  } else if (monthDate[1] === '06') {
-    currentMonth = 'June';
-    currentMonthNum = 6;
-  } else if (monthDate[1] === '07') {
-    currentMonth = 'July';
-    currentMonthNum = 7;
-  } else if (monthDate[1] === '08') {
-    currentMonth = 'August';
-    currentMonthNum = 8;
-  } else if (monthDate[1] === '09') {
-    currentMonth = 'September';
-    currentMonthNum = 9;
-  } else if (monthDate[1] === '10') {
-    currentMonth = 'October';
-    currentMonthNum = 10;
-  } else if (monthDate[1] === '11') {
-    currentMonth = 'November';
-    currentMonthNum = 11;
-  } else if (monthDate[1] === '12') {
-    currentMonth = 'December';
-    currentMonthNum = 12;
+function editEntry(event) {
+  for (let i = 0; i < data.entries.length; i++) {
+    if (data.entries[i].id === (currentMonthNum + '-' + id + '-' + year)) {
+      data.editing = Object.assign({}, data.entries[i]);
+    }
   }
 
-  return currentMonth;
+  const $divContainer = document.createElement('div');
+  $divContainer.className = 'container background-color rel';
+
+  const $divRow = document.createElement('div');
+  $divRow.className = 'row center';
+  $divContainer.appendChild($divRow);
+
+  const $divCol = document.createElement('div');
+  $divCol.className = 'column-full column-three-four center';
+  $divRow.appendChild($divCol);
+
+  const $p = document.createElement('p');
+  $p.className = 'week';
+  $p.textContent = xhrMonth.response[id].celebrations[0].title;
+  $divCol.appendChild($p);
+
+  const $img = document.createElement('img');
+  $img.setAttribute('src', data.editing.imageUrl);
+  $img.setAttribute('id', 'photo');
+  $img.setAttribute('alt', 'Jesus The Good Shepherd');
+  $img.setAttribute('onerror', "this.src = 'images/good-shepherd.jpg'");
+  $divCol.appendChild($img);
+
+  const $p1 = document.createElement('p');
+  $p1.className = 'date';
+  if (xhrMonth.response[id].date[8] === '0') {
+    $p1.textContent = currentMonth + ' ' + xhrMonth.response[id].date[9] + ', ' + year;
+  } else {
+    $p1.textContent = currentMonth + ' ' + xhrMonth.response[id].date[8] + xhrMonth.response[id].date[9] + ', ' + year;
+  }
+  $divCol.appendChild($p1);
+
+  const $divForm = document.createElement('div');
+  $divForm.className = 'row center rel';
+  $divContainer.appendChild($divForm);
+
+  const $form = document.createElement('form');
+  $divForm.appendChild($form);
+
+  const $divForm1 = document.createElement('div');
+  $divForm1.className = 'column-full';
+  $form.appendChild($divForm1);
+
+  const $textArea = document.createElement('textarea');
+  $textArea.setAttribute('name', 'entry');
+  $textArea.setAttribute('id', 'entry');
+  $textArea.setAttribute('class', 'text-area');
+  $textArea.setAttribute('placeholder', 'Notes..');
+  $textArea.setAttribute('autocomplete', 'off');
+  $textArea.value = data.editing.notes;
+  $divForm1.appendChild($textArea);
+
+  const $divForm2 = document.createElement('div');
+  $divForm2.className = 'column-full rel';
+  $form.appendChild($divForm2);
+
+  const $input = document.createElement('input');
+  $input.value = data.editing.imageUrl;
+  $input.setAttribute('type', 'text');
+  $input.setAttribute('class', 'photo-input');
+  $input.setAttribute('name', 'photoURL');
+  $input.setAttribute('placeholder', 'Upload Photo URL');
+  $input.setAttribute('autocomplete', 'off');
+  $divForm2.appendChild($input);
+
+  const $delete = document.createElement('button');
+  $delete.textContent = 'Delete';
+  $delete.className = 'delete';
+  $delete.setAttribute('type', 'button');
+  $delete.setAttribute('id', 'deleteEntry');
+  $delete.addEventListener('click', displayModal);
+  $divForm2.appendChild($delete);
+
+  const $button = document.createElement('button');
+  $button.className = 'submit-button';
+  $divForm2.appendChild($button);
+
+  const $submit = document.createElement('img');
+  $submit.className = 'submit-img';
+  $submit.setAttribute('src', 'images/submit.png');
+  $submit.setAttribute('type', 'image');
+  $button.appendChild($submit);
+
+  const $subtextDivRow = document.createElement('div');
+  $subtextDivRow.className = 'row';
+  $subtextDivRow.setAttribute('id', 'details');
+  $divContainer.appendChild($subtextDivRow);
+
+  const $subtextDiv = document.createElement('div');
+  $subtextDiv.className = 'column-quarter subtext subtext-form';
+  $subtextDiv.setAttribute('id', 'details');
+  $subtextDivRow.appendChild($subtextDiv);
+
+  const $year = document.createElement('p');
+  $year.className = 'year';
+  $year.textContent = 'Year: A';
+  $subtextDiv.appendChild($year);
+
+  const $lectionaryYear = document.createElement('p');
+  $lectionaryYear.className = 'lectionary-year';
+  $lectionaryYear.textContent = 'Weekdays: II';
+  $subtextDiv.appendChild($lectionaryYear);
+
+  color = xhrMonth.response[id].celebrations[0].colour;
+  const colorCase = color.charAt(0).toUpperCase() + color.slice(1);
+
+  const $color = document.createElement('p');
+  $color.className = 'liturgical-color';
+  $color.textContent = 'Color: ' + colorCase;
+  $subtextDiv.appendChild($color);
+
+  $journalPage.children[0].replaceWith($divContainer);
 }
 
 function removeItem(event) {
@@ -582,7 +580,7 @@ function removeItem(event) {
       if (data.entries[i].id === currentMonthNum + '-' + id + '-' + year) {
         data.entries.splice(i, 1);
       }
-      const $newPage = createDomTree(xhrMonth.response[id]);
+      const $newPage = singleCalendarPage(xhrMonth.response[id]);
       $journalPage.children[0].replaceWith($newPage);
       $modal.innerHTML = '';
       data.editing = null;

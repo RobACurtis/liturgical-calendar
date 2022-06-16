@@ -695,12 +695,12 @@ p.date {
   }
 
   .day {
-    width: 120px;
+    width: 90px;
   }
 
   .cal {
-    width: 120px;
-    height: 120px;
+    width: 90px;
+    height: 90px;
     font-size: 1rem;
   }
 
@@ -713,8 +713,8 @@ p.date {
   }
 
   .hidden-cal {
-    width: 120px;
-    height: 120px;
+    width: 90px;
+    height: 90px;
   }
 
   .cal > span {
