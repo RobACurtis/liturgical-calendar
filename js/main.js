@@ -149,29 +149,29 @@ function renderMonth() {
       $calendar.appendChild($p);
     }
   }
-
   const $feastDayList = document.querySelector('ul.feast-days');
   $feastDayList.textContent = '';
+
   for (let i = 0; i < monthArr.length; i++) {
     if (i + 1 === dateNum && dateMonthNum === currentMonthNum) {
-      var $p = document.createElement('p');
-      $p.setAttribute('id', currentMonthNum + '-' + i + '-' + year);
-      $p.className = 'cal rel current-cal-day';
-      $p.textContent = i + 1;
-      $calendar.appendChild($p);
+      var $singleCalendarDate = document.createElement('a');
+      $singleCalendarDate.setAttribute('id', currentMonthNum + '-' + i + '-' + year);
+      $singleCalendarDate.className = 'cal rel current-cal-day';
+      $singleCalendarDate.textContent = i + 1;
+      $calendar.appendChild($singleCalendarDate);
     } else {
-      $p = document.createElement('p');
-      $p.setAttribute('id', currentMonthNum + '-' + i + '-' + year);
-      $p.className = 'cal rel';
-      $p.textContent = i + 1;
-      $calendar.appendChild($p);
+      $singleCalendarDate = document.createElement('a');
+      $singleCalendarDate.setAttribute('id', currentMonthNum + '-' + i + '-' + year);
+      $singleCalendarDate.className = 'cal rel';
+      $singleCalendarDate.textContent = i + 1;
+      $calendar.appendChild($singleCalendarDate);
     }
 
     if (monthArr[i].celebrations[0].rank_num <= 2.8) {
       const weekday = monthArr[i].weekday.charAt(0).toUpperCase() + monthArr[i].weekday.slice(1);
       const $span = document.createElement('span');
       $span.textContent = monthArr[i].celebrations[0].title;
-      $p.appendChild($span);
+      $singleCalendarDate.appendChild($span);
       const $li = document.createElement('li');
       $li.textContent = weekday + ' ' + currentMonth + ' ' + (i + 1) + ', ' + monthArr[i].celebrations[0].title;
       $feastDayList.appendChild($li);
@@ -198,7 +198,7 @@ function renderMonth() {
       emptyDays = 6;
     }
     for (let i = 0; i < emptyDays; i++) {
-      $p = document.createElement('p');
+      const $p = document.createElement('p');
       $p.className = 'hidden-cal';
       $calendar.appendChild($p);
     }
@@ -519,10 +519,8 @@ function createDomTree(obj) {
 }
 
 function showDate(event) {
-  id = event.target.closest('p').id;
-  if (id === '') {
-    return;
-  }
+  if (event.target.closest('a') === null) return;
+  id = event.target.closest('a').id;
   const split = id.split('-');
   id = parseInt(split[1]);
   const obj = xhrMonth.response[id];
