@@ -11,8 +11,9 @@ I built this single page CRUD application as part of my journey to learn JavaScr
   JavaScript, CSS, HTML 
   
   ## Preview
-![Hnet-image](https://user-images.githubusercontent.com/96838616/174199795-e4679faf-0c63-4f1f-8113-5d6d72f9f6f3.gif)
 
+
+![Hnet-image (1)](https://user-images.githubusercontent.com/96838616/174200398-b6ed8a21-936f-4d88-92bd-0af91f7c4648.gif)
 
 
   
