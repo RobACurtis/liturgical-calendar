@@ -10,6 +10,12 @@ I built this single page CRUD application as part of my journey to learn JavaScr
 ## Technologies Used
   JavaScript, CSS, HTML 
   
+  ## Preview
+![Hnet-image](https://user-images.githubusercontent.com/96838616/174199795-e4679faf-0c63-4f1f-8113-5d6d72f9f6f3.gif)
+
+
+
+  
  # Feature List
  
   - User can see the current date on the calendar.
