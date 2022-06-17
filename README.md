@@ -2,7 +2,7 @@
 
 #### A web application for Catholics who want the liturgical cycle of the Church to be a part of their daily life. 
 
-I built this single page CRUD application as part of my journey of learning JavaScript, specifically Asynchronous JavaScript and XML as well as the Document Object Model. I wanted to build this calendar to keep myself updated on the liturgical celebrations throughout the year within the Catholic Church.
+I built this single page CRUD application as part of my journey to learn JavaScript, specifically Asynchronous JavaScript and XML as well as the Document Object Model. I wanted to build this calendar to keep myself updated on the liturgical celebrations throughout the year within the Catholic Church.
 
 
 [Liturgical Calendar](https://robacurtis.github.io/liturgical-calendar/)
