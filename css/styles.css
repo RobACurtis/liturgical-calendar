@@ -294,14 +294,14 @@ p.date {
   display: none;
 }
 
-p.calendar-date {
+.calendar-date {
   font-family: "Cormorant Unicase", serif;
   color: #343a40;
   font-size: 1.5rem;
   margin-bottom: 13px;
 }
 
-p.day {
+.day {
   font-family: Cormorant, serif;
   color: #343a40;
   font-size: 1rem;
@@ -317,15 +317,11 @@ p.day {
 
 .hidden-cal {
   width: 40px;
-  height: 40px;
-  display: flex;
-  flex-direction: column-reverse;
-  text-align: left;
   margin: 3px;
-  background-color: #fbfbfb;
+  background-color: #fff0;
 }
 
-p.cal {
+.cal {
   width: 40px;
   height: 40px;
   border: 1px solid #dbdbdb;
@@ -342,16 +338,16 @@ p.cal {
   transition: 0.5s;
 }
 
-p.current-cal-day {
+.current-cal-day {
   background-color: #e8f9ff;
   border: 1px solid #b3b3b3;
 }
 
-p.cal > span {
+.cal > span {
   display: none;
 }
 
-p.cal:hover {
+.cal:hover {
   border: 1px solid #6c6c6c;
   transform: scale(1.1);
 }
@@ -576,14 +572,14 @@ p.cal:hover {
     margin: 0 60px;
   }
 
-  p.day {
+  .day {
     font-size: 15px;
     text-align: center;
     width: 70px;
     margin: 1px 3px;
   }
 
-  p.cal {
+  .cal {
     width: 70px;
     height: 70px;
     font-size: 0.8rem;
@@ -600,7 +596,7 @@ p.cal:hover {
     height: 70px;
   }
 
-  p.cal > span {
+  .cal > span {
     display: flex;
     font-size: 0.6rem;
     flex-direction: column;
@@ -660,11 +656,11 @@ p.cal:hover {
     font-size: 1.8rem;
   }
 
-  p.day {
+  .day {
     width: 80px;
   }
 
-  p.cal {
+  .cal {
     width: 80px;
     height: 80px;
   }
@@ -678,7 +674,7 @@ p.cal:hover {
     height: 80px;
   }
 
-  p.cal > span {
+  .cal > span {
     height: 60px;
     font-size: 0.7rem;
   }
@@ -698,17 +694,17 @@ p.cal:hover {
     right: 250px;
   }
 
-  p.day {
-    width: 120px;
+  .day {
+    width: 90px;
   }
 
-  p.cal {
-    width: 120px;
-    height: 120px;
+  .cal {
+    width: 90px;
+    height: 90px;
     font-size: 1rem;
   }
 
-  p.calendar-date {
+  .calendar-date {
     font-size: 1.8rem;
   }
 
@@ -717,12 +713,12 @@ p.cal:hover {
   }
 
   .hidden-cal {
-    width: 120px;
-    height: 120px;
+    width: 90px;
+    height: 90px;
   }
 
-  p.cal > span {
+  .cal > span {
     height: 90px;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
   }
 }
