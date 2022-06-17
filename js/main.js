@@ -14,12 +14,33 @@ $header.addEventListener('click', viewSwap);
 const $calendar = document.querySelector('#calendar');
 $calendar.addEventListener('click', showDate);
 
-const weekDayArr = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-const monthsArr = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const weekDayArr = [
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday'
+];
+const months = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
+];
 const date = new Date();
 const weekDay = weekDayArr[date.getDay()];
 const dateNum = date.getDate();
-const dateMonth = monthsArr[date.getMonth()];
+const dateMonth = months[date.getMonth()];
 const dateMonthNum = date.getMonth() + 1;
 let year = date.getFullYear();
 
@@ -47,46 +68,23 @@ function getCalendarData(month) {
 let xhrMonth = getCalendarData(dateMonthNum);
 
 function getCalendarMonth(numericDate) {
+  const months = {
+    '01': 'January',
+    '02': 'February',
+    '03': 'March',
+    '04': 'April',
+    '05': 'May',
+    '06': 'June',
+    '07': 'July',
+    '08': 'August',
+    '09': 'September',
+    10: 'October',
+    11: 'November',
+    12: 'December'
+  };
   const monthDate = numericDate.split('-');
-  let currentMonth = '';
-  if (monthDate[1] === '01') {
-    currentMonth = 'January';
-    currentMonthNum = 1;
-  } else if (monthDate[1] === '02') {
-    currentMonth = 'February';
-    currentMonthNum = 2;
-  } else if (monthDate[1] === '03') {
-    currentMonth = 'March';
-    currentMonthNum = 3;
-  } else if (monthDate[1] === '04') {
-    currentMonth = 'April';
-    currentMonthNum = 4;
-  } else if (monthDate[1] === '05') {
-    currentMonth = 'May';
-    currentMonthNum = 5;
-  } else if (monthDate[1] === '06') {
-    currentMonth = 'June';
-    currentMonthNum = 6;
-  } else if (monthDate[1] === '07') {
-    currentMonth = 'July';
-    currentMonthNum = 7;
-  } else if (monthDate[1] === '08') {
-    currentMonth = 'August';
-    currentMonthNum = 8;
-  } else if (monthDate[1] === '09') {
-    currentMonth = 'September';
-    currentMonthNum = 9;
-  } else if (monthDate[1] === '10') {
-    currentMonth = 'October';
-    currentMonthNum = 10;
-  } else if (monthDate[1] === '11') {
-    currentMonth = 'November';
-    currentMonthNum = 11;
-  } else if (monthDate[1] === '12') {
-    currentMonth = 'December';
-    currentMonthNum = 12;
-  }
-
+  currentMonth = months[monthDate[1]];
+  currentMonthNum = parseInt(monthDate[1], 10);
   return currentMonth;
 }
 
