@@ -17,7 +17,7 @@ I built this single page CRUD application as part of my journey to learn JavaScr
 
 
   
- # Feature List
+ ## Feature List
  
   - User can see the current date on the calendar.
   - User can view other months, past or future.
@@ -26,3 +26,21 @@ I built this single page CRUD application as part of my journey to learn JavaScr
   - User can view the current month and its liturgical celebrations.
   - User can add a journal entry for a particular day.
   - User can view a single day with it's liturgical details.
+
+## Stretch Features 
+  - User can search for specific journal entries by date. 
+
+## Getting Started 
+
+1. Clone the repository.
+
+    ```shell
+    git clone https://github.com/RobACurtis/liturgical-calendar.git
+    cd liturgical-calendar
+    ```
+
+1. Install all dependencies with NPM.
+
+    ```shell
+    npm install
+    ```
