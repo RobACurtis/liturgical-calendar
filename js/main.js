@@ -555,7 +555,7 @@ function editEntry(event) {
 
   const $lectionaryYear = document.createElement('p');
   $lectionaryYear.className = 'lectionary-year';
-  $lectionaryYear.textContent = 'Weekdays: II';
+  $lectionaryYear.textContent = 'Weekdays: I';
   $subtextDiv.appendChild($lectionaryYear);
 
   color = xhrMonth.response[id].celebrations[0].colour;
