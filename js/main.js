@@ -331,7 +331,7 @@ function singleCalendarPage(obj) {
 
         const $lectionaryYear = document.createElement('p');
         $lectionaryYear.className = 'lectionary-year';
-        $lectionaryYear.textContent = 'Weekdays: II';
+        $lectionaryYear.textContent = 'Weekdays: I';
         $subtextDiv.appendChild($lectionaryYear);
 
         color = data.entries[i].color;
@@ -403,7 +403,7 @@ function singleCalendarPage(obj) {
   $subtextDiv.appendChild($year);
   const $lectionaryYear = document.createElement('p');
   $lectionaryYear.className = 'lectionary-year';
-  $lectionaryYear.textContent = 'Weekdays: II';
+  $lectionaryYear.textContent = 'Weekdays: I';
   $subtextDiv.appendChild($lectionaryYear);
 
   color = obj.celebrations[0].colour;
@@ -555,7 +555,7 @@ function editEntry(event) {
 
   const $lectionaryYear = document.createElement('p');
   $lectionaryYear.className = 'lectionary-year';
-  $lectionaryYear.textContent = 'Weekdays: II';
+  $lectionaryYear.textContent = 'Weekdays: I';
   $subtextDiv.appendChild($lectionaryYear);
 
   color = xhrMonth.response[id].celebrations[0].colour;
