@@ -50,10 +50,9 @@ let currentMonth = '';
 let color = '';
 
 function getCalendarData(month) {
-  const targetUrl = encodeURIComponent('http://calapi.inadiutorium.cz/api/v0/en/calendars/default/');
   $loading.className = '';
   const xhrMonth = new XMLHttpRequest();
-  xhrMonth.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl + year + '/' + month);
+  xhrMonth.open('GET', 'http://calapi.inadiutorium.cz/api/v0/en/calendars/default/' + year + '/' + month);
   xhrMonth.setRequestHeader('token', 'abc123');
   xhrMonth.responseType = 'json';
   xhrMonth.addEventListener('error', function () {
