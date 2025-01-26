@@ -52,7 +52,7 @@ let color = '';
 function getCalendarData(month) {
   $loading.className = '';
   const xhrMonth = new XMLHttpRequest();
-  xhrMonth.open('GET', 'https://cal.graceoftherosary.com/api/v0/en/calendars/default/' + year + '/' + month);
+  xhrMonth.open('GET', 'https://calendar-api.graceoftherosary.com/api/v0/en/calendars/default/' + year + '/' + month);
   xhrMonth.setRequestHeader('token', 'abc123');
   xhrMonth.responseType = 'json';
   xhrMonth.addEventListener('error', function () {
