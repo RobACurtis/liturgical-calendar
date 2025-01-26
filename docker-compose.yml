@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  web:
+    image: nginx:alpine
+    container_name: liturgical-calendar
+    build:
+      context: .  
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/usr/share/nginx/html:ro
+
+    restart: always 
