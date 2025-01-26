@@ -524,8 +524,6 @@ p.date {
 
   .subtext-form {
     font-size: 12px;
-    top: -50px;
-    left: 130px;
     margin-bottom: 20px;
   }
 
@@ -637,14 +635,10 @@ p.date {
 
   .subtext-form {
     font-size: 15px;
-    top: -80px;
-    left: 160px;
   }
 
   .subtext-entry {
     font-size: 1rem;
-    top: -40px;
-    left: 50px;
   }
 
   .text-area {
