@@ -1,7 +1,6 @@
 const $monthTitle = document.querySelector('.month-title');
 const $journalPage = document.querySelector('#journalPage');
 const $calendarPage = document.querySelector('#calendar-page');
-const $modal = document.querySelector('#modal');
 const $leftarrow = document.querySelector('.fa-arrow-left');
 const $rightarrow = document.querySelector('.fa-arrow-right');
 const $loading = document.querySelector('#loading');
@@ -288,17 +287,12 @@ function singleCalendarPage(obj) {
 
   const $year = document.createElement('p');
   $year.className = 'year';
-  $year.textContent = 'Year: A';
+  $year.textContent = 'Year: C';
   $subtextDiv.appendChild($year);
   const $lectionaryYear = document.createElement('p');
   $lectionaryYear.className = 'lectionary-year';
   $lectionaryYear.textContent = 'Weekdays: I';
   $subtextDiv.appendChild($lectionaryYear);
-
-  const $lectionaryYearSundays = document.createElement('p');
- $lectionaryYearSundays.className = 'lectionary-year';
- $lectionaryYearSundays.textContent = 'Sundays: C';
-  $subtextDiv.appendChild($lectionaryYearSundays);
 
   color = obj.celebrations[0].colour;
   const colorCase = color.charAt(0).toUpperCase() + color.slice(1);
@@ -309,43 +303,4 @@ function singleCalendarPage(obj) {
   $subtextDiv.appendChild($color);
 
   return $divContainer;
-}
-
-function displayModal(event) {
-  $modal.className = '';
-  const $div1 = document.createElement('div');
-  $div1.className = 'background';
-  $modal.appendChild($div1);
-
-  const $div2 = document.createElement('div');
-  $div2.className = 'modal-container center';
-  $div1.appendChild($div2);
-
-  const $div3 = document.createElement('div');
-  $div3.className = 'row flex-wrap modal-width';
-  $div2.appendChild($div3);
-
-  const $div4 = document.createElement('div');
-  $div4.className = 'column-full';
-  $div3.appendChild($div4);
-
-  const $heading = document.createElement('h5');
-  $heading.textContent = 'Delete Entry?';
-  $heading.className = 'modal-title';
-  $div4.appendChild($heading);
-
-  const $div5 = document.createElement('div');
-  $div5.className = 'column-full buttons';
-  $div3.appendChild($div5);
-
-  const $cancelButton = document.createElement('button');
-  $cancelButton.className = 'cancel-modal';
-  $cancelButton.setAttribute('id', 'cancel');
-  $cancelButton.textContent = 'Cancel';
-  $div5.appendChild($cancelButton);
-  const $deleteButton = document.createElement('button');
-  $deleteButton.className = 'delete-modal';
-  $deleteButton.setAttribute('id', 'delete');
-  $deleteButton.textContent = 'Delete';
-  $div5.appendChild($deleteButton);
 }
