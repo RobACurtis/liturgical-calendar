@@ -1,5 +1,5 @@
 # Liturgical Calendar
-
+**Note:** *The API is not currently being hosted, to run your own version of the liturgical calendar you also have to clone and run the [liturgical-calendar-api](https://github.com/RobACurtis/liturgical-calendar-api)*
 #### A web application for those who want the liturgical cycle of the Church to be a part of their daily life. 
 
 I built this single page application as part of my journey to learn Vanilla JavaScript, specifically Asynchronous JavaScript and XML as well as the Document Object Model. I built this calendar to keep myself updated on the liturgical celebrations throughout the year within the Catholic Church. 
